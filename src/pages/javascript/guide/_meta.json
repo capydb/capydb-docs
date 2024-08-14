@@ -1,0 +1,7 @@
+{
+  "index": "Create",
+  "get": "Get",
+  "search": "Search",
+  "update": "Update",
+  "delete": "Delete"
+}

@@ -1,0 +1,101 @@
+# Create
+
+In this guide, you will learn how to create data using OneNode API.
+
+## Create items
+
+To create new items, send `POST` request to `/v1/resource` endpoint. Below is an example API call. You can add as many JSON fields as you want, but make sure adding `embed_targets` to each items.
+
+```javascript copy
+const bodyContent = [
+  // A list of items to be saved
+  {
+    // Example values
+    text: "I'm from England",
+    metadata: { user_name: "Alice", age: 25 },
+
+    // embed_targets is the only required field
+    embed_targets: [
+      { field: "text", type: "text/plain" },
+      { field: "metadata.author", type: "text/plain" },
+    ],
+  },
+  // Save more items if needed
+];
+
+const response = await fetch(`https://api.onenode.ai/v1/resource`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${ONENODE_API_KEY}`,
+  },
+  body: JSON.stringify(bodyContent),
+});
+```
+
+After successful creation, you'll recieve saved items as a response with newly added UUID to each item. The response should look like the following:
+
+```javascript copy
+// Example response
+[
+  {
+    // id field is preserved by OneNode API
+    id: "automatically_generated_uuid",
+    text: "This is test.",
+    metadata: { author: "Alice", age: 25 },
+
+    embed_targets: [
+      { field: "text", type: "text/plain" },
+      { field: "metadata.author", type: "text/plain" },
+    ],
+  },
+];
+```
+
+### Save images
+
+You can also add image data in any fields of JSON data in the request body. Just put base64 data and tell OneNode API which fields contain image data. All major image types are supported. For more detail, see [supported data types](/developer/docs/types).
+
+Here is an example of the API call. Let's assume the image data is `PNG` here.
+
+```javascript copy
+const bodyContent = [
+  {
+    // Let's use 'media' field for example
+    media: base64,
+    // More fiedls can be added below
+
+    embed_targets: [{ field: "image", type: "image/png" }],
+  },
+  // Save more items if needed
+];
+
+const response = await fetch(`https://api.onenode.ai/v1/resource`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${ONENODE_API_KEY}`,
+  },
+  body: JSON.stringify(bodyContent),
+});
+```
+
+After waiting for OneNode API to process and index your data, it'll return a reponse with automatically added `id`, `url` of the image, and `text` that describes semantic meanings of the image.
+
+```javascript copy
+console.log(response);
+/* Expected output
+[
+  {
+    id: "automatically_generated_uuid",
+    media: {
+      url: "https://media.onenode.ai/...",
+      text: "This image shows...",
+    },
+    embed_targets: [{ field: "media", type: "image/png" }],
+  },
+]
+*/
+```
+
+Now, you've successfully saved image data using OneNode API.

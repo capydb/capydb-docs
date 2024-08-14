@@ -1,0 +1,37 @@
+# supported LLM Models
+
+There are different LLM models optimized for different tasks. To maximize performance, we use different LLM models for different tasks. For each tasks there is a default model and you can also change it whenever you want for each collection.
+
+When changing embedding model, an entire collection needs re-embedding to update all vector values which may cost tokens. We recommend using default model if you are not sure.
+
+For LLM token usage, we set the same price as each provider so that you don't have to worry about cost increase. If you use $0.50 for OpenAI models, we only charge you $0.50. **In other words, you can use multiple LLM models with only one API key and payment method.**
+
+## Embedding models
+
+Embedding models are ones used for embedding (vectorizing) texts.
+Default model for embedding task is `text-embedding-3-small`.
+If you are not sure, we recommend using this default model.
+
+| models                 | pricing            |
+| ---------------------- | ------------------ |
+| text-embedding-ada-002 | $0.100 / 1M tokens |
+| text-embedding-3-large | $0.130 / 1M tokens |
+| text-embedding-3-small | $0.020 / 1M tokens |
+
+## Generative models
+
+Generative models are ones that are used for generating text output from text input.
+This is used in some of OneNode pipelines such as query optimization and image-to-text translations.
+
+Default model for generative task is `
+
+| models      | pricing                                                |
+| ----------- | ------------------------------------------------------ |
+| gpt-4o      | $5.00 / 1M input tokens<br/>$15.00 / 1M output tokens  |
+| gpt-4o-mini | $0.150 / 1M input tokens<br/>$0.600 / 1M output tokens |
+
+## Custom embedding models
+
+You can also use any LLM models for embedding, search, and text generation by calling each provider from your client side using your own API keys for each provider. This approach works perfectly with OneNode API.
+
+Using custom models allows you more control over your apps. If you are not sure, we recommend you to start by using default models and switch models later if you really need to.

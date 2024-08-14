@@ -1,0 +1,89 @@
+import { Callout } from "nextra/components";
+
+# Update
+
+Youc can update items
+
+## Update items
+
+You can update items partially or entirely.
+
+### Update items partially
+
+For updating items partially, use `PATCH` request. When using `PATCH` request, only specified fields will be overwritten. If the field does not exist, OneNode API newly create the field.
+
+```javascript copy
+const ids_to_update = ["id1", "id2", "id3"];
+const filter = { _id: { $in: ids_to_update } };
+const update = { $set: { status: "updated" } };
+
+const queryParams = new URLSearchParams({
+  filter: filter,
+}).toString();
+
+const response = await fetch(
+  `https://api.onenode.ai/v1/${ORGANIZATION_ID}/${COLLECTION_NAME}/resources/${id}`,
+  {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer YOUR_ACCESS_TOKEN",
+    },
+    body: JSON.stringify(updatedData),
+  }
+);
+
+const data = await response.json();
+console.log(data);
+/*
+[
+  { _id: "id1", status: "updated" },
+  { _id: "id2", status: "updated" },
+  { _id: "id3", status: "updated" }
+]
+*/
+```
+
+### Update an item entirely
+
+For update items entirely, use `PUT` request. You can use `filter` to specify which items to update. **_You must specify an item by_** `_id` in `filter`. Do not include any other values or multiple ids in the `filter` or you'll get an error.
+
+<Callout emoji="⚠️">
+  When using `PUT` request, OneNode completely replace existing data with new
+  data for each match item.
+</Callout>
+
+```javascript copy
+/*
+Example item before replacement:
+{
+  _id: "example_id",
+  vegetables: ["avocado", "chayote"],
+}
+*/
+const filter = { _id: "example_id" };
+const replacement = { fruits: ["apple", "orange"] };
+
+const queryParams = new URLSearchParams({
+  filter: filter,
+  replacement: replacement,
+}).toString();
+
+const response = await fetch(
+  `https://api.onenode.ai/v1/${ORGANIZATION_ID}/${COLLECTION_NAME}/resources/${id}`,
+  {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer YOUR_ACCESS_TOKEN",
+    },
+    body: JSON.stringify(updatedData),
+  }
+);
+
+const data = await response.json();
+console.log(data);
+/*
+{_id: "example_id", fruits: ["apple", "orange"]}
+*/
+```

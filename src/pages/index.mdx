@@ -1,0 +1,37 @@
+# Welcome to OneNode API
+
+## Introduction
+
+OneNode API provides **a virtual database** to make data indexing as easy as possible for LLM-application developers. It has all necessary resources for data index and search: pre-processing, chunking, vectorizing, saving, searching, and even caching your data for frequent acesses.
+
+<img
+  src="/images/apiDiagram.jpeg"
+  alt="Diagram of OneNode API"
+  title="OneNode API Diagram"
+/>
+
+## Database Pipeline for LLM Apps
+
+Data pipeline generally means a combination of databases and logics to save and index data. In LLL application development, specific types of database pipeline are needed depending on use cases. OneNode API provides the most basic industory-standard pipeline.
+
+Imagine there is an image data to be stored in a database for LLM apps. The data will typically processed in the following steps:
+
+- Generate plain text from the image.
+- Chunk the text into smaller pieces.
+- Add tags or metadata to help semantic search.
+- Vectorize each chunks and metadata.
+- Store vectores into vector store and original image to blob database.
+
+Although there may be slight customization, basic flow remains the same. To implement the above index flow, you'll need to build a set of databases and logics.
+
+### Why Not In-Memory Databases
+
+There is also a work around to avoid complex pipeline setups by running an in-memory vector database and store everything into the database.
+This approach works fine as long as it's small project and doesn't require rich LLM features. But when going to production, switching in-memory database system to industory standard setups often becoems time consuming.
+
+## OneNode API as a Serverless Database Pipeline
+
+OneNode API was developped to tuckle this problem. Developers should be able to focus frontends without needing to worring about backend's performance, security, pipelines, or scallabilities. OneNode has a pre-built pipeline with necessary databases with industory-leading index technologies. Developers only nned to comunicate with a single API host that takes care of everything needed for data index and retrieval specifically for LLM apps.
+
+## What's Different
+The biggest difference is the easyness of use. Once you get your API key, you can instantly access a set of databases and pipeline without any configuration.

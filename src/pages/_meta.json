@@ -1,0 +1,9 @@
+{
+  "Dashboard": {
+    "type": "page",
+    "href": "/dashboard"
+  },
+  "index": "📌 Introduction",
+  "python": "Python",
+  "javascript": "Javascript"
+}
