@@ -12,7 +12,7 @@ export default {
         width={25}
         height={25}
       />
-      <b>OneNode API</b>
+      <b>OneNode DB</b>
     </div>
   ),
   project: {
@@ -56,7 +56,7 @@ export default {
   },
   useNextSeoProps() {
     return {
-      titleTemplate: "%s - OneNode API",
+      titleTemplate: "%s - OneNode DB Docs",
     };
   },
 

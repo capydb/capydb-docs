@@ -3,7 +3,7 @@
     "type": "page",
     "href": "/dashboard"
   },
-  "index": "📌 Introduction",
-  "python": "Python",
-  "javascript": "Javascript"
+  "overview": "Overview",
+  "index": "Quick Start",
+  "document": "Document"
 }

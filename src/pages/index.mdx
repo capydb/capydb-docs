@@ -1,37 +1,64 @@
-# Welcome to OneNode API
+# Quick Start Guide
 
-## Introduction
+Welcome to OneNode DB! Follow these four simple steps to get started with our powerful API service. Whether you're inserting your first document or exploring our extended features, this guide will help you set up and make your first API request in no time.
 
-OneNode API provides **a virtual database** to make data indexing as easy as possible for LLM-application developers. It has all necessary resources for data index and search: pre-processing, chunking, vectorizing, saving, searching, and even caching your data for frequent acesses.
+## Step 1: Sign Up
+First, you'll need to sign up for OneNode DB.
 
-<img
-  src="/images/apiDiagram.jpeg"
-  alt="Diagram of OneNode API"
-  title="OneNode API Diagram"
-/>
+1. Head over to [OneNode DB Sign Up](https://db.onenode.ai).
+2. After completing the sign-up process, log in and navigate to the dashboard by visiting `/dashboard`. This dashboard will be your main hub for managing databases, collections, and API keys.
 
-## Database Pipeline for LLM Apps
+## Step 2: Create an API Key
+Once signed in, the next step is to create an API key for your project.
 
-Data pipeline generally means a combination of databases and logics to save and index data. In LLL application development, specific types of database pipeline are needed depending on use cases. OneNode API provides the most basic industory-standard pipeline.
+1. From the sidebar, navigate to the **API Key** page.
+2. Click the button to create a new API key. You may optionally assign a name to your key, but it is not required.
+3. Each API key is associated with a specific project under your organization.
+4. **Important**: The API key will only be displayed once during creation. **Please make sure to store it securely**, as you won't be able to see it again after closing the modal.
 
-Imagine there is an image data to be stored in a database for LLM apps. The data will typically processed in the following steps:
+## Step 3: Create a Collection
+Next, you'll create a collection, which is where your data will be stored.
 
-- Generate plain text from the image.
-- Chunk the text into smaller pieces.
-- Add tags or metadata to help semantic search.
-- Vectorize each chunks and metadata.
-- Store vectores into vector store and original image to blob database.
+1. On the sidebar, locate the **Collection** tab. Click the **plus (+)** button to create a new collection.
+2. Set both the **database name** and **collection name**. Once created, the new collection will appear under its respective database in the sidebar.
+3. To proceed, click on the collection name to open its **Collection Page**. On this page, you will see the **Database ID**, which you will need for making API requests.
 
-Although there may be slight customization, basic flow remains the same. To implement the above index flow, you'll need to build a set of databases and logics.
+## Step 4: Make Your First API Request
+You're now ready to make your first API call to store a document in your newly created collection.
 
-### Why Not In-Memory Databases
+### Base API Endpoint
+The base API endpoint for each collection is structured as follows:
+```
+https://api.onenode.ai/db/{database_id}/collection/{collection_id}
+```
+Replace `{database_id}` and `{collection_id}` with the corresponding values you obtained earlier.
 
-There is also a work around to avoid complex pipeline setups by running an in-memory vector database and store everything into the database.
-This approach works fine as long as it's small project and doesn't require rich LLM features. But when going to production, switching in-memory database system to industory standard setups often becoems time consuming.
+### Example: Insert a Document
+Let's insert a document into the collection. You can do this using `curl` with the following command:
 
-## OneNode API as a Serverless Database Pipeline
+```sh
+curl -X POST "{base_api_endpoint}/document" \
+  -H "Api-Key: $ONENODE_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Alice",
+    "age": "7",
+    "background": {"@embText": {"text": "Through the Looking-Glass follows Alice as she steps through a mirror into a fantastical world where everything is reversed, like a reflection. In this chess-themed land, she meets peculiar characters like the Red Queen, the White Queen, Tweedledum and Tweedledee, and Humpty Dumpty. Alice navigates through a series of bizarre and whimsical encounters, eventually becoming a queen herself. In the end, she awakens from the dreamlike adventure back in her own world, unsure whether it was her dream or the Red King's."}}
+  }'
+```
+In this example, we're inserting a document with some basic information about **Alice**. Notice the use of `@embText`—this is OneNode's **extended JSON type** that requires a specific structure to handle complex text embedding.
 
-OneNode API was developped to tuckle this problem. Developers should be able to focus frontends without needing to worring about backend's performance, security, pipelines, or scallabilities. OneNode has a pre-built pipeline with necessary databases with industory-leading index technologies. Developers only nned to comunicate with a single API host that takes care of everything needed for data index and retrieval specifically for LLM apps.
+For more information on OneNode's extended JSON types, please refer to the [OneNode Extended JSON documentation](/data-types).
 
-## What's Different
-The biggest difference is the easyness of use. Once you get your API key, you can instantly access a set of databases and pipeline without any configuration.
+---
+
+That's it! You've successfully made your first API request.
+
+## Next Steps
+- Try experimenting with more complex data types using OneNode's extended JSON capabilities.
+- Explore our full API documentation to see what other features are available to you.
+
+If you encounter any issues or have questions, feel free to visit our [Help Center] or reach out to our support team.
+
+Happy building!
+
