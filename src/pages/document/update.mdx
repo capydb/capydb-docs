@@ -1,0 +1,167 @@
+# Update
+
+OneNode DB allows updating documents using operations that are similar to MongoDB. You can update one or multiple documents by specifying filters, update fields, and an optional upsert parameter. This guide explains how to use the `/updateOne` and `/updateMany` endpoints via the REST API.
+
+## Parameters for Update Operations
+
+- **filter**: A query object to match the documents to update. This works the same way as MongoDB filters, where you specify conditions to find the documents that need updating. For more details, refer to the [official MongoDB documentation on query filters](https://www.mongodb.com/docs/manual/core/document/#query-filter-documents).
+- **update**: The update operations to apply to the matched documents. You can use MongoDB-like update operators such as `$set`, `$inc`, etc. For a full list of update operators, refer to the [official MongoDB documentation on update operators](https://www.mongodb.com/docs/manual/reference/operator/update-field).
+- **upsert**: (Optional) A boolean flag to create a new document if no documents match the filter. If set to `true`, a new document will be created using the `filter` and `update` information.
+
+## updateOne Operation
+
+The `updateOne` operation is used to update a single document in a collection based on a filter. If multiple documents match the filter, only the first matching document will be updated.
+
+### Endpoint
+
+To update a single document, use the following endpoint:
+
+```
+{collection_url}/updateOne
+```
+
+Where `{collection_url}` is the full collection URL that includes your `db_id` and `collection_name`.
+
+### Example Python Code for `updateOne`
+
+Here’s how you can update a single document using Python, by applying a filter and an update operation:
+
+```python
+import os
+import requests
+
+# API Key and Collection URL
+ONENODE_API_KEY = os.getenv('ONENODE_API_KEY')
+collection_url = "https://api.onenode.ai/v1/db/123abc/collection/my_collection"
+
+# UpdateOne URL
+url = f"{collection_url}/updateOne"
+
+# Filter to match the document(s)
+filter = {
+    "email": "johndoe@example.com"
+}
+
+# Update operation (e.g., updating the 'age' field)
+update = {
+    "$set": {
+        "age": 31
+    }
+}
+
+# Optional upsert (set to true if you want to insert a new document if no match is found)
+upsert = False
+
+# Request body
+data = {
+    "filter": filter,
+    "update": update,
+    "upsert": upsert
+}
+
+# Headers with API Key
+headers = {
+    "Authorization": f"Bearer {ONENODE_API_KEY}",
+    "Content-Type": "application/json"
+}
+
+# Sending the request
+response = requests.post(url, json=data, headers=headers)
+
+# Print the response
+print(response.json())
+```
+
+### `updateOne` Response
+
+A successful update operation will return a JSON response indicating the number of matched and modified documents, and whether an upsert was performed:
+
+```json
+{
+  "status": "success",
+  "matched_count": 1,
+  "modified_count": 1,
+  "upserted_id": null
+}
+```
+
+If an upsert was performed, the `upserted_id` will contain the ID of the new document.
+
+## updateMany Operation
+
+The `updateMany` operation is used to update multiple documents in a collection based on a filter.
+
+### Endpoint
+
+To update multiple documents, use the following endpoint:
+
+```
+{collection_url}/updateMany
+```
+
+Where `{collection_url}` is the full collection URL.
+
+### Example Python Code for `updateMany`
+
+Here’s how you can update multiple documents using Python, by applying a filter and an update operation:
+
+```python
+import os
+import requests
+
+# API Key and Collection URL
+ONENODE_API_KEY = os.getenv('ONENODE_API_KEY')
+collection_url = "https://api.onenode.ai/v1/db/123abc/collection/my_collection"
+
+# UpdateMany URL
+url = f"{collection_url}/updateMany"
+
+# Filter to match the document(s)
+filter = {
+    "age": {"$gt": 30}
+}
+
+# Update operation (e.g., incrementing the 'age' field for all matching documents)
+update = {
+    "$inc": {
+        "age": 1
+    }
+}
+
+# Optional upsert (set to true if you want to insert a new document if no match is found)
+upsert = False
+
+# Request body
+data = {
+    "filter": filter,
+    "update": update,
+    "upsert": upsert
+}
+
+# Headers with API Key
+headers = {
+    "Authorization": f"Bearer {ONENODE_API_KEY}",
+    "Content-Type": "application/json"
+}
+
+# Sending the request
+response = requests.post(url, json=data, headers=headers)
+
+# Print the response
+print(response.json())
+```
+
+### `updateMany` Response
+
+A successful `updateMany` operation will return a JSON response indicating the number of matched and modified documents, and whether an upsert was performed:
+
+```json
+{
+  "status": "success",
+  "matched_count": 5,
+  "modified_count": 5,
+  "upserted_id": null
+}
+```
+
+If an upsert was performed, the `upserted_id` will contain the ID of the new document.

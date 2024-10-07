@@ -1,33 +1,8 @@
 # Insert
 
-At present, OneNode DB does not support SDKs. However, you can still perform insert operations using standard HTTP requests, similar to how you would with MongoDB. This guide explains how to insert documents into OneNode DB via the REST API.
+OneNode DB supports **MongoDB Extended JSON** and **OneNode Extended JSON** (EmbJSON). This guide explains how to insert documents into OneNode DB using the `/insertOne` and `/insertMany` endpoints via the REST API. The following examples include MongoDB Extended JSON format for Object IDs and the use of EmbJSON for embedding text.
 
-OneNode DB supports **MongoDB Extended JSON** and **OneNode Extended JSON** (EmbJSON). The following examples include the MongoDB Extended JSON format for Object IDs and the use of EmbJSON for embedding text.
-
-## API Endpoints for Inserting Documents
-
-OneNode DB provides two endpoints for inserting documents: `insertOne` and `insertMany`. These correspond to inserting a single document or multiple documents into a collection.
-
-### Base URL and API Key
-
-The base URL for OneNode DB is:
-
-```
-https://api.onenode.ai/v1/db
-```
-
-We will continue to use an environment variable to store your OneNode DB API key for security reasons.
-
-- `ONENODE_API_KEY`: Your OneNode DB API key.
-
-You can set this environment variable in Python using the `os` module or a `.env` file.
-
-```python
-import os
-
-# Set environment variable (or load it from a .env file)
-ONENODE_API_KEY = os.getenv('ONENODE_API_KEY')
-```
+To learn more about setting up your **Collection URL** and **API Key**, refer to the [Collection URL and API Key](#) page.
 
 ## InsertOne Operation
 
@@ -38,8 +13,10 @@ The `insertOne` operation is used to insert a single document into a collection.
 To insert a single document, use the following endpoint:
 
 ```
-https://api.onenode.ai/v1/db/{db_name}/collection/{collection_name}/document/insert_one
+{collection_url}/insertOne
 ```
+
+Where `{collection_url}` is the full collection URL that includes your `db_id` and `collection_name`. See the [Collection URL and API Key](#) page for more details.
 
 ### Example Python Code for `insertOne`
 
@@ -49,11 +26,12 @@ Here’s how you can insert a single document using Python, which includes an Ob
 import os
 import requests
 
-# API Key
+# API Key and Collection URL
 ONENODE_API_KEY = os.getenv('ONENODE_API_KEY')
+collection_url = "https://api.onenode.ai/v1/db/123abc/collection/my_collection"
 
 # InsertOne URL
-url = "https://api.onenode.ai/v1/db/my_database/collection/my_collection/document/insert_one"
+url = f"{collection_url}/insertOne"
 
 # Document to insert (MongoDB Extended JSON with Object ID and EmbJSON)
 data = {
@@ -102,8 +80,10 @@ The `insertMany` operation is used to insert multiple documents in one request.
 To insert multiple documents, use the following endpoint:
 
 ```
-https://api.onenode.ai/v1/db/{db_name}/collection/{collection_name}/document/insert_many
+{collection_url}/insertMany
 ```
+
+Where `{collection_url}` is the full collection URL. See the [Collection URL and API Key](#) page for more details.
 
 ### Example Python Code for `insertMany`
 
@@ -113,11 +93,12 @@ Here’s how you can insert multiple documents using Python, with one of them co
 import os
 import requests
 
-# API Key
+# API Key and Collection URL
 ONENODE_API_KEY = os.getenv('ONENODE_API_KEY')
+collection_url = "https://api.onenode.ai/v1/db/123abc/collection/my_collection"
 
 # InsertMany URL
-url = "https://api.onenode.ai/v1/db/my_database/collection/my_collection/document/insert_many"
+url = f"{collection_url}/insertMany"
 
 # Documents to insert (MongoDB Extended JSON with Object ID and EmbJSON)
 data = [
