@@ -1,16 +1,19 @@
 # OneNode DB Overview
 
-OneNode DB is a **high-level database** specifically designed for Large Language Model (LLM) applications. It combines the power of multiple backend systems, including a NoSQL database, a vector database, and a blob database, while also incorporating efficient pipelines to cater to the specific needs of LLM-based projects.
+OneNode DB is a **high-level (federated) database** specifically designed for Large Language Model (LLM) applications. The term 'high-level database' is inspired by the concept of 'high-level languages,' like Python, which provide more abstraction and ease of use compared to lower-level languages such as C. Similarly, OneNode DB abstracts the complexity of multiple **low-level database architectures**, including a NoSQL database, a vector database, and a blob database. It also incorporates efficient pipelines to cater to the specific needs of LLM-based projects, making it accessible and powerful for developers.
 
 By integrating these databases, OneNode DB provides a unified experience that allows users to seamlessly store, index, and retrieve structured, unstructured, and vector-based data—all within the same platform. This makes OneNode an ideal choice for modern AI-driven applications, especially those focused on natural language processing and complex data analysis.
 
 ## Components of OneNode DB
 
-### 1. NoSQL Database
-OneNode DB uses a NoSQL database to manage structured data and provide robust querying capabilities. The document model of this database allows users to work with data in a flexible and intuitive way.
+### 1. NoSQL (Document) Database
+OneNode DB uses a Mongo-compatible NoSQL database to manage structured data and provide robust querying capabilities. The document model of this database allows users to work with data in a flexible and intuitive way. Since it is MongoDB-compatible, developers can leverage their existing knowledge of MongoDB and integrate with popular MongoDB tools and libraries, making it easier to adopt and use OneNode DB in existing projects.
 
 ### 2. Vector Database
-For vector-based data, OneNode DB integrates with a high-performance vector database for efficient indexing and querying. This is particularly useful for applications that require similarity search, such as embeddings and recommendation systems.
+For vector-based data, OneNode DB integrates with a high-performance vector database for two primary purposes:
+
+- **Storing Vector Values in Documents**: The vector database allows vector values, such as embeddings, to be stored directly within documents, making it easy to manage and query vector data.
+- **Semantic Indexing of OneNode Extended JSON**: The vector database also provides efficient indexing and querying for semantic searches. It creates a semantic index of OneNode Extended JSON, allowing for similarity searches and advanced retrieval capabilities, which are particularly useful in LLM and AI-driven applications.
 
 ### 3. Blob Storage
 The blob database component of OneNode DB provides efficient storage for unstructured data like files, images, and other binary data. This complements the structured and vector data, making OneNode a comprehensive solution for all data types.
@@ -29,3 +32,4 @@ With **OneNode Extended JSON**, storing and managing complex data structures bec
 Currently, OneNode DB does not provide SDKs. However, we are actively working on developing a **Python SDK** and a **JavaScript SDK**, which are planned for release in the summer of 2025. These SDKs will simplify integration and make it easier for developers to interact with the OneNode API.
 
 Stay tuned for updates, and feel free to explore OneNode's existing capabilities through our detailed documentation and API references.
+

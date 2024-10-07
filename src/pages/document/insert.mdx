@@ -1,0 +1,169 @@
+# Insert
+
+At present, OneNode DB does not support SDKs. However, you can still perform insert operations using standard HTTP requests, similar to how you would with MongoDB. This guide explains how to insert documents into OneNode DB via the REST API.
+
+OneNode DB supports **MongoDB Extended JSON** and **OneNode Extended JSON** (EmbJSON). The following examples include the MongoDB Extended JSON format for Object IDs and the use of EmbJSON for embedding text.
+
+## API Endpoints for Inserting Documents
+
+OneNode DB provides two endpoints for inserting documents: `insertOne` and `insertMany`. These correspond to inserting a single document or multiple documents into a collection.
+
+### Base URL and API Key
+
+The base URL for OneNode DB is:
+
+```
+https://api.onenode.ai/v1/db
+```
+
+We will continue to use an environment variable to store your OneNode DB API key for security reasons.
+
+- `ONENODE_API_KEY`: Your OneNode DB API key.
+
+You can set this environment variable in Python using the `os` module or a `.env` file.
+
+```python
+import os
+
+# Set environment variable (or load it from a .env file)
+ONENODE_API_KEY = os.getenv('ONENODE_API_KEY')
+```
+
+## InsertOne Operation
+
+The `insertOne` operation is used to insert a single document into a collection.
+
+### Endpoint
+
+To insert a single document, use the following endpoint:
+
+```
+https://api.onenode.ai/v1/db/{db_name}/collection/{collection_name}/document/insert_one
+```
+
+### Example Python Code for `insertOne`
+
+Here’s how you can insert a single document using Python, which includes an Object ID and an **EmbJSON** field:
+
+```python
+import os
+import requests
+
+# API Key
+ONENODE_API_KEY = os.getenv('ONENODE_API_KEY')
+
+# InsertOne URL
+url = "https://api.onenode.ai/v1/db/my_database/collection/my_collection/document/insert_one"
+
+# Document to insert (MongoDB Extended JSON with Object ID and EmbJSON)
+data = {
+    "_id": {"$oid": "64d2f8f01234abcd5678ef90"},
+    "name": "John Doe",
+    "email": "johndoe@example.com",
+    "age": 30,
+    "bio": {
+        "@embText": {
+            "text": "John is a software engineer with expertise in AI.",
+            "model": "gpt-4o-mini"
+        }
+    }
+}
+
+# Headers with API Key
+headers = {
+    "Authorization": f"Bearer {ONENODE_API_KEY}",
+    "Content-Type": "application/json"
+}
+
+# Sending the request
+response = requests.post(url, json=data, headers=headers)
+
+# Print the response
+print(response.json())
+```
+
+### `insertOne` Response
+
+A successful insert operation will return a JSON response containing the inserted document's ID and a success message:
+
+```json
+{
+  "status": "success",
+  "document_id": "64d2f8f01234abcd5678ef90"
+}
+```
+
+## InsertMany Operation
+
+The `insertMany` operation is used to insert multiple documents in one request.
+
+### Endpoint
+
+To insert multiple documents, use the following endpoint:
+
+```
+https://api.onenode.ai/v1/db/{db_name}/collection/{collection_name}/document/insert_many
+```
+
+### Example Python Code for `insertMany`
+
+Here’s how you can insert multiple documents using Python, with one of them containing an **EmbJSON** field:
+
+```python
+import os
+import requests
+
+# API Key
+ONENODE_API_KEY = os.getenv('ONENODE_API_KEY')
+
+# InsertMany URL
+url = "https://api.onenode.ai/v1/db/my_database/collection/my_collection/document/insert_many"
+
+# Documents to insert (MongoDB Extended JSON with Object ID and EmbJSON)
+data = [
+    {
+        "_id": {"$oid": "64d2f8f01234abcd5678ef91"},
+        "name": "Alice Smith",
+        "email": "alice@example.com",
+        "age": 25,
+        "bio": {
+            "@embText": {
+                "text": "Alice is a data scientist with a background in machine learning.",
+                "model": "gpt-4o-mini"
+            }
+        }
+    },
+    {
+        "_id": {"$oid": "64d2f8f01234abcd5678ef92"},
+        "name": "Bob Johnson",
+        "email": "bob@example.com",
+        "age": 40
+    }
+]
+
+# Headers with API Key
+headers = {
+    "Authorization": f"Bearer {ONENODE_API_KEY}",
+    "Content-Type": "application/json"
+}
+
+# Sending the request
+response = requests.post(url, json=data, headers=headers)
+
+# Print the response
+print(response.json())
+```
+
+### `insertMany` Response
+
+A successful `insertMany` operation will return a JSON response containing the inserted document IDs and a success message:
+
+```json
+{
+  "status": "success",
+  "document_ids": [
+    "64d2f8f01234abcd5678ef91",
+    "64d2f8f01234abcd5678ef92"
+  ]
+}
+```
