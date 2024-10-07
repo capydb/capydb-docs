@@ -1,14 +1,16 @@
 # Quick Start Guide
 
-Welcome to OneNode DB! Follow these four simple steps to get started with our powerful API service. Whether you're inserting your first document or exploring our extended features, this guide will help you set up and make your first API request in no time.
+Welcome to OneNode DB! Follow these steps to get started with our powerful API service. Whether you're inserting your first document or exploring our extended features, this guide will help you set up and make your first API request in no time.
 
 ## Step 1: Sign Up
+
 First, you'll need to sign up for OneNode DB.
 
 1. Head over to [OneNode DB Sign Up](https://db.onenode.ai).
 2. After completing the sign-up process, log in and navigate to the dashboard by visiting `/dashboard`. This dashboard will be your main hub for managing databases, collections, and API keys.
 
 ## Step 2: Create an API Key
+
 Once signed in, the next step is to create an API key for your project.
 
 1. From the sidebar, navigate to the **API Key** page.
@@ -17,23 +19,81 @@ Once signed in, the next step is to create an API key for your project.
 4. **Important**: The API key will only be displayed once during creation. **Please make sure to store it securely**, as you won't be able to see it again after closing the modal.
 
 ## Step 3: Create a Collection
+
 Next, you'll create a collection, which is where your data will be stored.
 
 1. On the sidebar, locate the **Collection** tab. Click the **plus (+)** button to create a new collection.
 2. Set both the **database name** and **collection name**. Once created, the new collection will appear under its respective database in the sidebar.
-3. To proceed, click on the collection name to open its **Collection Page**. On this page, you will see the **Database ID**, which you will need for making API requests.
+3. To proceed, click on the collection name to open its **Collection Page**. On this page, you will see the **Database ID** (`db_id`), which you will need for making API requests.
 
-## Step 4: Make Your First API Request
+## Step 4: Collection URL and API Key
+
+To interact with OneNode DB's API, you'll need to use a **Collection URL** that points to a specific collection within your database. Most operations, such as inserting, updating, and querying documents, are performed at the collection level. Additionally, you'll need to include your **API Key** for authorization in all requests.
+
+### Collection URL
+
+The **Collection URL** for OneNode DB includes the full path to the specific database (using `db_id`) and collection you are working with. You can find the `db_id` in the collection page on the developer console.
+
+```
+https://api.onenode.ai/v1/db/{db_id}/collection/{collection_name}
+```
+
+### Parameters:
+- `{db_id}`: The unique identifier of your database in OneNode DB. This ID can be found on your collection page in the developer console.
+- `{collection_name}`: The name of the collection you are working with.
+
+For example, if your database ID is `123abc` and your collection is `my_collection`, the collection URL will be:
+
+```
+https://api.onenode.ai/v1/db/123abc/collection/my_collection
+```
+
+This URL will be used as the starting point for different operations, such as inserting documents, updating documents, querying, and more.
+
+### API Key
+
+You will need to use an API Key to authenticate your requests. The API Key should be included in the `Authorization` header of each request.
+
+#### Setting the API Key in Python
+
+To securely handle your API Key in Python, it’s recommended to store it as an environment variable and access it in your code. Here's an example:
+
+```python
+import os
+
+# Set environment variable for the API Key (or load it from a .env file)
+ONENODE_API_KEY = os.getenv('ONENODE_API_KEY')
+```
+
+You can then include the API Key in the headers of your HTTP requests:
+
+```python
+headers = {
+    "Authorization": f"Bearer {ONENODE_API_KEY}",
+    "Content-Type": "application/json"
+}
+```
+
+### Example Request Headers
+
+Here is how the headers should look for any API request:
+
+```json
+{
+  "Authorization": "Bearer YOUR_API_KEY",
+  "Content-Type": "application/json"
+}
+```
+
+- Replace `YOUR_API_KEY` with your actual OneNode DB API key.
+- The `Content-Type` header should always be set to `application/json` since OneNode DB communicates using JSON.
+
+## Step 5: Make Your First API Request
+
 You're now ready to make your first API call to store a document in your newly created collection.
 
-### Base API Endpoint
-The base API endpoint for each collection is structured as follows:
-```
-https://api.onenode.ai/db/{database_id}/collection/{collection_id}
-```
-Replace `{database_id}` and `{collection_id}` with the corresponding values you obtained earlier.
-
 ### Example: Insert a Document
+
 Let's insert a document into the collection. You can do this using `curl` with the following command:
 
 ```sh
@@ -46,19 +106,23 @@ curl -X POST "{base_api_endpoint}/document" \
     "background": {"@embText": {"text": "Through the Looking-Glass follows Alice as she steps through a mirror into a fantastical world where everything is reversed, like a reflection. In this chess-themed land, she meets peculiar characters like the Red Queen, the White Queen, Tweedledum and Tweedledee, and Humpty Dumpty. Alice navigates through a series of bizarre and whimsical encounters, eventually becoming a queen herself. In the end, she awakens from the dreamlike adventure back in her own world, unsure whether it was her dream or the Red King's."}}
   }'
 ```
+
 In this example, we're inserting a document with some basic information about **Alice**. Notice the use of `@embText`—this is OneNode's **extended JSON type** that requires a specific structure to handle complex text embedding.
 
 For more information on OneNode's extended JSON types, please refer to the [OneNode Extended JSON documentation](/data-types).
 
 ---
 
-That's it! You've successfully made your first API request.
+## Security Recommendations
+
+- **Do not hardcode your API Key** in your source code. Use environment variables or secure configuration management tools.
+- **Keep your API Key private**. Do not share it in public repositories or with unauthorized individuals.
 
 ## Next Steps
+
 - Try experimenting with more complex data types using OneNode's extended JSON capabilities.
 - Explore our full API documentation to see what other features are available to you.
 
 If you encounter any issues or have questions, feel free to visit our [Help Center] or reach out to our support team.
 
 Happy building!
-
