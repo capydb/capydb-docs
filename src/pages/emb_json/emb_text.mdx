@@ -1,0 +1,89 @@
+# EmbText
+
+**EmbText** is one of the **EmbJSON** data types supported by OneNode DB, specifically designed for handling text that requires semantic embedding. EmbText allows you to store text in a structured format where it can be automatically embedded and indexed for efficient semantic search.
+
+## Structure of EmbText
+
+The structure of EmbText is simple and standardized, ensuring that the text is properly embedded and indexed:
+
+```json
+{
+  "@embText": {
+    "text": "text to embed",
+    "model": "gpt-4o-mini"
+  }
+}
+```
+
+### Key Components
+
+- **text**: This is the core content of the EmbText object—the main text that needs to be embedded and indexed. Once the text is stored, it will be automatically split into smaller chunks for optimized semantic search and retrieval.
+- **model**: This field specifies the embedding model to use. The default model is `gpt-4o-mini`, but you can choose from other supported models if needed.
+
+## How EmbText Works
+
+When an **EmbText** field is inserted into OneNode DB, the following processes take place:
+
+1. **Automatic Chunking**: The provided text is automatically divided into smaller, more manageable **chunks**. This process helps improve the efficiency and accuracy of semantic search operations.
+   
+2. **Asynchronous Indexing**: Once the text is stored, it will be processed and indexed asynchronously. This means that the data may take a few seconds to be fully processed and made available for query operations. You can continue to interact with the document while indexing is happening, but keep in mind that query results may not reflect the newly inserted text until indexing is complete.
+
+3. **Semantic Search**: After the text has been embedded and indexed, you can perform **query** operations on the EmbText field. The semantic search will retrieve text chunks based on meaning, not just keyword matching.
+
+## Example Usage of EmbText
+
+Here’s an example of how you would use **EmbText** in a document:
+
+```json
+{
+  "_id": { "$oid": "64d2f8f01234abcd5678ef90" },
+  "name": "Alice",
+  "bio": {
+    "@embText": {
+      "text": "Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing.",
+      "model": "gpt-4o-mini"
+    }
+  }
+}
+```
+
+In this example:
+- The **bio** field is using the **EmbText** data type to embed and index Alice’s biography, making it searchable based on the semantic meaning of the text.
+- The embedding model used here is `gpt-4o-mini`, but this can be adjusted based on the needs of the project.
+
+## Important Considerations
+
+- **No Custom Fields**: **EmbText** does not support custom fields. The only allowed fields are `text` (for the content to embed) and `model` (for specifying the embedding model). Any additional fields will be ignored or cause errors.
+  
+- **Default Model**: If you don’t specify a `model`, the default model used for embedding will be `gpt-4o-mini`. You can change this by explicitly setting the `model` field in the EmbText object.
+
+- **Asynchronous Processing**: Because the embedding and indexing process happens asynchronously, it may take up to a few seconds for the document to be fully available for querying. Be mindful of this delay when working with large datasets or when requiring immediate query results.
+
+- **Nested Fields**: You can include **EmbText** fields within nested structures in your documents. For example, you might store a user’s biography inside a nested field like `profile.bio`, and EmbText can still be applied and indexed correctly.
+
+### Example of EmbText in Nested Fields
+
+```json
+{
+  "_id": { "$oid": "64d2f8f01234abcd5678ef91" },
+  "profile": {
+    "name": "Bob",
+    "bio": {
+      "@embText": {
+        "text": "Bob has over a decade of experience in AI, focusing on neural networks and deep learning.",
+        "model": "gpt-4o-mini"
+      }
+    }
+  }
+}
+```
+
+## Use Cases for EmbText
+
+- **Semantic Search**: EmbText is ideal for scenarios where you want to retrieve documents based on meaning rather than strict keyword matches. For example, you could query for biographies that mention “AI research” and get relevant documents even if they don’t explicitly contain those keywords.
+  
+- **Natural Language Processing**: EmbText is useful in AI-driven applications where understanding the context and meaning of text is critical, such as summarization, sentiment analysis, or question-answering systems.
+
+## Next Steps
+
+Once you have embedded and indexed your text using **EmbText**, you can use OneNode DB’s [Query Operation](#) to perform semantic searches based on meaning. If you’d like to explore other EmbJSON types, refer to the documentation on [EmbImage](#) or the full list of supported EmbJSON types.

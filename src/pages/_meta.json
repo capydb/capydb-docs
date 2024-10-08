@@ -5,5 +5,6 @@
   },
   "overview": "Overview",
   "index": "Quick Start",
-  "document": "Document"
+  "document": "Document",
+  "emb_json": "EmbJSON"
 }
