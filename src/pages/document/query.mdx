@@ -1,0 +1,109 @@
+# Query
+
+OneNode DB offers a unique **Query** operation that allows you to retrieve documents based on their **semantic meanings**. This operation leverages **EmbJSON** data types (such as `EmbText` or `EmbImage`) to perform semantic searches that are not supported by MongoDB.
+
+## How the Query Operation Works
+
+The `query` operation embeds the query text automatically and searches for the closest semantic matches within the **EmbJSON** fields of stored documents. This makes it possible to retrieve documents based on meaning rather than just strict keyword matches.
+
+### Rules for the Query Operation
+
+- **EmbJSON-only**: The `query` operation can only be applied to **EmbJSON** data types (e.g., `EmbText`, `EmbImage`). For more information on how EmbJSON works, refer to the [EmbJSON documentation](#).
+- **Automatic Text Embedding**: The query text is embedded automatically and matched against stored **EmbJSON** fields. The closest semantic "chunks" are returned based on their meaning.
+- **Model Selection**: Both the `query` operation and **EmbJSON** fields allow you to specify an embedding model by setting the `model` parameter. The semantic search is applied only to the EmbJSON fields that use the **same embedding model** as the one specified in the query.
+- **Top-k Matches**: You can use the `top_k` parameter (optional) to limit the number of returned chunks, which are sorted by semantic meaning closeness.
+
+## Parameters for Query Operations
+
+- **query**: The text that will be embedded and matched against the stored EmbJSON fields.
+- **model**: The embedding model to use for the query. This model must match the one used in the EmbJSON fields for semantic search to apply. For a list of supported models, refer to the [Supported Embedding Models](#).
+- **top_k** (optional): The number of top chunks (semantic matches) to return.
+
+## query Operation
+
+The `query` operation retrieves documents based on the closest semantic match to the provided query text. The response contains a list of matched **chunks** in order of semantic similarity.
+
+### Endpoint
+
+To perform a query, use the following endpoint:
+
+```
+{collection_url}/query
+```
+
+Where `{collection_url}` is the full collection URL that includes your `db_id` and `collection_name`.
+
+### Example Python Code for `query`
+
+Here’s how you can perform a semantic query using Python:
+
+```python
+import os
+import requests
+
+# API Key and Collection URL
+ONENODE_API_KEY = os.getenv('ONENODE_API_KEY')
+collection_url = "https://api.onenode.ai/v1/db/123abc/collection/my_collection"
+
+# Query URL
+url = f"{collection_url}/query"
+
+# Query parameters
+query_text = "AI technology advancements"
+model = "gpt-4o-mini"
+top_k = 3
+
+# Request body
+data = {
+    "query": query_text,
+    "model": model,
+    "top_k": top_k
+}
+
+# Headers with API Key
+headers = {
+    "Authorization": f"Bearer {ONENODE_API_KEY}",
+    "Content-Type": "application/json"
+}
+
+# Sending the request
+response = requests.post(url, json=data, headers=headers)
+
+# Print the response
+print(response.json())
+```
+
+### `query` Response
+
+A successful query operation will return a JSON response containing the top matched **chunks** in order of semantic similarity:
+
+```json
+{
+  "status": "success",
+  "chunks": [
+    {
+      "text": "The rapid development of AI technology has transformed industries across the globe.",
+      "score": 0.95
+    },
+    {
+      "text": "AI advancements continue to push boundaries in healthcare, robotics, and more.",
+      "score": 0.89
+    },
+    {
+      "text": "Technological innovations in AI have led to breakthroughs in machine learning models.",
+      "score": 0.87
+    }
+  ]
+}
+```
+
+### Optional Parameters
+
+- **top_k**: Limits the number of matched chunks returned. If not specified, all matched chunks are returned, sorted by their semantic similarity.
+
+## Important Notes
+
+- **EmbJSON-only**: The `query` operation only works on **EmbJSON** fields. For more information about working with EmbJSON, refer to the [EmbJSON documentation](#).
+- **Automatic Embedding**: The `query` text is automatically embedded using the specified model and matched against stored EmbJSON embeddings.
+- **Model**: You must specify the same `model` in the query that was used to generate the embeddings in the stored documents for accurate semantic matching. For a list of available models, refer to the [Supported Embedding Models](#).
+- **top_k**: Use `top_k` to limit the number of returned matches, ordered by semantic similarity.

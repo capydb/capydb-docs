@@ -1,1 +1,7 @@
-{ "insert": "Insert", "update": "Update", "delete": "Delete", "find": "Find" }
+{
+  "insert": "Insert",
+  "update": "Update",
+  "delete": "Delete",
+  "find": "Find",
+  "query": "Query"
+}
