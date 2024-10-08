@@ -1,1 +1,1 @@
-{ "insert": "Insert", "update": "Update" }
+{ "insert": "Insert", "update": "Update", "delete": "Delete", "find": "Find" }
