@@ -10,6 +10,7 @@ The structure of EmbImage allows for embedding images, specifying models for ima
 {
   "@embImage": {
     "data": "binary data of the image",
+    "mime_type": "image/jpeg",
     "emb_model": "text-embedding-3-small",
     "vision_model": "gpt-4o-mini",
     "store_image": "true"
@@ -20,9 +21,26 @@ The structure of EmbImage allows for embedding images, specifying models for ima
 ### Key Components
 
 - **data**: This field contains the binary data of the image, which will be processed and embedded.
-- **emb_model** (optional): The model used for text embeddings. The default model is `text-embedding-3-small`, but you can specify other supported models if needed. This parameter is optional.
+- **mime_type**: Specifies the MIME type of the image (e.g., `image/jpeg`, `image/png`). This field is required to ensure the correct handling of different image formats.
+- **emb_model** (optional): The model used for text embeddings. The default model is `text-embedding-3-small`, but you can specify other supported models if needed.
 - **vision_model** (optional): The model used to convert the image to text. The default model is `gpt-4o-mini`, but you can specify other supported models. This parameter is also optional.
 - **store_image** (optional): A boolean value (`true` or `false`). If `true`, the binary image data will be stored in a media database, and a URL will be generated to access the image later. The default value is `false`.
+
+## Supported Image Data Types
+
+OneNode DB currently supports the following image types for **EmbImage**. For `mime_type` specification, use the MIME types listed below. You can include multiple data types in one item.
+
+| Data Type  | Extension(s) | MIME Type              |
+| ---------- | ------------ | ---------------------- |
+| Plain Text | .txt         | text/plain             |
+| JPEG       | .jpg, .jpeg  | image/jpeg             |
+| PNG        | .png         | image/png              |
+| GIF        | .gif         | image/gif              |
+| BMP        | .bmp         | image/bmp              |
+| TIFF       | .tiff, .tif  | image/tiff             |
+| WEBP       | .webp        | image/webp             |
+| SVG        | .svg         | image/svg+xml          |
+| HEIF       | .heif, .heic | image/heif, image/heic |
 
 ## How EmbImage Works
 
@@ -54,6 +72,7 @@ Here’s an example of how you would use **EmbImage** in a document:
   "profile_image": {
     "@embImage": {
       "data": "<binary image data>",
+      "mime_type": "image/jpeg",
       "emb_model": "text-embedding-3-small",
       "vision_model": "gpt-4o-mini",
       "store_image": true
@@ -64,6 +83,7 @@ Here’s an example of how you would use **EmbImage** in a document:
 
 In this example:
 - The **profile_image** field uses the **EmbImage** data type to embed and index the image data.
+- The MIME type is specified as `image/jpeg`.
 - The text embedding model is set to `text-embedding-3-small`, and the image-to-text model is set to `gpt-4o-mini`.
 - The `store_image` parameter is set to `true`, meaning the image binary data will be stored, and a URL will be generated for later access.
 
@@ -78,6 +98,7 @@ Once the image is processed and stored, the **EmbImage** field in the document w
   "profile_image": {
     "@embImage": {
       "data": "<binary image data>",
+      "mime_type": "image/jpeg",
       "emb_model": "text-embedding-3-small",
       "vision_model": "gpt-4o-mini",
       "store_image": true,
@@ -97,6 +118,7 @@ In this case:
 
 ## Important Considerations
 
+- **mime_type**: This field is required to ensure correct handling of the image format.
 - **Optional Parameters**: Both `emb_model` and `vision_model` are optional. If not provided, the default models (`text-embedding-3-small` and `gpt-4o-mini`) will be used.
   
 - **store_image Parameter**: If you want the binary image data to be stored and accessible via a URL, set the `store_image` parameter to `true`. Otherwise, only the text embeddings and chunks will be stored.
@@ -115,6 +137,7 @@ In this case:
     "profile_picture": {
       "@embImage": {
         "data": "<binary image data>",
+        "mime_type": "image/png",
         "vision_model": "gpt-4o-mini",
         "store_image": false
       }
@@ -125,6 +148,7 @@ In this case:
 
 In this example:
 - The **profile_picture** field contains the **EmbImage** data type, embedded and indexed based on the image content.
+- The MIME type is specified as `image/png`.
 - The image is not stored, as the `store_image` parameter is set to `false`, meaning no URL is generated.
 
 ## Use Cases for EmbImage
