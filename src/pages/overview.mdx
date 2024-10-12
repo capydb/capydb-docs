@@ -1,10 +1,20 @@
 # Overview
 
-OneNode DB is a **high-level database** tailored for Large Language Model (LLM) applications. It combines multiple database architectures—NoSQL, vector, and blob storage—into a single platform, allowing seamless storage, indexing, and retrieval of structured, unstructured, and vector-based data. This makes OneNode DB an ideal choice for AI-driven projects, particularly those focused on natural language processing and data analysis.
+OneNode DB is a **high-level database** tailored for Large Language Model (LLM) applications. It combines multiple database architectures—NoSQL, vector, and object storage—into a single platform, allowing seamless storage, indexing, and retrieval of structured, unstructured, and vector-based data. This makes OneNode DB an ideal choice for AI-driven projects, particularly those focused on natural language processing and data analysis.
 
 ## What is a High-Level Database?
 
-Just as high-level programming languages like Python abstract away complexities to simplify development, OneNode DB abstracts the complexities of different database architectures. By integrating NoSQL, vector, and blob storage under one system, it provides developers with an accessible, powerful platform to manage the diverse data needs of LLM applications, without requiring expertise in multiple types of databases.
+Just as high-level programming languages like Python abstract away complexities to simplify development, OneNode DB abstracts the complexities of different database architectures. By integrating NoSQL, vector, and object storage under one system, it provides developers with an accessible, powerful platform to manage the diverse data needs of LLM applications, without requiring expertise in multiple types of databases.
+
+### Advantages of Using a High-Level Database
+
+OneNode DB offers several key advantages for developers:
+
+- **Cost Efficiency**: Developers don’t need to maintain dedicated servers or manage separate databases. OneNode DB handles this for you, reducing infrastructure costs and making it a more affordable option for projects that require complex data handling.
+  
+- **Time Savings**: Setting up and managing a database, along with the necessary data processing pipelines, can be time-consuming. OneNode DB’s built-in solutions streamline this process, allowing developers to focus on building their applications rather than managing backend systems.
+
+- **Ease of Use**: OneNode DB comes with industry-leading data processing pipelines that manage embedding and indexing, reducing the need for developers to have specialized knowledge in these areas. This means teams can avoid hiring additional experts or spending significant time learning embedding and indexing technologies.
 
 ## Components of OneNode DB
 
@@ -17,8 +27,8 @@ For handling vector-based data, OneNode DB integrates a high-performance vector 
 - **Storing Vector Values in Documents**: Embedding vector data (such as text embeddings) directly within documents for efficient management and querying.
 - **Semantic Indexing of OneNode Extended JSON**: Facilitating similarity searches and advanced retrieval with efficient semantic indexing, crucial for LLM and AI-powered applications.
 
-### 3. Blob Storage
-OneNode DB’s blob storage efficiently manages unstructured data such as files, images, and other binary data. This complements its structured and vector data capabilities, making it a comprehensive solution for all data types.
+### 3. Object Storage
+OneNode DB’s object storage efficiently manages unstructured data such as files, images, and other binary data. This complements its structured and vector data capabilities, making it a comprehensive solution for all data types.
 
 ## Extended JSON Types
 
@@ -26,7 +36,7 @@ OneNode DB enhances the standard **BSON (Binary JSON)** format with **OneNode Ex
 
 ## Key Features
 
-- **Unified Database**: Combines NoSQL, vector, and blob storage, providing versatile data handling across various data types.
+- **Unified Database**: Combines NoSQL, vector, and object storage, providing versatile data handling across various data types.
 - **Efficient Pipelines**: Built-in pipelines optimized for data ingestion and processing, specifically designed for LLM applications.
 - **Extended JSON Support**: Supports both BSON and OneNode Extended JSON for enhanced data representation and querying.
 
