@@ -1,7 +1,11 @@
 {
   "Dashboard": {
     "type": "page",
-    "href": "/dashboard"
+    "href": "https://db.onenode.ai/dashboard"
+  },
+  "contact": {
+    "type": "page",
+    "href": "https://db.onenode.ai/contact"
   },
   "overview": "Overview",
   "index": "Quick Start",

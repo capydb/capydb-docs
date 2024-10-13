@@ -1,5 +1,6 @@
 // Nextra configuration file
 
+import { MapPinIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 
 export default {
@@ -16,7 +17,7 @@ export default {
     </div>
   ),
   project: {
-    link: "https://onenode.ai/contact",
+    link: null,
   },
   editLink: {
     component: null,
