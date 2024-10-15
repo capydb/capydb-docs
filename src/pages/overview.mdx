@@ -1,47 +1,37 @@
 # Overview
 
-OneNode DB is a **high-level database** tailored for Large Language Model (LLM) applications. It combines multiple database architectures—NoSQL, vector, and object storage—into a single platform, allowing seamless storage, indexing, and retrieval of structured, unstructured, and vector-based data. This makes OneNode DB an ideal choice for AI-driven projects, particularly those focused on natural language processing and data analysis.
+OneNode DB is a **high-level database** built specifically for Large Language Model (LLM) applications. It unifies multiple database architectures—NoSQL, vector, and object storage—within a single platform, allowing seamless storage, indexing, and retrieval of structured, unstructured, and vector-based data. This makes OneNode DB the ideal choice for AI-driven projects, particularly those focused on natural language processing and data analysis.
 
 ## What is a High-Level Database?
 
-Just as high-level programming languages like Python abstract away complexities to simplify development, OneNode DB abstracts the complexities of different database architectures. By integrating NoSQL, vector, and object storage under one system, it provides developers with an accessible, powerful platform to manage the diverse data needs of LLM applications, without requiring expertise in multiple types of databases.
+Much like how high-level programming languages like Python abstract away technical complexities to simplify development, OneNode DB abstracts the complexities of different database architectures. By integrating NoSQL, vector, and object storage under one system, it provides developers with an accessible, powerful platform to manage the diverse data needs of LLM applications—without requiring expertise in multiple types of databases.
 
-### Advantages of Using a High-Level Database
+### Benefits of a High-Level Database
 
 OneNode DB offers several key advantages for developers:
 
-- **Cost Efficiency**: Developers don’t need to maintain dedicated servers or manage separate databases. OneNode DB handles this for you, reducing infrastructure costs and making it a more affordable option for projects that require complex data handling.
+- **Cost Efficiency**: No need to maintain separate servers or databases—OneNode DB handles these tasks, reducing infrastructure costs and making it more affordable.
   
-- **Time Savings**: Setting up and managing a database, along with the necessary data processing pipelines, can be time-consuming. OneNode DB’s built-in solutions streamline this process, allowing developers to focus on building their applications rather than managing backend systems.
+- **Time Savings**: Built-in solutions streamline setup and management, allowing developers to focus on building applications instead of managing backends.
 
-- **Ease of Use**: OneNode DB comes with industry-leading data processing pipelines that manage embedding and indexing, reducing the need for developers to have specialized knowledge in these areas. This means teams can avoid hiring additional experts or spending significant time learning embedding and indexing technologies.
+- **Ease of Use**: Industry-leading data processing pipelines reduce the need for specialized knowledge, saving time and avoiding the need for additional hires.
 
 ## Components of OneNode DB
 
 ### 1. NoSQL (Document) Database
-OneNode DB includes a Mongo-compatible NoSQL database for managing structured data, allowing flexible document-based storage and robust querying capabilities. The MongoDB compatibility ensures easy adoption for developers familiar with MongoDB tools and libraries.
+OneNode DB includes a Mongo-compatible NoSQL database for flexible document-based storage and querying, making it easy for developers familiar with MongoDB tools.
 
 ### 2. Vector Database
-For handling vector-based data, OneNode DB integrates a high-performance vector database that supports:
+OneNode DB integrates a high-performance vector database that supports:
 
-- **Storing Vector Values in Documents**: Embedding vector data (such as text embeddings) directly within documents for efficient management and querying.
-- **Semantic Indexing of OneNode Extended JSON**: Facilitating similarity searches and advanced retrieval with efficient semantic indexing, crucial for LLM and AI-powered applications.
+- **Vector Storage in Documents**: Embedding vector data (e.g., text embeddings) directly within documents for efficient management.
+- **Semantic Indexing**: Advanced retrieval and similarity searches, crucial for LLM and AI applications.
 
 ### 3. Object Storage
-OneNode DB’s object storage efficiently manages unstructured data such as files, images, and other binary data. This complements its structured and vector data capabilities, making it a comprehensive solution for all data types.
+OneNode DB’s object storage manages unstructured data like files and images, complementing its structured and vector data capabilities.
 
-## Extended JSON Types
+## EmbJSON (Extended JSON Types)
 
-OneNode DB enhances the standard **BSON (Binary JSON)** format with **OneNode Extended JSON**, making it easier to manage and query complex data structures like text embeddings. This allows developers to work seamlessly with advanced data types required for AI and LLM-based applications.
+OneNode DB extends the standard **BSON (Binary JSON)** format with **EmbJSON (OneNode Extended JSON)**, which simplifies managing and querying complex data structures like text embeddings. EmbJSON is key to OneNode DB's database abstraction and is explained further in [EmbJSON Overview](/emb_json/overview).
 
-## Key Features
 
-- **Unified Database**: Combines NoSQL, vector, and object storage, providing versatile data handling across various data types.
-- **Efficient Pipelines**: Built-in pipelines optimized for data ingestion and processing, specifically designed for LLM applications.
-- **Extended JSON Support**: Supports both BSON and OneNode Extended JSON for enhanced data representation and querying.
-
-## Future Development
-
-We are actively developing **Python SDK** and **JavaScript SDK** to simplify integration and improve access to the OneNode API. These SDKs are planned for release in summer 2025.
-
-Stay updated with our progress and explore OneNode DB’s current capabilities through our detailed documentation and API references.

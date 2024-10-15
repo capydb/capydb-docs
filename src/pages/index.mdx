@@ -1,71 +1,61 @@
 # Quick Start
 
-Welcome to OneNode DB! Follow these steps to get started with our powerful API service. Whether you're inserting your first document or exploring our extended features, this guide will help you set up and make your first API request in no time.
+Welcome to OneNode DB! Follow these steps to get started with our powerful API service. Whether you're inserting your first document or exploring our extended features, this guide will help you set up and make your first API request quickly.
 
 ## Step 1: Sign Up
 
-First, you'll need to sign up for OneNode DB.
+First, sign up for OneNode DB.
 
-1. Head over to [OneNode DB Sign Up](https://db.onenode.ai).
-2. After completing the sign-up process, log in and navigate to the dashboard by visiting `/dashboard`. This dashboard will be your main hub for managing databases, collections, and API keys.
+1. Visit [OneNode DB Sign Up](https://db.onenode.ai).
+2. After signing up, log in and navigate to `/dashboard`, your main hub for managing databases, collections, and API keys.
 
 ## Step 2: Create an API Key
 
-Once signed in, the next step is to create an API key for your project.
+After signing in, create an API key for your project.
 
-1. From the sidebar, navigate to the **API Key** page.
-2. Click the button to create a new API key. You may optionally assign a name to your key, but it is not required.
-3. Each API key is associated with a specific project under your organization.
-4. **Important**: The API key will only be displayed once during creation. **Please make sure to store it securely**, as you won't be able to see it again after closing the modal.
+1. In the sidebar, go to the **API Key** page.
+2. Click to create a new API key. You can optionally name the key.
+3. The key will be displayed only once. **Store it securely**.
 
 ## Step 3: Create a Collection
 
-Next, you'll create a collection, which is where your data will be stored.
+Now, create a collection to store your data.
 
-1. On the sidebar, locate the **Collection** tab. Click the **plus (+)** button to create a new collection.
-2. Set both the **database name** and **collection name**. Once created, the new collection will appear under its respective database in the sidebar.
-3. To proceed, click on the collection name to open its **Collection Page**. On this page, you will see the **Database ID** (`db_id`), which you will need for making API requests.
+1. In the sidebar, click on the **Collection** tab and use the **plus (+)** button to create a new collection.
+2. Set the **database name** and **collection name**. The new collection will appear in the sidebar.
+3. Click on the collection to view the **Database ID** (`db_id`), which you'll need for API requests.
 
-## Step 4: Collection URL and API Key
+## Step 4: Set Up Your Python Environment
 
-To interact with OneNode DB's API, you'll need to use a **Collection URL** that points to a specific collection within your database. Most operations, such as inserting, updating, and querying documents, are performed at the collection level. Additionally, you'll need to include your **API Key** for authorization in all requests.
+To interact with OneNode DB's API, you'll need to use a **Collection URL** pointing to a specific collection and include your **API Key** for authorization.
 
 ### Collection URL
 
-The **Collection URL** for OneNode DB includes the full path to the specific database (using `db_id`) and collection you are working with. You can find the `db_id` in the collection page on the developer console.
+The **Collection URL** format:
 
-```
-https://api.onenode.ai/v1/db/{db_id}/collection/{collection_name}
-```
-
-### Parameters:
-- `{db_id}`: The unique identifier of your database in OneNode DB. This ID can be found on your collection page in the developer console.
-- `{collection_name}`: The name of the collection you are working with.
-
-For example, if your database ID is `123abc` and your collection is `my_collection`, the collection URL will be:
-
-```
-https://api.onenode.ai/v1/db/123abc/collection/my_collection
+```python
+collection_url = "https://api.onenode.ai/v1/db/{db_id}/collection/{collection_name}"
 ```
 
-This URL will be used as the starting point for different operations, such as inserting documents, updating documents, querying, and more.
+Replace `{db_id}` and `{collection_name}` with your specific database identifier and collection name. Set this variable at the start to simplify the code throughout the tutorial.
 
-### API Key
+For example, if your database ID is `123abc` and the collection name is `my_collection`:
 
-You will need to use an API Key to authenticate your requests. The API Key should be included in the `Authorization` header of each request.
+```python
+collection_url = "https://api.onenode.ai/v1/db/123abc/collection/my_collection"
+```
 
-#### Setting the API Key in Python
+### Setting the API Key in Python
 
-To securely handle your API Key in Python, it’s recommended to store it as an environment variable and access it in your code. Here's an example:
+Store your API Key as an environment variable for secure access:
 
 ```python
 import os
 
-# Set environment variable for the API Key (or load it from a .env file)
 ONENODE_API_KEY = os.getenv('ONENODE_API_KEY')
 ```
 
-You can then include the API Key in the headers of your HTTP requests:
+Include it in your request headers:
 
 ```python
 headers = {
@@ -74,55 +64,158 @@ headers = {
 }
 ```
 
-### Example Request Headers
-
-Here is how the headers should look for any API request:
-
-```json
-{
-  "Authorization": "Bearer YOUR_API_KEY",
-  "Content-Type": "application/json"
-}
-```
-
-- Replace `YOUR_API_KEY` with your actual OneNode DB API key.
-- The `Content-Type` header should always be set to `application/json` since OneNode DB communicates using JSON.
-
 ## Step 5: Make Your First API Request
-
-You're now ready to make your first API call to store a document in your newly created collection.
 
 ### Example: Insert a Document
 
-Let's insert a document into the collection. You can do this using `curl` with the following command:
+Use Python to insert a document into the collection:
 
-```sh
-curl -X POST "{base_api_endpoint}/document" \
-  -H "Api-Key: $ONENODE_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
+```python
+import requests
+import json
+
+# Define the document to be inserted
+document = {
     "name": "Alice",
     "age": "7",
-    "background": {"@embText": {"text": "Through the Looking-Glass follows Alice as she steps through a mirror into a fantastical world where everything is reversed, like a reflection. In this chess-themed land, she meets peculiar characters like the Red Queen, the White Queen, Tweedledum and Tweedledee, and Humpty Dumpty. Alice navigates through a series of bizarre and whimsical encounters, eventually becoming a queen herself. In the end, she awakens from the dreamlike adventure back in her own world, unsure whether it was her dream or the Red King's."}}
-  }'
+    "background": {"@embText": {"text": "Through the Looking-Glass follows Alice as she steps into a fantastical world..."}}
+}
+
+# Make the POST request to insert the document
+response = requests.post(f"{collection_url}/document", headers=headers, data=json.dumps(document))
+
+# Check the response
+if response.status_code == 200:
+    print("Document inserted successfully:", response.json())
+else:
+    print("Failed to insert document:", response.text)
 ```
 
-In this example, we're inserting a document with some basic information about **Alice**. Notice the use of `@embText`—this is OneNode's **extended JSON type** that requires a specific structure to handle complex text embedding.
+### EmbText Data Type - What Happens After Saving
 
-For more information on OneNode's extended JSON types, please refer to the [OneNode Extended JSON documentation](/data-types).
+After successfully saving an `EmbText` data type, additional processing occurs under the hood:
 
----
+- The saved data will have an updated field called `chunks` in addition to the original fields `@embText.text` and `@embText.emb_model`. The `chunks` field will be a list of chunked text segments.
+- Although not directly visible in the `EmbText` fields, each chunk in the `chunks` list is vectorized and indexed in the vector database. This illustrates how OneNode DB abstracts the underlying data processing pipeline, providing a seamless experience for managing complex data types.
+
+Here is an example of how the saved data might look in the database:
+
+```json
+{
+    "name": "Alice",
+    "age": "7",
+    "background": {
+        "@embText": {
+            "text": "Through the Looking-Glass follows Alice as she steps into a fantastical world...",
+            "emb_model": "default_model",
+            "chunks": [
+                "Through the Looking-Glass follows Alice",
+                "as she steps into a fantastical world..."
+            ]
+        }
+    }
+}
+```
+
+Each chunk in `chunks` has been processed and indexed, ensuring efficient querying and similarity searches.
+
+## Step 6: Querying the Data
+
+Once you have saved your data, you can query it using OneNode DB's API.
+
+To query the saved data, make a POST request to the following endpoint:
+
+```
+{collection_url}/document/query
+```
+
+### Query Request
+
+- Include your **API Key** in the headers.
+- The request body should contain a `query` field with the text to search for.
+- Optionally, you can include a `top_k` parameter to control the maximum number of returned chunks (default is 10).
+- Optionally, you can add `return_document` set to `true` (default is `false`) to return a list of matched documents instead of chunks.
+
+Here is an example of how to perform a query using Python:
+
+```python
+# Define the query
+query_body = {
+    "query": "Alice in a fantastical world",
+    "top_k": 5,  # Optional, default is 10
+    "return_document": True  # Optional, set to true to return matched documents instead of chunks
+}
+
+# Make the POST request to query the document
+query_response = requests.post(f"{collection_url}/document/query", headers=headers, data=json.dumps(query_body))
+
+# Check the response
+if query_response.status_code == 200:
+    print("Query results:", query_response.json())
+else:
+    print("Failed to query document:", query_response.text)
+```
+
+### Example Response
+
+Here is an example of a successful query response:
+
+```json
+{
+    "results": [
+        {
+            "document_id": "doc_12345",
+            "chunk": "Through the Looking-Glass follows Alice",
+            "score": 0.95
+        },
+        {
+            "document_id": "doc_12345",
+            "chunk": "as she steps into a fantastical world...",
+            "score": 0.89
+        }
+    ]
+}
+```
+
+If `return_document` is set to `true`, the response might look like this:
+
+```json
+{
+    "results": [
+        {
+            "document_id": "doc_12345",
+            "document": {
+                "name": "Alice",
+                "age": "7",
+                "background": {
+                    "@embText": {
+                        "text": "Through the Looking-Glass follows Alice as she steps into a fantastical world...",
+                        "emb_model": "default_model",
+                        "chunks": [
+                            "Through the Looking-Glass follows Alice",
+                            "as she steps into a fantastical world..."
+                        ]
+                    }
+                }
+            },
+            "score": 0.95
+        }
+    ]
+}
+```
+
+The system automatically embeds the query text and returns a list of the most relevant chunks or documents based on similarity, along with a relevance score for each result. You can control the number of returned results using the `top_k` parameter.
 
 ## Security Recommendations
 
-- **Do not hardcode your API Key** in your source code. Use environment variables or secure configuration management tools.
-- **Keep your API Key private**. Do not share it in public repositories or with unauthorized individuals.
+- **Do not hardcode your API Key**. Use environment variables or secure configuration tools.
+- **Keep your API Key private** and do not share it publicly.
 
 ## Next Steps
 
-- Try experimenting with more complex data types using OneNode's extended JSON capabilities.
-- Explore our full API documentation to see what other features are available to you.
+- Experiment with more complex data types using OneNode's extended JSON.
+- Explore the full API documentation for more features.
 
-If you encounter any issues or have questions, feel free to visit our [Help Center] or reach out to our support team.
+If you have questions, visit our [Help Center] or contact support.
 
 Happy building!
