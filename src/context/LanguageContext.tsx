@@ -1,7 +1,7 @@
 'use client'
 import { createContext, useState, useContext, ReactNode } from 'react';
 
-type Language = 'python' | 'javascript';
+type Language = 'python' | 'typescript';
 
 interface LanguageContextType {
   language: Language;

@@ -32,16 +32,16 @@ export default function LanguageToggle() {
       <button
         type="button"
         role="tab"
-        aria-selected={language === "javascript"}
-        onClick={() => toggleLanguage("javascript")}
+        aria-selected={language === "typescript"}
+        onClick={() => toggleLanguage("typescript")}
         className={`inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium transition-all 
           ${
-            language === "javascript"
+            language === "typescript"
               ? "bg-gray-500 text-white"
               : ""
           } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2`}
       >
-        JavaScript
+        TypeScript
       </button>
     </div>
   );

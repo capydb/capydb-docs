@@ -6,241 +6,9 @@ import LanguageContent from "../components/LanguageContent";
 <LanguageToggle />
 
 <LanguageContent lang="python">
+# Quick Start for Python
 
-# Quick Start
-
-Welcome to OneNode DB! Follow these steps to get started with our powerful API service. Whether you're inserting your first document or exploring our extended features, this guide will help you set up and make your first API request quickly.
-
-## Step 1: Sign Up
-
-First, sign up for OneNode DB.
-
-1. Visit [OneNode DB Sign Up](https://db.onenode.ai).
-2. After signing up, log in and navigate to `/dashboard`, your main hub for managing databases, collections, and API keys.
-
-## Step 2: Create an API Key
-
-After signing in, create an API key for your project.
-
-1. In the sidebar, go to the **API Key** page.
-2. Click to create a new API key. You can optionally name the key.
-3. The key will be displayed only once. **Store it securely**.
-
-## Step 3: Create a Collection
-
-Now, create a collection to store your data.
-
-1. In the sidebar, click on the **Collection** tab and use the **plus (+)** button to create a new collection.
-2. Set the **database name** and **collection name**. The new collection will appear in the sidebar.
-3. Click on the collection to view the **Database ID** (`db_id`), which you'll need for API requests.
-
-## Step 4: Set Up Your Python Environment
-
-To interact with OneNode DB's API, you'll need to use a **Collection URL** pointing to a specific collection and include your **API Key** for authorization.
-
-### Collection URL
-
-The **Collection URL** format:
-
-```python
-collection_url = "https://api.onenode.ai/v1/db/{db_id}/collection/{collection_name}"
-```
-
-Replace `{db_id}` and `{collection_name}` with your specific database identifier and collection name. Set this variable at the start to simplify the code throughout the tutorial.
-
-For example, if your database ID is `123abc` and the collection name is `my_collection`:
-
-```python
-collection_url = "https://api.onenode.ai/v1/db/123abc/collection/my_collection"
-```
-
-### Setting the API Key in Python
-
-Store your API Key as an environment variable for secure access:
-
-```python
-import os
-
-ONENODE_API_KEY = os.getenv('ONENODE_API_KEY')
-```
-
-Include it in your request headers:
-
-```python
-headers = {
-    "Authorization": f"Bearer {ONENODE_API_KEY}",
-    "Content-Type": "application/json"
-}
-```
-
-## Step 5: Make Your First API Request
-
-### Example: Insert a Document
-
-Use Python to insert a document into the collection:
-
-```python
-import requests
-import json
-
-# Define the document to be inserted
-document = {
-    "name": "Alice",
-    "age": "7",
-    "background": {
-        "@embText": {
-            "text": "Through the Looking-Glass follows Alice as she steps into a fantastical world...",
-            "emb_model": "text-embedding-3-small"  # Optional, explicitly specifying the embedding model
-        }
-    }
-}
-
-# Make the POST request to insert the document
-response = requests.post(f"{collection_url}/document", headers=headers, data=json.dumps(document))
-
-# Check the response
-if response.status_code == 200:
-    print("Document inserted successfully:", response.json())
-else:
-    print("Failed to insert document:", response.text)
-```
-
-### EmbText Data Type - What Happens After Saving
-
-After successfully saving an `EmbText` data type (default `emb_model` is 'text-embedding-3-small'), additional processing occurs under the hood:
-
-- The saved data will have an updated field called `chunks` in addition to the original fields `@embText.text` and `@embText.emb_model`. The `chunks` field will be a list of chunked text segments.
-- Each chunk in the `chunks` list is vectorized and indexed in the vector database, allowing OneNode DB to manage complex data types seamlessly.
-
-Here is an example of how the saved data might look in the database:
-
-```json
-{
-  "name": "Alice",
-  "age": "7",
-  "background": {
-    "@embText": {
-      "text": "Through the Looking-Glass follows Alice as she steps into a fantastical world...",
-      "emb_model": "text-embedding-3-small",
-      "chunks": [
-        "Through the Looking-Glass follows Alice",
-        "as she steps into a fantastical world..."
-      ]
-    }
-  }
-}
-```
-
-Each chunk in `chunks` has been processed and indexed, ensuring efficient querying and similarity searches.
-
-## Step 6: Querying the Data
-
-Once you have saved your data, you can query it using OneNode DB's API.
-
-To query the saved data, make a POST request to the following endpoint:
-
-```
-{collection_url}/document/query
-```
-
-### Query Request
-
-- Include your **API Key** in the headers.
-- The request body should contain a `query` field with the text to search for, and an optional `emb_model` parameter (default is 'text-embedding-3-small'). Only `EmbJSON` fields with the same `emb_model` will be subject to the query.
-- Optionally, you can include a `top_k` parameter to control the maximum number of returned chunks (default is 10).
-- Optionally, you can add `return_document`. By default, this parameter is set to `false`, which returns a list of matched chunks. If set to `true`, it will return a list of the entire matched documents instead of just chunks.
-
-Here is an example of how to perform a query using Python:
-
-```python
-# Define the query
-query_body = {
-    "emb_model": "text-embedding-3-small",  # Optional, default is 'text-embedding-3-small'
-    "query": "Alice in a fantastical world",
-    "top_k": 5,  # Optional, default is 10
-    "return_document": False  # Optional, default is false to return matched chunks
-}
-
-# Make the POST request to query the document
-query_response = requests.post(f"{collection_url}/document/query", headers=headers, data=json.dumps(query_body))
-
-# Check the response
-if query_response.status_code == 200:
-    print("Query results:", query_response.json())
-else:
-    print("Failed to query document:", query_response.text)
-```
-
-### Example Response
-
-Here is an example of a successful query response:
-
-```json
-{
-  "results": [
-    {
-      "document_id": "doc_12345",
-      "chunk": "Through the Looking-Glass follows Alice",
-      "score": 0.95
-    },
-    {
-      "document_id": "doc_12345",
-      "chunk": "as she steps into a fantastical world...",
-      "score": 0.89
-    }
-  ]
-}
-```
-
-If `return_document` is set to `true`, the response will look like this:
-
-```json
-{
-  "results": [
-    {
-      "document_id": "doc_12345",
-      "document": {
-        "name": "Alice",
-        "age": "7",
-        "background": {
-          "@embText": {
-            "text": "Through the Looking-Glass follows Alice as she steps into a fantastical world...",
-            "emb_model": "default_model",
-            "chunks": [
-              "Through the Looking-Glass follows Alice",
-              "as she steps into a fantastical world..."
-            ]
-          }
-        }
-      },
-      "score": 0.95
-    }
-  ]
-}
-```
-
-The system automatically embeds the query text and returns a list of the most relevant chunks or documents based on similarity, along with a relevance score for each result. You can control the number of returned results using the `top_k` parameter.
-
-## Security Recommendations
-
-- **Do not hardcode your API Key**. Use environment variables or secure configuration tools.
-- **Keep your API Key private** and do not share it publicly.
-
-## Next Steps
-
-- Experiment with more complex data types using OneNode's extended JSON.
-- Explore the full API documentation for more features.
-
-If you have questions, visit our [Help Center] or contact support.
-
-Happy building!
-
-</LanguageContent>
-
-<LanguageContent lang="javascript">
-# Quick Start for JavaScript Users
-
-Welcome to **OneNode DB**! This guide will help you quickly start using our powerful API service. Whether you're adding your first document or exploring our extended features, this quick start guide will show you how to make your first API request in JavaScript in just a few simple steps.
+Welcome to **OneNode DB**! This guide will help you get started quickly with our powerful API service. Whether you're inserting your first document or exploring advanced features, you'll find everything you need to make your first API request in just a few simple steps.
 
 ## Step 1: Sign Up
 
@@ -266,100 +34,64 @@ To start storing your data, follow these steps to create a collection:
 3. From the collection list in the sidebar, select the collection you just created.
 4. Navigate to the **Connect** tab within the collection page to find the **collection URL** for the collection and access various APIs.
 
-## Step 4: Use Your API Key in JavaScript
+## Step 4: Use Your API Key in Python
 
 To interact with OneNode DB's API, you'll need a **collection URL** and your **API Key** for authorization.
 
-### Setting the API Key in JavaScript
+### Setting the API Key in Python
 
-In your JavaScript code, store the API key in a safe way. For this quick start, you can use a `.env` file to store sensitive information.
+For this quick start guide (non-production environment), directly assign your API key to the `ONENODE_API_KEY` variable:
 
-### Environment Variable Example
-
-Store your API key in a `.env` file (if using Node.js and `dotenv`):
-
-```
-ONENODE_API_KEY=your_api_key_here
+```python copy
+ONENODE_API_KEY = "your_api_key_here"
 ```
 
-In your JavaScript code:
-
-```javascript
-require("dotenv").config();
-const ONENODE_API_KEY = process.env.ONENODE_API_KEY;
-```
-
-> **Note**: In a production environment, use secure configuration management to protect your credentials.
+> **Note**: In a production environment, do not hardcode your API Key. Instead, use environment variables or secure configuration tools to protect your credentials.
 
 Include it in your request headers:
 
-```javascript
-const headers = {
-  Authorization: `Bearer ${ONENODE_API_KEY}`,
-  "Content-Type": "application/json",
-};
+```python copy
+headers = {
+    "Authorization": f"Bearer {ONENODE_API_KEY}",
+    "Content-Type": "application/json"
+}
 ```
 
 ## Step 5: Make Your First API Request
 
 ### Example: Insert a Document
 
-Use JavaScript to insert a document into the collection. You can use `fetch` or `axios` for making API requests.
+Use Python to insert a document into the collection:
 
-#### Using Fetch
+```python copy
+import requests
+import json
 
-```javascript
-const collectionUrl = "your_collection_url_here";
+# Define the document to be inserted
+document = {
+    "name": "Alice",
+    "age": "7",
+    "background": {
+        "@embText": {
+            "text": "Through the Looking-Glass follows Alice as she steps into a fantastical world...",
+            "emb_model": "text-embedding-3-small"  # Optional, explicitly specifying the embedding model
+        }
+    }
+}
 
-const document = {
-  name: "Alice",
-  age: "7",
-  background: {
-    "@embText": {
-      text: "Through the Looking-Glass follows Alice as she steps into a fantastical world...",
-      emb_model: "text-embedding-3-small", // Optional, explicitly specifying the embedding model
-    },
-  },
-};
+# Wrap the document in a list under the 'documents' field
+data = {
+    "documents": [document]
+}
 
-const data = { documents: [document] };
+# Make the POST request to insert the document
+response = requests.post(f"{collection_url}/document", headers=headers, data=json.dumps(data))
 
-fetch(`${collectionUrl}/document`, {
-  method: "POST",
-  headers: headers,
-  body: JSON.stringify(data),
-})
-  .then((response) => response.json())
-  .then((data) => console.log("Document inserted successfully:", data))
-  .catch((error) => console.error("Failed to insert document:", error));
-```
-
-#### Using Axios
-
-```javascript
-const axios = require("axios");
-
-const document = {
-  name: "Alice",
-  age: "7",
-  background: {
-    "@embText": {
-      text: "Through the Looking-Glass follows Alice as she steps into a fantastical world...",
-      emb_model: "text-embedding-3-small", // Optional, explicitly specifying the embedding model
-    },
-  },
-};
-
-const data = { documents: [document] };
-
-axios
-  .post(`${collectionUrl}/document`, data, { headers: headers })
-  .then((response) =>
-    console.log("Document inserted successfully:", response.data)
-  )
-  .catch((error) =>
-    console.error("Failed to insert document:", error.response.data)
-  );
+# Check the response
+if response.status_code == 200:
+    print("Document inserted successfully:", response.json())
+else:
+    print("Failed to insert document:", response.text)
 ```
 
 ### EmbText Data Type - What Happens After Saving
@@ -388,6 +120,53 @@ Here's an example of the saved data:
 }
 ```
 
+### Complete Python Code for Inserting a Document
+
+Here is the complete Python code to insert a document, including setting up the API key and headers:
+
+```python copy
+import requests
+import json
+
+# Set the API key (non-production setup)
+ONENODE_API_KEY = "your_api_key_here"
+
+# Set the collection URL
+collection_url = "your_collection_url_here"
+
+# Set the headers
+headers = {
+    "Authorization": f"Bearer {ONENODE_API_KEY}",
+    "Content-Type": "application/json"
+}
+
+# Define the document to be inserted
+document = {
+    "name": "Alice",
+    "age": "7",
+    "background": {
+        "@embText": {
+            "text": "Through the Looking-Glass follows Alice as she steps into a fantastical world...",
+            "emb_model": "text-embedding-3-small"  # Optional, explicitly specifying the embedding model
+        }
+    }
+}
+
+# Wrap the document in a list under the 'documents' field
+data = {
+    "documents": [document]
+}
+
+# Make the POST request to insert the document
+response = requests.post(f"{collection_url}/document", headers=headers, data=json.dumps(data))
+
+# Check the response
+if response.status_code == 200:
+    print("Document inserted successfully:", response.json())
+else:
+    print("Failed to insert document:", response.text)
+```
+
 ## Step 6: Querying the Data
 
 To query the saved data, make a POST request to:
@@ -400,51 +179,45 @@ To query the saved data, make a POST request to:
 
 - Include your **API Key** in the headers.
 - The request body should contain a `query` field, with optional `emb_model`, `top_k`, and `filter` parameters.
+- The `filter` parameter is a dictionary that allows you to narrow down the documents to be queried. OneNode DB supports all filter types that are supported by MongoDB, using the same format. When a filter is provided, the query will target only the documents that match the filter criteria.
+- You can visit the `/filter` page in the documentation for more details on the filter syntax.
 
-Here's how to perform a query using JavaScript:
+Here's how to perform a query using Python:
 
-#### Using Fetch
+```python copy
+import requests
+import json
 
-```javascript
-const queryBody = {
-  emb_model: "text-embedding-3-small", // Optional, default is 'text-embedding-3-small'
-  query: "Alice in a fantastical world",
-  top_k: 5, // Optional, default is 10
-  filter: {
-    // Optional filter to narrow down the documents
-    age: "7",
-  },
-};
+# Set the API key (non-production setup)
+ONENODE_API_KEY = "your_api_key_here"
 
-fetch(`${collectionUrl}/document/query`, {
-  method: "POST",
-  headers: headers,
-  body: JSON.stringify(queryBody),
-})
-  .then((response) => response.json())
-  .then((data) => console.log("Query results:", data))
-  .catch((error) => console.error("Failed to query document:", error));
-```
+# Set the collection URL
+collection_url = "your_collection_url_here"
 
-#### Using Axios
+# Set the headers
+headers = {
+    "Authorization": f"Bearer {ONENODE_API_KEY}",
+    "Content-Type": "application/json"
+}
 
-```javascript
-const queryBody = {
-  emb_model: "text-embedding-3-small", // Optional, default is 'text-embedding-3-small'
-  query: "Alice in a fantastical world",
-  top_k: 5, // Optional, default is 10
-  filter: {
-    // Optional filter to narrow down the documents
-    age: "7",
-  },
-};
+# Define the query
+query_body = {
+    "emb_model": "text-embedding-3-small",  # Optional, default is 'text-embedding-3-small'
+    "query": "Alice in a fantastical world",
+    "top_k": 5,  # Optional, default is 10
+    "filter": {  # Optional filter to narrow down the documents
+        "age": "7"
+    }
+}
 
-axios
-  .post(`${collectionUrl}/document/query`, queryBody, { headers: headers })
-  .then((response) => console.log("Query results:", response.data))
-  .catch((error) =>
-    console.error("Failed to query document:", error.response.data)
-  );
+# Make the POST request to query the document
+query_response = requests.post(f"{collection_url}/document/query", headers=headers, data=json.dumps(query_body))
+
+# Check the response
+if query_response.status_code == 200:
+    print("Query results:", query_response.json())
+else:
+    print("Failed to query document:", query_response.text)
 ```
 
 ### Example Response
@@ -465,18 +238,347 @@ Successful query response:
 }
 ```
 
+### Complete Python Code for Querying Data
+
+Here is the complete Python code to perform a query, including setting up the API key and headers:
+
+```python copy
+import requests
+import json
+
+# Set the API key (non-production setup)
+ONENODE_API_KEY = "your_api_key_here"
+
+# Set the collection URL
+collection_url = "your_collection_url_here"
+
+# Set the headers
+headers = {
+    "Authorization": f"Bearer {ONENODE_API_KEY}",
+    "Content-Type": "application/json"
+}
+
+# Define the query
+query_body = {
+    "emb_model": "text-embedding-3-small",  # Optional, default is 'text-embedding-3-small'
+    "query": "Alice in a fantastical world",
+    "top_k": 5,  # Optional, default is 10
+    "filter": {  # Optional filter to narrow down the documents
+        "age": "7"
+    }
+}
+
+# Make the POST request to query the document
+query_response = requests.post(f"{collection_url}/document/query", headers=headers, data=json.dumps(query_body))
+
+# Check the response
+if query_response.status_code == 200:
+    print("Query results:", query_response.json())
+else:
+    print("Failed to query document:", query_response.text)
+```
+
+</LanguageContent>
+
+<LanguageContent lang="typescript">
+# Quick Start for Python
+
+Welcome to **OneNode DB**! This guide will help you get started quickly with our powerful API service. Whether you're inserting your first document or exploring advanced features, you'll find everything you need to make your first API request in just a few simple steps.
+
+## Step 1: Sign Up
+
+Start by signing up for **OneNode DB**:
+
+1. Visit [OneNode DB Sign Up](https://db.onenode.ai).
+2. After signing up, log in and navigate to `/dashboard`, your main hub for managing databases, collections, and API keys.
+
+## Step 2: Create an API Key
+
+Next, create an API key to authenticate your project:
+
+1. In the sidebar, go to the **API Key** page.
+2. Click to create a new API key—you can optionally name the key.
+3. The key will only be displayed once. **Store it securely**.
+
+## Step 3: Create a Collection
+
+To start storing your data, follow these steps to create a collection:
+
+1. In the sidebar, click the **Collection** tab and use the **plus (+)** button to create a new collection.
+2. Enter a **database name** and a **collection name**. Once created, the new collection will appear in the sidebar.
+3. From the collection list in the sidebar, select the collection you just created.
+4. Navigate to the **Connect** tab within the collection page to find the **collection URL** for the collection and access various APIs.
+
+## Step 4: Use Your API Key in TypeScript
+
+To interact with OneNode DB's API, you'll need a **collection URL** and your **API Key** for authorization.
+
+### Setting the API Key in TypeScript
+
+For this quick start guide (non-production environment), directly assign your API key to the ONENODE_API_KEY variable:
+
+```typescript copy
+const ONENODE_API_KEY = "your_api_key_here";
+```
+
+> **Note**: In a production environment, do not hardcode your API Key. Instead, use environment variables or secure configuration tools to protect your credentials.
+
+Include it in your request headers:
+
+```typescript copy
+const headers = {
+  Authorization: `Bearer ${ONENODE_API_KEY}`,
+  "Content-Type": "application/json",
+};
+```
+
+## Step 5: Make Your First API Request
+
+### Example: Insert a Doc
+
+Use TypeScript to insert a doc into the collection:
+
+```typescript copy
+// Define the doc to be inserted
+const doc = {
+  name: "Alice",
+  age: "7",
+  background: {
+    "@embText": {
+      text: "Through the Looking-Glass follows Alice as she steps into a fantastical world...",
+      emb_model: "text-embedding-3-small", // Optional, specify the embedding model
+    },
+  },
+};
+
+// Wrap the doc in a list under the 'documents' field
+const data = {
+  documents: [doc],
+};
+
+// Set the collection URL
+const collectionUrl = "your_collection_url_here";
+
+// Make the POST request to insert the doc
+fetch(`${collectionUrl}/document`, {
+  method: "POST",
+  headers: headers,
+  body: JSON.stringify(data),
+})
+  .then((response) => response.json())
+  .then((data) => {
+    console.log("Doc inserted successfully:", data);
+  })
+  .catch((error) => {
+    console.error("Failed to insert doc:", error);
+  });
+```
+
+### EmbText Data Type - What Happens After Saving
+
+When saving an EmbText data type, OneNode DB performs additional processing:
+
+- The saved data will have an updated field called chunks in addition to `@embText.text` and `@embText.emb_model`.
+- Each chunk is vectorized and indexed in the database, enabling efficient querying and similarity searches.
+
+Here's an example of the saved data:
+
+```json
+{
+  "name": "Alice",
+  "age": "7",
+  "background": {
+    "@embText": {
+      "text": "Through the Looking-Glass follows Alice as she steps into a fantastical world...",
+      "emb_model": "text-embedding-3-small",
+      "chunks": [
+        "Through the Looking-Glass follows Alice",
+        "as she steps into a fantastical world..."
+      ]
+    }
+  }
+}
+```
+
+### Complete TypeScript Code for Inserting a Doc
+
+Here is the complete TypeScript code to insert a doc, including setting up the API key and headers:
+
+```typescript copy
+// Set the API key (non-production setup)
+const ONENODE_API_KEY = "your_api_key_here";
+
+// Set the collection URL
+const collectionUrl = "your_collection_url_here";
+
+// Set the headers
+const headers = {
+  Authorization: `Bearer ${ONENODE_API_KEY}`,
+  "Content-Type": "application/json",
+};
+
+// Define the doc to be inserted
+const doc = {
+  name: "Alice",
+  age: "7",
+  background: {
+    "@embText": {
+      text: "Through the Looking-Glass follows Alice as she steps into a fantastical world...",
+      emb_model: "text-embedding-3-small", // Optional, specify the embedding model
+    },
+  },
+};
+
+// Wrap the doc in a list under the 'documents' field
+const data = {
+  documents: [doc],
+};
+
+// Make the POST request to insert the doc
+fetch(`${collectionUrl}/document`, {
+  method: "POST",
+  headers: headers,
+  body: JSON.stringify(data),
+})
+  .then((response) => response.json())
+  .then((data) => {
+    console.log("Doc inserted successfully:", data);
+  })
+  .catch((error) => {
+    console.error("Failed to insert doc:", error);
+  });
+```
+
+## Step 6: Querying the Data
+
+To query the saved data, make a POST request to:
+
+`{collection_url}/document/query`
+
+### Query Request
+
+- Include your **API Key** in the headers.
+- The request body should contain a `query` field, with optional `emb_model`, `top_k`, and `filter` parameters.
+- The `filter` parameter is a dictionary that allows you to narrow down the documents to be queried. OneNode DB supports all filter types that are supported by MongoDB, using the same format. When a filter is provided, the query will target only the documents that match the filter criteria.
+
+Here's how to perform a query using TypeScript:
+
+```typescript copy
+// Set the API key (non-production setup)
+const ONENODE_API_KEY = "your_api_key_here";
+
+// Set the collection URL
+const collectionUrl = "your_collection_url_here";
+
+// Set the headers
+const headers = {
+  Authorization: `Bearer ${ONENODE_API_KEY}`,
+  "Content-Type": "application/json",
+};
+
+// Define the query
+const queryBody = {
+  emb_model: "text-embedding-3-small", // Optional, default is 'text-embedding-3-small'
+  query: "Alice in a fantastical world",
+  top_k: 5, // Optional, default is 10
+  filter: {
+    // Optional filter to narrow down the documents
+    age: "7",
+  },
+};
+
+// Make the POST request to query the doc
+fetch(`${collectionUrl}/document/query`, {
+  method: "POST",
+  headers: headers,
+  body: JSON.stringify(queryBody),
+})
+  .then((response) => response.json())
+  .then((data) => {
+    console.log("Query results:", data);
+  })
+  .catch((error) => {
+    console.error("Failed to query doc:", error);
+  });
+```
+
+### Example Response
+
+Successful query response:
+
+```json
+{
+  "matches": [
+    {
+      "document_id": { "$oid": "671bf91580bffb6387b4f3d2" },
+      "path": "background",
+      "chunk": "Through the Looking-Glass follows Alice as she steps into a fantastical world...",
+      "chunk_n": 0,
+      "score": 0.703643203
+    }
+  ]
+}
+```
+
+### Complete TypeScript Code for Querying Data
+
+Below is the complete TypeScript code to perform a query, including setting up the API key and headers:
+
+```typescript copy
+// Set the API key (non-production setup)
+const ONENODE_API_KEY = "your_api_key_here";
+
+// Set the collection URL
+const collectionUrl = "your_collection_url_here";
+
+// Set the headers
+const headers = {
+  Authorization: `Bearer ${ONENODE_API_KEY}`,
+  "Content-Type": "application/json",
+};
+
+// Define the query
+const queryBody = {
+  emb_model: "text-embedding-3-small", // Optional, default is 'text-embedding-3-small'
+  query: "Alice in a fantastical world",
+  top_k: 5, // Optional, default is 10
+  filter: {
+    // Optional filter to narrow down the documents
+    age: "7",
+  },
+};
+
+// Make the POST request to query the doc
+fetch(`${collectionUrl}/document/query`, {
+  method: "POST",
+  headers: headers,
+  body: JSON.stringify(queryBody),
+})
+  .then((response) => response.json())
+  .then((data) => {
+    console.log("Query results:", data);
+  })
+  .catch((error) => {
+    console.error("Failed to query doc:", error);
+  });
+```
+
+---
+
+Feel free to let me know if there’s anything specific you’d like to add or clarify further in this documentation!
+
+</LanguageContent>
+
 ## Security Recommendations
 
-- **Do not hardcode your API Key**. Use environment variables or secure configuration tools.
+- **Do not hardcode your API Key in production environment**. Use environment variables or secure configuration tools.
 - **Keep your API Key private** and do not share it publicly.
 
 ## Next Steps
 
-- Experiment with more complex data types using OneNode's extended JSON capabilities.
-- Explore the full API documentation for additional features.
+- Experiment with more complex data types using OneNode's extended JSON.
+- Explore the full API documentation for more features.
 
-For questions, visit our [Help Center] or contact support.
+If you have questions, visit our [Help Center] or contact support.
 
 Happy building!
-
-</LanguageContent>

@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 
 interface LanguageContentProps {
   children: ReactNode;
-  lang: 'python' | 'javascript';
+  lang: 'python' | 'typescript';
 }
 
 export default function LanguageContent({ children, lang }: LanguageContentProps) {
