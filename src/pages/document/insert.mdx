@@ -1,126 +1,74 @@
+import LanguageToggle from "../../components/LanguageToggle";
+import LanguageContent from "../../components/LanguageContent";
+
 # Insert
 
-OneNode DB supports **MongoDB Extended JSON** and **OneNode Extended JSON** (EmbJSON). This guide explains how to insert documents into OneNode DB using the `/insertOne` and `/insertMany` endpoints via the REST API. The following examples include MongoDB Extended JSON format for Object IDs and the use of EmbJSON for embedding text.
+<LanguageToggle />
 
-To learn more about setting up your **Collection URL** and **API Key**, refer to the [Collection URL and API Key](#) page.
+<LanguageContent lang="python">
 
-## InsertOne Operation
-
-The `insertOne` operation is used to insert a single document into a collection.
+OneNode DB supports **MongoDB Extended JSON** and **OneNode Extended JSON** (EmbJSON). This guide explains how to insert documents into OneNode DB using the `/document` endpoint via the REST API. The following examples demonstrate the use of MongoDB Extended JSON format for Object IDs and **EmbJSON** for embedding text.
 
 ### Endpoint
 
-To insert a single document, use the following endpoint:
+To insert documents, use the following endpoint:
 
+```copy
+{collection_url}/document
 ```
-{collection_url}/insertOne
-```
 
-Where `{collection_url}` is the full collection URL that includes your `db_id` and `collection_name`. See the [Collection URL and API Key](#) page for more details.
+Where `{collection_url}` is the complete URL of the collection, which includes your `db_id` and `collection_name`.
 
-### Example Python Code for `insertOne`
+### Example: Python Code for `insert` Operation
 
-Here’s how you can insert a single document using Python, which includes an Object ID and an **EmbJSON** field:
+Here's an example of how to insert documents using Python. You can insert a single document or multiple documents using the same endpoint. This example includes documents with Object IDs and **EmbJSON** fields:
 
-```python
-import os
+```python copy filename="Python" showLineNumbers
 import requests
+import json
 
-# API Key and Collection URL
-ONENODE_API_KEY = os.getenv('ONENODE_API_KEY')
+# Hardcoded API Key and Collection URL (example usage only, not for production)
+ONENODE_API_KEY = "your_example_api_key_here"
 collection_url = "https://api.onenode.ai/v1/db/123abc/collection/my_collection"
 
-# InsertOne URL
-url = f"{collection_url}/insertOne"
-
-# Document to insert (MongoDB Extended JSON with Object ID and EmbJSON)
-data = {
-    "_id": {"$oid": "64d2f8f01234abcd5678ef90"},
-    "name": "John Doe",
-    "email": "johndoe@example.com",
-    "age": 30,
-    "bio": {
-        "@embText": {
-            "text": "John is a software engineer with expertise in AI.",
-            "model": "gpt-4o-mini"
-        }
-    }
-}
-
-# Headers with API Key
-headers = {
-    "Authorization": f"Bearer {ONENODE_API_KEY}",
-    "Content-Type": "application/json"
-}
-
-# Sending the request
-response = requests.post(url, json=data, headers=headers)
-
-# Print the response
-print(response.json())
-```
-
-### `insertOne` Response
-
-A successful insert operation will return a JSON response containing the inserted document's ID and a success message:
-
-```json
-{
-  "status": "success",
-  "document_id": "64d2f8f01234abcd5678ef90"
-}
-```
-
-## InsertMany Operation
-
-The `insertMany` operation is used to insert multiple documents in one request.
-
-### Endpoint
-
-To insert multiple documents, use the following endpoint:
-
-```
-{collection_url}/insertMany
-```
-
-Where `{collection_url}` is the full collection URL. See the [Collection URL and API Key](#) page for more details.
-
-### Example Python Code for `insertMany`
-
-Here’s how you can insert multiple documents using Python, with one of them containing an **EmbJSON** field:
-
-```python
-import os
-import requests
-
-# API Key and Collection URL
-ONENODE_API_KEY = os.getenv('ONENODE_API_KEY')
-collection_url = "https://api.onenode.ai/v1/db/123abc/collection/my_collection"
-
-# InsertMany URL
-url = f"{collection_url}/insertMany"
+# Insert Document URL
+url = f"{collection_url}/document"
 
 # Documents to insert (MongoDB Extended JSON with Object ID and EmbJSON)
-data = [
-    {
-        "_id": {"$oid": "64d2f8f01234abcd5678ef91"},
-        "name": "Alice Smith",
-        "email": "alice@example.com",
-        "age": 25,
-        "bio": {
-            "@embText": {
-                "text": "Alice is a data scientist with a background in machine learning.",
-                "model": "gpt-4o-mini"
+data = {
+    "documents": [
+        {
+            "_id": {"$oid": "64d2f8f01234abcd5678ef90"},
+            "name": "John Doe",
+            "email": "johndoe@example.com",
+            "age": 30,
+            "bio": {
+                "@embText": {
+                    "text": "John is a software engineer with expertise in AI.",
+                    "model": "text-embedding-3-small"
+                }
             }
+        },
+        {
+            "_id": {"$oid": "64d2f8f01234abcd5678ef91"},
+            "name": "Alice Smith",
+            "email": "alice@example.com",
+            "age": 25,
+            "bio": {
+                "@embText": {
+                    "text": "Alice is a data scientist with a background in machine learning.",
+                    "model": "text-embedding-3-small"
+                }
+            }
+        },
+        {
+            "_id": {"$oid": "64d2f8f01234abcd5678ef92"},
+            "name": "Bob Johnson",
+            "email": "bob@example.com",
+            "age": 40
         }
-    },
-    {
-        "_id": {"$oid": "64d2f8f01234abcd5678ef92"},
-        "name": "Bob Johnson",
-        "email": "bob@example.com",
-        "age": 40
-    }
-]
+    ]
+}
 
 # Headers with API Key
 headers = {
@@ -129,22 +77,138 @@ headers = {
 }
 
 # Sending the request
-response = requests.post(url, json=data, headers=headers)
+response = requests.post(url, headers=headers, data=json.dumps(data))
 
 # Print the response
 print(response.json())
 ```
 
-### `insertMany` Response
+### Insert Response
 
-A successful `insertMany` operation will return a JSON response containing the inserted document IDs and a success message:
+A successful insert operation will return the following JSON response:
 
-```json
+```json copy filename="JSON" showLineNumbers
 {
-  "status": "success",
-  "document_ids": [
+  "inserted_ids": [
+    "64d2f8f01234abcd5678ef90",
     "64d2f8f01234abcd5678ef91",
     "64d2f8f01234abcd5678ef92"
-  ]
+  ],
+  "task_id": "abc123xyz" // or `null` if all processes were synchronously completed
 }
 ```
+
+The `inserted_ids` field contains the IDs of the successfully inserted documents. The `task_id` field will have a value if there is an asynchronous task related to EmbJSON. If `task_id` is `null`, it indicates that all processes, including embedding and indexing, were completed synchronously.
+
+---
+
+If you need additional help with the OneNode DB API, feel free to explore our documentation or reach out to support.
+
+</LanguageContent>
+
+<LanguageContent lang="typescript">
+
+OneNode DB supports **MongoDB Extended JSON** and **OneNode Extended JSON** (EmbJSON). This guide explains how to insert documents into OneNode DB using the `/document` endpoint via the REST API. The following examples demonstrate the use of MongoDB Extended JSON format for Object IDs and **EmbJSON** for embedding text.
+
+### Endpoint
+
+To insert documents, use the following endpoint:
+
+```
+{collection_url}/document
+```
+
+Where `{collection_url}` is the complete URL of the collection, which includes your `db_id` and `collection_name`.
+
+### Example: TypeScript Code for `insert` Operation
+
+Here's an example of how to insert documents using TypeScript with the `fetch` API. You can insert a single document or multiple documents using the same endpoint. This example includes documents with Object IDs and **EmbJSON** fields:
+
+```typescript copy filename="TypeScript" showLineNumbers
+// Hardcoded API Key and Collection URL (example usage only, not for production)
+const ONENODE_API_KEY = "your_example_api_key_here";
+const collectionUrl =
+  "https://api.onenode.ai/v1/db/123abc/collection/my_collection";
+
+// Insert Document URL
+const url = `${collectionUrl}/document`;
+
+// Documents to insert (MongoDB Extended JSON with Object ID and EmbJSON)
+const data = {
+  documents: [
+    {
+      _id: { $oid: "64d2f8f01234abcd5678ef90" },
+      name: "John Doe",
+      email: "johndoe@example.com",
+      age: 30,
+      bio: {
+        "@embText": {
+          text: "John is a software engineer with expertise in AI.",
+          model: "text-embedding-3-small",
+        },
+      },
+    },
+    {
+      _id: { $oid: "64d2f8f01234abcd5678ef91" },
+      name: "Alice Smith",
+      email: "alice@example.com",
+      age: 25,
+      bio: {
+        "@embText": {
+          text: "Alice is a data scientist with a background in machine learning.",
+          model: "text-embedding-3-small",
+        },
+      },
+    },
+    {
+      _id: { $oid: "64d2f8f01234abcd5678ef92" },
+      name: "Bob Johnson",
+      email: "bob@example.com",
+      age: 40,
+    },
+  ],
+};
+
+// Headers with API Key
+const headers = {
+  Authorization: `Bearer ${ONENODE_API_KEY}`,
+  "Content-Type": "application/json",
+};
+
+// Sending the request
+fetch(url, {
+  method: "POST",
+  headers: headers,
+  body: JSON.stringify(data),
+})
+  .then((response) => response.json())
+  .then((data) => {
+    console.log("Insert Response:", data);
+  })
+  .catch((error) => {
+    console.error("Error inserting documents:", error);
+  });
+```
+
+### Insert Response
+
+A successful insert operation will return the following JSON response:
+
+```json copy filename="JSON" showLineNumbers
+{
+  "inserted_ids": [
+    "64d2f8f01234abcd5678ef90",
+    "64d2f8f01234abcd5678ef91",
+    "64d2f8f01234abcd5678ef92"
+  ],
+  "task_id": "abc123xyz" // or `null` if all processes were synchronously completed
+}
+```
+
+The `inserted_ids` field contains the IDs of the successfully inserted documents. The `task_id` field will have a value if there is an asynchronous task related to EmbJSON. If `task_id` is `null`, it indicates that all processes, including embedding and indexing, were completed synchronously.
+
+---
+
+If you need additional help with the OneNode DB API, feel free to explore our documentation or reach out to support.
+
+</LanguageContent>

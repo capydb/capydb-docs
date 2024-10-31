@@ -1,13 +1,17 @@
 import LanguageToggle from "../components/LanguageToggle";
 import LanguageContent from "../components/LanguageContent";
 
-# API Documentation
+<LanguageContent lang="python">
+# Quick Start for Python
+</LanguageContent>
+
+<LanguageContent lang="typescript">
+# Quick Start for TypeScript
+</LanguageContent>
 
 <LanguageToggle />
 
 <LanguageContent lang="python">
-# Quick Start for Python
-
 Welcome to **OneNode DB**! This guide will help you get started quickly with our powerful API service. Whether you're inserting your first document or exploring advanced features, you'll find everything you need to make your first API request in just a few simple steps.
 
 ## Step 1: Sign Up
@@ -42,7 +46,7 @@ To interact with OneNode DB's API, you'll need a **collection URL** and your **A
 
 For this quick start guide (non-production environment), directly assign your API key to the `ONENODE_API_KEY` variable:
 
-```python copy
+```python copy filename="Python" showLineNumbers
 ONENODE_API_KEY = "your_api_key_here"
 ```
 
@@ -50,7 +54,7 @@ ONENODE_API_KEY = "your_api_key_here"
 
 Include it in your request headers:
 
-```python copy
+```python copy filename="Python" showLineNumbers
 headers = {
     "Authorization": f"Bearer {ONENODE_API_KEY}",
     "Content-Type": "application/json"
@@ -63,7 +67,7 @@ headers = {
 
 Use Python to insert a document into the collection:
 
-```python copy
+```python copy filename="Python" showLineNumbers
 import requests
 import json
 
@@ -124,7 +128,7 @@ Here's an example of the saved data:
 
 Here is the complete Python code to insert a document, including setting up the API key and headers:
 
-```python copy
+```python copy filename="Python" showLineNumbers
 import requests
 import json
 
@@ -184,7 +188,7 @@ To query the saved data, make a POST request to:
 
 Here's how to perform a query using Python:
 
-```python copy
+```python copy filename="Python" showLineNumbers
 import requests
 import json
 
@@ -242,7 +246,7 @@ Successful query response:
 
 Here is the complete Python code to perform a query, including setting up the API key and headers:
 
-```python copy
+```python copy filename="Python" showLineNumbers
 import requests
 import json
 
@@ -281,7 +285,6 @@ else:
 </LanguageContent>
 
 <LanguageContent lang="typescript">
-# Quick Start for Python
 
 Welcome to **OneNode DB**! This guide will help you get started quickly with our powerful API service. Whether you're inserting your first document or exploring advanced features, you'll find everything you need to make your first API request in just a few simple steps.
 
@@ -317,7 +320,7 @@ To interact with OneNode DB's API, you'll need a **collection URL** and your **A
 
 For this quick start guide (non-production environment), directly assign your API key to the ONENODE_API_KEY variable:
 
-```typescript copy
+```typescript copy filename="TypeScript" showLineNumbers
 const ONENODE_API_KEY = "your_api_key_here";
 ```
 
@@ -325,7 +328,7 @@ const ONENODE_API_KEY = "your_api_key_here";
 
 Include it in your request headers:
 
-```typescript copy
+```typescript copy filename="TypeScript" showLineNumbers
 const headers = {
   Authorization: `Bearer ${ONENODE_API_KEY}`,
   "Content-Type": "application/json",
@@ -338,7 +341,7 @@ const headers = {
 
 Use TypeScript to insert a doc into the collection:
 
-```typescript copy
+```typescript copy filename="TypeScript" showLineNumbers
 // Define the doc to be inserted
 const doc = {
   name: "Alice",
@@ -404,7 +407,7 @@ Here's an example of the saved data:
 
 Here is the complete TypeScript code to insert a doc, including setting up the API key and headers:
 
-```typescript copy
+```typescript copy filename="TypeScript" showLineNumbers
 // Set the API key (non-production setup)
 const ONENODE_API_KEY = "your_api_key_here";
 
@@ -463,7 +466,7 @@ To query the saved data, make a POST request to:
 
 Here's how to perform a query using TypeScript:
 
-```typescript copy
+```typescript copy filename="TypeScript" showLineNumbers
 // Set the API key (non-production setup)
 const ONENODE_API_KEY = "your_api_key_here";
 
@@ -524,7 +527,7 @@ Successful query response:
 
 Below is the complete TypeScript code to perform a query, including setting up the API key and headers:
 
-```typescript copy
+```typescript copy filename="TypeScript" showLineNumbers
 // Set the API key (non-production setup)
 const ONENODE_API_KEY = "your_api_key_here";
 
@@ -579,6 +582,6 @@ Feel free to let me know if there’s anything specific you’d like to add or c
 - Experiment with more complex data types using OneNode's extended JSON.
 - Explore the full API documentation for more features.
 
-If you have questions, visit our [Help Center] or contact support.
+If you have any questions, feel free to reach out to us at hello@onenode.ai.
 
 Happy building!

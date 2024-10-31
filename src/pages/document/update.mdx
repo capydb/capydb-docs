@@ -1,51 +1,66 @@
+import LanguageToggle from "../../components/LanguageToggle";
+import LanguageContent from "../../components/LanguageContent";
+
 # Update
 
-OneNode DB allows updating documents using operations that are similar to MongoDB. You can update one or multiple documents by specifying filters, update fields, and an optional upsert parameter. This guide explains how to use the `/updateOne` and `/updateMany` endpoints via the REST API.
+<LanguageToggle />
+
+<LanguageContent lang="python">
+
+OneNode DB allows updating documents using operations that are similar to MongoDB. You can update one or multiple documents by specifying filters, update fields, and an optional upsert parameter. This guide explains how to use the `/document` endpoint via the REST API to perform update operations.
 
 ## Parameters for Update Operations
 
-- **filter**: A query object to match the documents to update. This works the same way as MongoDB filters, where you specify conditions to find the documents that need updating. For more details, refer to the [official MongoDB documentation on query filters](https://www.mongodb.com/docs/manual/core/document/#query-filter-documents).
-- **update**: The update operations to apply to the matched documents. You can use MongoDB-like update operators such as `$set`, `$inc`, etc. For a full list of update operators, refer to the [official MongoDB documentation on update operators](https://www.mongodb.com/docs/manual/reference/operator/update-field).
-- **upsert**: (Optional) A boolean flag to create a new document if no documents match the filter. If set to `true`, a new document will be created using the `filter` and `update` information.
+| Parameter  | Description                                                                                                                                                                                                                                                                                                                      |
+| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **filter** | A query object to match the documents to update. This works the same way as MongoDB filters, where you specify conditions to find the documents that need updating. For more details, refer to the [official MongoDB documentation on query filters](https://www.mongodb.com/docs/manual/core/document/#query-filter-documents). |
+| **update** | The update operations to apply to the matched documents. You can use MongoDB-like update operators such as `$set`, `$inc`, etc. For a full list of update operators, refer to the [official MongoDB documentation on update operators](https://www.mongodb.com/docs/manual/reference/operator/update-field).                     |
+| **upsert** | (Optional) A boolean flag to create a new document if no documents match the filter. If set to `true`, a new document will be created using the `filter` and `update` information.                                                                                                                                               |
 
-## updateOne Operation
+## Update Operation
 
-The `updateOne` operation is used to update a single document in a collection based on a filter. If multiple documents match the filter, only the first matching document will be updated.
+The `update` operation is used to update one or multiple documents in a collection based on a filter. The same `/document` endpoint is used with a `PUT` request to perform both single and multiple document updates.
 
 ### Endpoint
 
-To update a single document, use the following endpoint:
+To update documents, use the following endpoint:
 
 ```
-{collection_url}/updateOne
+{collection_url}/document
 ```
 
 Where `{collection_url}` is the full collection URL that includes your `db_id` and `collection_name`.
 
-### Example Python Code for `updateOne`
+### Example Python Code for `update`
 
-Here’s how you can update a single document using Python, by applying a filter and an update operation:
+Here’s how you can update documents using Python, by applying a filter and an update operation. This example is designed to be similar to the insertion example, showing how you can seamlessly transition from inserting to updating documents in OneNode DB:
 
-```python
-import os
+```python copy filename="Python" showLineNumbers
 import requests
+import json
 
-# API Key and Collection URL
-ONENODE_API_KEY = os.getenv('ONENODE_API_KEY')
+# API Key and Collection URL (Use environment variables for production purposes)
+ONENODE_API_KEY = "your_example_api_key_here"
 collection_url = "https://api.onenode.ai/v1/db/123abc/collection/my_collection"
 
-# UpdateOne URL
-url = f"{collection_url}/updateOne"
+# Document URL for Update
+url = f"{collection_url}/document"
 
-# Filter to match the document(s)
+# Filter to match the document(s) based on email (similar to the insert example)
 filter = {
     "email": "johndoe@example.com"
 }
 
-# Update operation (e.g., updating the 'age' field)
+# Update operation (e.g., updating the 'age' field and modifying bio)
 update = {
     "$set": {
-        "age": 31
+        "age": 31,
+        "bio": {
+            "@embText": {
+                "text": "John is now an experienced AI specialist with updated skills.",
+                "model": "text-embedding-3-small"
+            }
+        }
     }
 }
 
@@ -66,102 +81,121 @@ headers = {
 }
 
 # Sending the request
-response = requests.post(url, json=data, headers=headers)
+response = requests.put(url, json=data, headers=headers)
 
 # Print the response
 print(response.json())
 ```
 
-### `updateOne` Response
+</LanguageContent>
 
-A successful update operation will return a JSON response indicating the number of matched and modified documents, and whether an upsert was performed:
+<LanguageContent lang="typescript">
 
-```json
-{
-  "status": "success",
-  "matched_count": 1,
-  "modified_count": 1,
-  "upserted_id": null
-}
-```
+OneNode DB allows updating documents using operations that are similar to MongoDB. You can update one or multiple documents by specifying filters, update fields, and an optional upsert parameter. This guide explains how to use the `/document` endpoint via the REST API to perform update operations.
 
-If an upsert was performed, the `upserted_id` will contain the ID of the new document.
+## Parameters for Update Operations
 
-## updateMany Operation
+| Parameter  | Description                                                                                                                                                                                                                                                                                                                      |
+| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **filter** | A query object to match the documents to update. This works the same way as MongoDB filters, where you specify conditions to find the documents that need updating. For more details, refer to the [official MongoDB documentation on query filters](https://www.mongodb.com/docs/manual/core/document/#query-filter-documents). |
+| **update** | The update operations to apply to the matched documents. You can use MongoDB-like update operators such as `$set`, `$inc`, etc. For a full list of update operators, refer to the [official MongoDB documentation on update operators](https://www.mongodb.com/docs/manual/reference/operator/update-field).                     |
+| **upsert** | (Optional) A boolean flag to create a new document if no documents match the filter. If set to `true`, a new document will be created using the `filter` and `update` information.                                                                                                                                               |
 
-The `updateMany` operation is used to update multiple documents in a collection based on a filter.
+## Update Operation
+
+The `update` operation is used to update one or multiple documents in a collection based on a filter. The same `/document` endpoint is used with a `PUT` request to perform both single and multiple document updates.
 
 ### Endpoint
 
-To update multiple documents, use the following endpoint:
+To update documents, use the following endpoint:
 
 ```
-{collection_url}/updateMany
+{collection_url}/document
 ```
 
-Where `{collection_url}` is the full collection URL.
+Where `{collection_url}` is the full collection URL that includes your `db_id` and `collection_name`.
 
-### Example Python Code for `updateMany`
+### Example TypeScript Code for `update`
 
-Here’s how you can update multiple documents using Python, by applying a filter and an update operation:
+Here’s how you can update documents using TypeScript, by applying a filter and an update operation. This example is designed to be similar to the insertion example, showing how you can seamlessly transition from inserting to updating documents in OneNode DB:
 
-```python
-import os
-import requests
+```typescript copy filename="TypeScript" showLineNumbers
+// API Key and Collection URL (Use environment variables for production purposes)
+const ONENODE_API_KEY = "your_example_api_key_here";
+const collectionUrl =
+  "https://api.onenode.ai/v1/db/123abc/collection/my_collection";
 
-# API Key and Collection URL
-ONENODE_API_KEY = os.getenv('ONENODE_API_KEY')
-collection_url = "https://api.onenode.ai/v1/db/123abc/collection/my_collection"
+// Document URL for Update
+const url = `${collectionUrl}/document`;
 
-# UpdateMany URL
-url = f"{collection_url}/updateMany"
+// Filter to match the document(s) based on email (similar to the insert example)
+const filter = {
+  email: "johndoe@example.com",
+};
 
-# Filter to match the document(s)
-filter = {
-    "age": {"$gt": 30}
-}
+// Update operation (e.g., updating the 'age' field and modifying bio)
+const update = {
+  $set: {
+    age: 31,
+    bio: {
+      "@embText": {
+        text: "John is now an experienced AI specialist with updated skills.",
+        model: "text-embedding-3-small",
+      },
+    },
+  },
+};
 
-# Update operation (e.g., incrementing the 'age' field for all matching documents)
-update = {
-    "$inc": {
-        "age": 1
-    }
-}
+// Optional upsert (set to true if you want to insert a new document if no match is found)
+const upsert = false;
 
-# Optional upsert (set to true if you want to insert a new document if no match is found)
-upsert = False
+// Request body
+const data = {
+  filter: filter,
+  update: update,
+  upsert: upsert,
+};
 
-# Request body
-data = {
-    "filter": filter,
-    "update": update,
-    "upsert": upsert
-}
+// Headers with API Key
+const headers = {
+  Authorization: `Bearer ${ONENODE_API_KEY}`,
+  "Content-Type": "application/json",
+};
 
-# Headers with API Key
-headers = {
-    "Authorization": f"Bearer {ONENODE_API_KEY}",
-    "Content-Type": "application/json"
-}
-
-# Sending the request
-response = requests.post(url, json=data, headers=headers)
-
-# Print the response
-print(response.json())
+// Sending the request using fetch
+fetch(url, {
+  method: "PUT",
+  headers: headers,
+  body: JSON.stringify(data),
+})
+  .then((response) => response.json())
+  .then((data) => {
+    console.log("Update response:", data);
+  })
+  .catch((error) => {
+    console.error("Error updating document:", error);
+  });
 ```
 
-### `updateMany` Response
+</LanguageContent>
 
-A successful `updateMany` operation will return a JSON response indicating the number of matched and modified documents, and whether an upsert was performed:
+### Update Response
 
-```json
+A successful update operation will return a JSON response indicating the number of matched and modified documents, and whether an upsert was performed:
+
+```json copy filename="JSON" showLineNumbers
 {
-  "status": "success",
-  "matched_count": 5,
-  "modified_count": 5,
-  "upserted_id": null
+  "matched_count": 1,
+  "modified_count": 1,
+  "upserted_id": null,
+  "task_id": "abc123xyz"
 }
 ```
+
+If the `update` object contains `EmbJSON` data type, the response will include a `task_id` indicating an asynchronous task is in progress. If no asynchronous processing is required, `task_id` will be `null`.
 
 If an upsert was performed, the `upserted_id` will contain the ID of the new document.
+
+---
+
+If you need additional help with the OneNode DB API, feel free to explore our documentation or reach out to support.

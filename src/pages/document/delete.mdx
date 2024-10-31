@@ -1,30 +1,39 @@
+import LanguageToggle from "../../components/LanguageToggle";
+import LanguageContent from "../../components/LanguageContent";
+
 # Delete
 
-OneNode DB supports deletion of documents using operations similar to MongoDB. You can delete one or multiple documents by specifying filters. This guide explains how to use the `/deleteOne` and `/deleteMany` endpoints via the REST API.
+<LanguageToggle />
+
+<LanguageContent lang="python">
+
+OneNode DB supports deletion of documents using operations similar to MongoDB. You can delete one or multiple documents by specifying filters. This guide explains how to use the `/document` endpoint via the REST API to perform delete operations.
 
 ## Parameters for Delete Operations
 
-- **filter**: A query object to match the documents to delete. This works the same way as MongoDB filters, where you specify conditions to find the documents that need to be deleted. For more details, refer to the [official MongoDB documentation on query filters](https://www.mongodb.com/docs/manual/core/document/#query-filter-documents).
+| Parameter  | Description                                                                                                                                                                                                                                                                                                                           |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **filter** | A query object to match the documents to delete. This works the same way as MongoDB filters, where you specify conditions to find the documents that need to be deleted. For more details, refer to the [official MongoDB documentation on query filters](https://www.mongodb.com/docs/manual/core/document/#query-filter-documents). |
 
-## deleteOne Operation
+## Delete Operation
 
-The `deleteOne` operation is used to delete a single document in a collection based on a filter. If multiple documents match the filter, only the first matching document will be deleted.
+The `delete` operation is used to delete one or multiple documents in a collection based on a filter. The `/document` endpoint is used with a `DELETE` request to perform both single and multiple document deletions.
 
 ### Endpoint
 
-To delete a single document, use the following endpoint:
+To delete documents, use the following endpoint:
 
-```
-{collection_url}/deleteOne
+``` copy
+{collection_url}/document
 ```
 
 Where `{collection_url}` is the full collection URL that includes your `db_id` and `collection_name`.
 
-### Example Python Code for `deleteOne`
+### Example Python Code for `delete`
 
-Here’s how you can delete a single document using Python, by applying a filter:
+Here’s how you can delete documents using Python, by applying a filter:
 
-```python
+```python copy filename="Python" showLineNumbers
 import os
 import requests
 
@@ -32,8 +41,8 @@ import requests
 ONENODE_API_KEY = os.getenv('ONENODE_API_KEY')
 collection_url = "https://api.onenode.ai/v1/db/123abc/collection/my_collection"
 
-# DeleteOne URL
-url = f"{collection_url}/deleteOne"
+# Document URL for Delete
+url = f"{collection_url}/document"
 
 # Filter to match the document(s) to delete
 filter = {
@@ -51,84 +60,20 @@ headers = {
     "Content-Type": "application/json"
 }
 
-# Sending the request
-response = requests.post(url, json=data, headers=headers)
+# Sending the DELETE request
+response = requests.delete(url, json=data, headers=headers)
 
 # Print the response
 print(response.json())
 ```
 
-### `deleteOne` Response
+### Delete Response
 
 A successful delete operation will return a JSON response indicating the number of deleted documents:
 
 ```json
 {
-  "status": "success",
   "deleted_count": 1
-}
-```
-
-## deleteMany Operation
-
-The `deleteMany` operation is used to delete multiple documents in a collection based on a filter.
-
-### Endpoint
-
-To delete multiple documents, use the following endpoint:
-
-```
-{collection_url}/deleteMany
-```
-
-Where `{collection_url}` is the full collection URL.
-
-### Example Python Code for `deleteMany`
-
-Here’s how you can delete multiple documents using Python, by applying a filter:
-
-```python
-import os
-import requests
-
-# API Key and Collection URL
-ONENODE_API_KEY = os.getenv('ONENODE_API_KEY')
-collection_url = "https://api.onenode.ai/v1/db/123abc/collection/my_collection"
-
-# DeleteMany URL
-url = f"{collection_url}/deleteMany"
-
-# Filter to match the documents to delete
-filter = {
-    "age": {"$gt": 30}
-}
-
-# Request body
-data = {
-    "filter": filter
-}
-
-# Headers with API Key
-headers = {
-    "Authorization": f"Bearer {ONENODE_API_KEY}",
-    "Content-Type": "application/json"
-}
-
-# Sending the request
-response = requests.post(url, json=data, headers=headers)
-
-# Print the response
-print(response.json())
-```
-
-### `deleteMany` Response
-
-A successful `deleteMany` operation will return a JSON response indicating the number of deleted documents:
-
-```json
-{
-  "status": "success",
-  "deleted_count": 5
 }
 ```
 
@@ -136,3 +81,90 @@ A successful `deleteMany` operation will return a JSON response indicating the n
 
 - **filter**: The filter works similarly to MongoDB’s query language, allowing you to specify conditions for finding documents to delete. For more details, refer to the [official MongoDB documentation on query filters](https://www.mongodb.com/docs/manual/core/document/#query-filter-documents).
 - **Return Information**: The response includes the count of deleted documents.
+
+</LanguageContent>
+
+<LanguageContent lang="typescript">
+
+OneNode DB supports deletion of documents using operations similar to MongoDB. You can delete one or multiple documents by specifying filters. This guide explains how to use the `/document` endpoint via the REST API to perform delete operations.
+
+## Parameters for Delete Operations
+
+| Parameter  | Description                                                                                                                                                                                                                                                                                                                           |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **filter** | A query object to match the documents to delete. This works the same way as MongoDB filters, where you specify conditions to find the documents that need to be deleted. For more details, refer to the [official MongoDB documentation on query filters](https://www.mongodb.com/docs/manual/core/document/#query-filter-documents). |
+
+## Delete Operation
+
+The `delete` operation is used to delete one or multiple documents in a collection based on a filter. The `/document` endpoint is used with a `DELETE` request to perform both single and multiple document deletions.
+
+### Endpoint
+
+To delete documents, use the following endpoint:
+
+``` copy
+{collection_url}/document
+```
+
+Where `{collection_url}` is the full collection URL that includes your `db_id` and `collection_name`.
+
+### Example TypeScript Code for `delete`
+
+Here’s how you can delete documents using TypeScript, by applying a filter:
+
+```typescript copy filename="TypeScript" showLineNumbers
+// API Key and Collection URL (Use environment variables for production purposes)
+const ONENODE_API_KEY = "your_example_api_key_here";
+const collectionUrl =
+  "https://api.onenode.ai/v1/db/123abc/collection/my_collection";
+
+// Document URL for Delete
+const url = `${collectionUrl}/document`;
+
+// Filter to match the document(s) to delete
+const filter = {
+  email: "johndoe@example.com",
+};
+
+// Request body
+const data = {
+  filter: filter,
+};
+
+// Headers with API Key
+const headers = {
+  Authorization: `Bearer ${ONENODE_API_KEY}`,
+  "Content-Type": "application/json",
+};
+
+// Sending the DELETE request using fetch
+fetch(url, {
+  method: "DELETE",
+  headers: headers,
+  body: JSON.stringify(data),
+})
+  .then((response) => response.json())
+  .then((data) => {
+    console.log("Delete response:", data);
+  })
+  .catch((error) => {
+    console.error("Error deleting document:", error);
+  });
+```
+
+### Delete Response
+
+A successful delete operation will return a JSON response indicating the number of deleted documents:
+
+```json
+{
+  "deleted_count": 1
+}
+```
+
+## Important Notes
+
+- **filter**: The filter works similarly to MongoDB’s query language, allowing you to specify conditions for finding documents to delete. For more details, refer to the [official MongoDB documentation on query filters](https://www.mongodb.com/docs/manual/core/document/#query-filter-documents).
+- **Return Information**: The response includes the count of deleted documents.
+
+</LanguageContent>
