@@ -1,7 +1,7 @@
 // Nextra configuration file
 
-import { MapPinIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
+import LanguageToggle from "./src/components/LanguageToggle";
 
 export default {
   logo: (
@@ -16,6 +16,9 @@ export default {
       <b>OneNode DB</b>
     </div>
   ),
+  navbar: {
+    extraContent: <LanguageToggle />,
+  },
   project: {
     link: null,
   },
