@@ -1,5 +1,6 @@
 import LanguageToggle from "../../components/LanguageToggle";
 import LanguageContent from "../../components/LanguageContent";
+import { Callout } from "nextra/components";
 
 # Query
 
@@ -25,14 +26,32 @@ For example, if your collection contains multiple embedding models and you speci
 
 ### Query Parameters
 
-| Parameter                     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **query**                     | The text to be embedded and matched against stored EmbJSON fields. This parameter is required.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| **emb_model** (optional)      | The embedding model used for the query. Defaults to OpenAI's `text-embedding-3-small`. Users can select from supported embedding models listed at `/models`. Refer to [Supported Embedding Models](#) for more details. If the specified model does not match those used in the stored EmbJSON, only matching fields will be targeted.                                                                                                                                                                                                                                                                                                                                                             |
-| **top_k** (optional)          | Specifies the maximum number of top-matching chunks to return, sorted by semantic similarity. Default is `10`. Use **top_k** to control how many chunks are returned, ensuring you receive the most relevant semantic matches.                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| **include_values** (optional) | Boolean flag to include vector values for each matched chunk in the response. Default is `false`. Set **include_values** to `true` to include the actual vector values of each matched chunk in the response.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| **projection** (optional)     | Defines which fields to return in the response. The default value is `{ "mode": "exclude" }`. Accepts a required `mode` (`include` or `exclude`) and an optional `fields` list. The **projection** parameter determines which fields of the document are included in the response: <br /> - When `mode` is `include` and `fields` are not specified, the entire document is returned. <br /> - When `mode` is `include` and `fields` are specified, only those fields are returned. <br /> - When `mode` is `exclude` and `fields` are omitted, only the `_id` field is returned. <br /> - When `mode` is `exclude` and `fields` are specified, all fields except the specified ones are returned. |
+| Parameter                     | Description                                                                                                                                                                                                                                                                                                                        | Data Type / Format |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| **query**                     | The text to be embedded and matched against stored EmbJSON fields. This parameter is required.                                                                                                                                                                                                                                     | string             |
+| **emb_model** (optional)      | The embedding model used for the query. Defaults to OpenAI's text-embedding-3-small. Users can select from supported embedding models listed at /models. Refer to [Supported Embedding Models](#) for more details. If the specified model does not match those used in the stored EmbJSON, only matching fields will be targeted. | string             |
+| **top_k** (optional)          | Specifies the maximum number of top-matching chunks to return, sorted by semantic similarity. Default is 10. Use **top_k** to control how many chunks are returned, ensuring you receive the most relevant semantic matches.                                                                                                       | integer            |
+| **include_values** (optional) | Boolean flag to include vector values for each matched chunk in the response. Default is false. Set **include_values** to true to include the actual vector values of each matched chunk in the response.                                                                                                                          | boolean            |
+| **projection** (optional)     | Defines which fields to return in the response. The default value is `{ "mode": "exclude" }`. Accepts a required `mode` (include or exclude) and an optional `fields` list. See the table below for how different values of `projection` affect the response.                                                                      | JSON object        |
 
+<Callout type="info">
+
+### Format of `projection` Parameter
+
+| Key        | Description                                                                          | Format                              |
+|------------|--------------------------------------------------------------------------------------|-------------------------------------|
+| **mode**   | **Required.** Specifies whether to include or exclude certain fields in the response.| string (`"include"` or `"exclude"`) |
+| **fields** | **Optional.** A list of specific fields to include or exclude based on the `mode` setting. | list of strings (`["field1", "field2"]`) |
+
+### Projection Parameter Scenarios
+
+| Example Projection Value                                   | Result                                                                                     |
+|-----------------------------------------------------------|--------------------------------------------------------------------------------------------|
+| `{ "mode": "include" }`                                   | The entire document is returned.                                                           |
+| `{ "mode": "include", "fields": ["title", "author"] }`    | Only the `title` and `author` fields are returned.                                         |
+| `{ "mode": "exclude" }`                                   | Only the `_id` field is returned.                                                          |
+| `{ "mode": "exclude", "fields": ["title", "author"] }`    | All fields except `title` and `author` are returned.                                       |
+</Callout>
 ## Query Operation Overview
 
 The `query` operation retrieves documents based on semantic matches to the provided query text. Optional parameters like **emb_model**, **top_k**, and **projection** allow you to control the embedding model used, the number of results, and the fields returned.
@@ -41,7 +60,7 @@ The `query` operation retrieves documents based on semantic matches to the provi
 
 To execute a query, use the following endpoint:
 
-``` showLineNumbers
+```showLineNumbers
 {collection_url}/document/query
 ```
 
@@ -157,7 +176,7 @@ axios
 
 A successful query operation will return a JSON response containing matched **chunks** sorted by semantic similarity. Below is an example response:
 
-```json showLineNumbers
+```json filename="JSON" showLineNumbers
 {
   "matches": [
     {
@@ -206,7 +225,7 @@ The matches field contains an array of documents that were semantically matched,
 
 If the projection parameter is omitted, the default behavior is to exclude all fields except the \_id field. Below is an example response:
 
-```json showLineNumbers
+```json filename="JSON" showLineNumbers
 {
   "matches": [
     {
