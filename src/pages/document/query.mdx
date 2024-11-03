@@ -1,63 +1,86 @@
+import LanguageToggle from "../../components/LanguageToggle";
+import LanguageContent from "../../components/LanguageContent";
+
 # Query
 
-OneNode DB offers a unique **Query** operation that allows you to retrieve documents based on their **semantic meanings**. This operation leverages **EmbJSON** data types (such as `EmbText` or `EmbImage`) to perform semantic searches that are not supported by MongoDB.
+<LanguageToggle />
 
-## How the Query Operation Works
+This guide explains how to perform **semantic queries** on documents in OneNode DB using the `/document/query` endpoint via the REST API. The examples below demonstrate how to leverage **EmbJSON** for effective semantic searches.
 
-The `query` operation embeds the query text automatically and searches for the closest semantic matches within the **EmbJSON** fields of stored documents. This makes it possible to retrieve documents based on meaning rather than just strict keyword matches.
+## Key Concepts and Query Parameters
 
-### Rules for the Query Operation
+### EmbJSON Fields
 
-- **EmbJSON-only**: The `query` operation can only be applied to **EmbJSON** data types (e.g., `EmbText`, `EmbImage`). For more information on how EmbJSON works, refer to the [EmbJSON documentation](#).
-- **Automatic Text Embedding**: The query text is embedded automatically and matched against stored **EmbJSON** fields. The closest semantic "chunks" are returned based on their meaning.
-- **Model Selection**: Both the `query` operation and **EmbJSON** fields allow you to specify an embedding model by setting the `model` parameter. The semantic search is applied only to the EmbJSON fields that use the **same embedding model** as the one specified in the query.
-- **Top-k Matches**: You can use the `top_k` parameter (optional) to limit the number of returned chunks, which are sorted by semantic meaning closeness.
+The `query` operation works exclusively with **EmbJSON** fields, such as `EmbText`. For more details, refer to the [EmbJSON documentation](#).
 
-## Parameters for Query Operations
+### Automatic Embedding
 
-- **query**: The text that will be embedded and matched against the stored EmbJSON fields.
-- **model**: The embedding model to use for the query. This model must match the one used in the EmbJSON fields for semantic search to apply. For a list of supported models, refer to the [Supported Embedding Models](#).
-- **top_k** (optional): The number of top chunks (semantic matches) to return.
+The query text is embedded automatically using the specified embedding model, and results are based on their semantic similarity to the stored EmbJSON fields.
 
-## query Operation
+### Embedding Model Compatibility
 
-The `query` operation retrieves documents based on the closest semantic match to the provided query text. The response contains a list of matched **chunks** in order of semantic similarity.
+The `emb_model` specified in the query does not need to exactly match the models used in the EmbJSON fields within the collection. If the embedding model specified in the query differs from the models used in the collection, the query will only search the EmbJSON fields that use the same embedding model as the one specified in the query.
+
+For example, if your collection contains multiple embedding models and you specify a particular model, only the documents using that same model will be targeted. If you need to search across all documents using different embedding models, you must make separate API calls for each embedding model to ensure complete coverage of the collection.
+
+### Query Parameters
+
+| Parameter                     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **query**                     | The text to be embedded and matched against stored EmbJSON fields. This parameter is required.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| **emb_model** (optional)      | The embedding model used for the query. Defaults to OpenAI's `text-embedding-3-small`. Users can select from supported embedding models listed at `/models`. Refer to [Supported Embedding Models](#) for more details. If the specified model does not match those used in the stored EmbJSON, only matching fields will be targeted.                                                                                                                                                                                                                                                                                                                                                             |
+| **top_k** (optional)          | Specifies the maximum number of top-matching chunks to return, sorted by semantic similarity. Default is `10`. Use **top_k** to control how many chunks are returned, ensuring you receive the most relevant semantic matches.                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| **include_values** (optional) | Boolean flag to include vector values for each matched chunk in the response. Default is `false`. Set **include_values** to `true` to include the actual vector values of each matched chunk in the response.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| **projection** (optional)     | Defines which fields to return in the response. The default value is `{ "mode": "exclude" }`. Accepts a required `mode` (`include` or `exclude`) and an optional `fields` list. The **projection** parameter determines which fields of the document are included in the response: <br /> - When `mode` is `include` and `fields` are not specified, the entire document is returned. <br /> - When `mode` is `include` and `fields` are specified, only those fields are returned. <br /> - When `mode` is `exclude` and `fields` are omitted, only the `_id` field is returned. <br /> - When `mode` is `exclude` and `fields` are specified, all fields except the specified ones are returned. |
+
+## Query Operation Overview
+
+The `query` operation retrieves documents based on semantic matches to the provided query text. Optional parameters like **emb_model**, **top_k**, and **projection** allow you to control the embedding model used, the number of results, and the fields returned.
 
 ### Endpoint
 
-To perform a query, use the following endpoint:
+To execute a query, use the following endpoint:
 
+``` showLineNumbers
+{collection_url}/document/query
 ```
-{collection_url}/query
-```
 
-Where `{collection_url}` is the full collection URL that includes your `db_id` and `collection_name`.
+Where `{collection_url}` is the complete collection URL including your `db_id` and `collection_name`.
 
-### Example Python Code for `query`
+<LanguageContent lang="python">
 
-Here’s how you can perform a semantic query using Python:
+### Example: Python Code for `query` Operation
 
-```python
-import os
+Below is an example of how to perform a semantic query using Python. This example includes **EmbJSON** fields that align with the type of data you may have inserted previously:
+
+```python filename="Python" showLineNumbers
 import requests
+import json
 
-# API Key and Collection URL
-ONENODE_API_KEY = os.getenv('ONENODE_API_KEY')
+# Hardcoded API Key and Collection URL (example usage only, not for production)
+ONENODE_API_KEY = "your_example_api_key_here"
 collection_url = "https://api.onenode.ai/v1/db/123abc/collection/my_collection"
 
 # Query URL
-url = f"{collection_url}/query"
+url = f"{collection_url}/document/query"
 
 # Query parameters
-query_text = "AI technology advancements"
-model = "gpt-4o-mini"
+query_text = "Software engineer with expertise in AI"
+emb_model = "text-embedding-3-small"
 top_k = 3
+include_values = True
+projection = {
+    "mode": "include",
+    "fields": ["name", "bio"]
+}
 
 # Request body
 data = {
     "query": query_text,
-    "model": model,
-    "top_k": top_k
+    "emb_model": emb_model,
+    "top_k": top_k,
+    "include_values": include_values,
+    "projection": projection
 }
 
 # Headers with API Key
@@ -67,43 +90,155 @@ headers = {
 }
 
 # Sending the request
-response = requests.post(url, json=data, headers=headers)
+response = requests.post(url, headers=headers, data=json.dumps(data))
 
 # Print the response
 print(response.json())
 ```
 
-### `query` Response
+</LanguageContent>
 
-A successful query operation will return a JSON response containing the top matched **chunks** in order of semantic similarity:
+<LanguageContent lang="typescript">
 
-```json
+### Example: TypeScript Code for `query` Operation
+
+Below is an example of how to perform a semantic query using Python. This example includes **EmbJSON** fields that align with the type of data you may have inserted previously:
+
+```typescript filename="TypeScript" showLineNumbers
+import axios from "axios";
+
+// Hardcoded API Key and Collection URL (example usage only, not for production)
+const ONENODE_API_KEY = "your_example_api_key_here";
+const collectionUrl =
+  "https://api.onenode.ai/v1/db/123abc/collection/my_collection";
+
+// Query URL
+const url = `${collectionUrl}/document/query`;
+
+// Query parameters
+const queryText = "Software engineer with expertise in AI";
+const embModel = "text-embedding-3-small";
+const topK = 3;
+const includeValues = true;
+const projection = {
+  mode: "include",
+  fields: ["name", "bio"],
+};
+
+// Request body
+const data = {
+  query: queryText,
+  emb_model: embModel,
+  top_k: topK,
+  include_values: includeValues,
+  projection: projection,
+};
+
+// Headers with API Key
+const headers = {
+  Authorization: `Bearer ${ONENODE_API_KEY}`,
+  "Content-Type": "application/json",
+};
+
+// Sending the request
+axios
+  .post(url, data, { headers })
+  .then((response) => {
+    console.log(response.data);
+  })
+  .catch((error) => {
+    console.error("Error querying documents:", error);
+  });
+```
+
+</LanguageContent>
+
+### Query Response
+
+A successful query operation will return a JSON response containing matched **chunks** sorted by semantic similarity. Below is an example response:
+
+```json showLineNumbers
 {
-  "status": "success",
-  "chunks": [
+  "matches": [
     {
-      "text": "The rapid development of AI technology has transformed industries across the globe.",
-      "score": 0.95
+      "document": {
+        "name": "John Doe",
+        "bio": {
+          "@embText": {
+            "text": "John is a software engineer with expertise in AI.",
+            "model": "text-embedding-3-small"
+          }
+        }
+      },
+      "path": "bio",
+      "chunk": "John is a software engineer with expertise in AI.",
+      "chunk_n": 0,
+      "score": 0.95,
+      "values": [
+        0.123, 0.456, 0.789, ...
+      ]
     },
     {
-      "text": "AI advancements continue to push boundaries in healthcare, robotics, and more.",
-      "score": 0.89
-    },
-    {
-      "text": "Technological innovations in AI have led to breakthroughs in machine learning models.",
-      "score": 0.87
+      "document": {
+        "name": "Alice Smith",
+        "bio": {
+          "@embText": {
+            "text": "Alice is a data scientist with a background in machine learning.",
+            "model": "text-embedding-3-small"
+          }
+        }
+      },
+      "path": "bio",
+      "chunk": "Alice is a data scientist with a background in machine learning.",
+      "chunk_n": 1,
+      "score": 0.89,
+      "values": [
+        0.234, 0.567, 0.890, ...
+      ]
     }
   ]
 }
 ```
 
-### Optional Parameters
+The matches field contains an array of documents that were semantically matched, with additional metadata about the matched chunks, such as path, chunk, score, and values if requested. Note that only documents containing **EmbJSON** fields are returned in the response.
 
-- **top_k**: Limits the number of matched chunks returned. If not specified, all matched chunks are returned, sorted by their semantic similarity.
+### Example Response When Omitting projection
 
-## Important Notes
+If the projection parameter is omitted, the default behavior is to exclude all fields except the \_id field. Below is an example response:
 
-- **EmbJSON-only**: The `query` operation only works on **EmbJSON** fields. For more information about working with EmbJSON, refer to the [EmbJSON documentation](#).
-- **Automatic Embedding**: The `query` text is automatically embedded using the specified model and matched against stored EmbJSON embeddings.
-- **Model**: You must specify the same `model` in the query that was used to generate the embeddings in the stored documents for accurate semantic matching. For a list of available models, refer to the [Supported Embedding Models](#).
-- **top_k**: Use `top_k` to limit the number of returned matches, ordered by semantic similarity.
+```json showLineNumbers
+{
+  "matches": [
+    {
+      "document": {
+        "_id": "64d2f8f01234abcd5678ef90"
+      },
+      "path": "bio",
+      "chunk": "John is a software engineer with expertise in AI.",
+      "chunk_n": 0,
+      "score": 0.95,
+      "values": [
+        0.123, 0.456, 0.789, ...
+      ]
+    },
+    {
+      "document": {
+        "_id": "64d2f8f01234abcd5678ef91"
+      },
+      "path": "bio",
+      "chunk": "Alice is a data scientist with a background in machine learning.",
+      "chunk_n": 1,
+      "score": 0.89,
+      "values": [
+        0.234, 0.567, 0.890, ...
+      ]
+    }
+  ]
+}
+```
+
+In this response, only the \_id field is included in the document since the projection parameter was not specified.
+
+---
+
+If you need additional help with the OneNode DB API, feel free to explore our documentation or reach out to support.
