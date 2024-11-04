@@ -2,16 +2,19 @@ import LanguageToggle from "../components/LanguageToggle";
 import LanguageContent from "../components/LanguageContent";
 
 <LanguageContent lang="python">
+
 # Quick Start for Python
+
 </LanguageContent>
 
 <LanguageContent lang="typescript">
+
 # Quick Start for TypeScript
+
 </LanguageContent>
 
 <LanguageToggle />
 
-<LanguageContent lang="python">
 Welcome to **OneNode DB**! This guide will help you get started quickly with our powerful API service. Whether you're inserting your first document or exploring advanced features, you'll find everything you need to make your first API request in just a few simple steps.
 
 ## Step 1: Sign Up
@@ -38,23 +41,26 @@ To start storing your data, follow these steps to create a collection:
 3. From the collection list in the sidebar, select the collection you just created.
 4. Navigate to the **Connect** tab within the collection page to find the **collection URL** for the collection and access various APIs.
 
-## Step 4: Use Your API Key in Python
+<LanguageContent lang="python">
+
+## Step 4: Use Your API Key and Collection URL in Python
 
 To interact with OneNode DB's API, you'll need a **collection URL** and your **API Key** for authorization.
 
-### Setting the API Key in Python
+### Setting the API Key and Collection URL in Python
 
-For this quick start guide (non-production environment), directly assign your API key to the `ONENODE_API_KEY` variable:
+For this quick start guide (non-production environment), directly assign your API key and collection URL to variables:
 
-```python copy filename="Python" showLineNumbers
+```python
 ONENODE_API_KEY = "your_api_key_here"
+collection_url = "your_collection_url_here"
 ```
 
 > **Note**: In a production environment, do not hardcode your API Key. Instead, use environment variables or secure configuration tools to protect your credentials.
 
 Include it in your request headers:
 
-```python copy filename="Python" showLineNumbers
+```python
 headers = {
     "Authorization": f"Bearer {ONENODE_API_KEY}",
     "Content-Type": "application/json"
@@ -67,7 +73,7 @@ headers = {
 
 Use Python to insert a document into the collection:
 
-```python copy filename="Python" showLineNumbers
+```python
 import requests
 import json
 
@@ -128,7 +134,7 @@ Here's an example of the saved data:
 
 Here is the complete Python code to insert a document, including setting up the API key and headers:
 
-```python copy filename="Python" showLineNumbers
+```python
 import requests
 import json
 
@@ -188,7 +194,7 @@ To query the saved data, make a POST request to:
 
 Here's how to perform a query using Python:
 
-```python copy filename="Python" showLineNumbers
+```python
 import requests
 import json
 
@@ -246,7 +252,7 @@ Successful query response:
 
 Here is the complete Python code to perform a query, including setting up the API key and headers:
 
-```python copy filename="Python" showLineNumbers
+```python
 import requests
 import json
 
@@ -286,49 +292,24 @@ else:
 
 <LanguageContent lang="typescript">
 
-Welcome to **OneNode DB**! This guide will help you get started quickly with our powerful API service. Whether you're inserting your first document or exploring advanced features, you'll find everything you need to make your first API request in just a few simple steps.
-
-## Step 1: Sign Up
-
-Start by signing up for **OneNode DB**:
-
-1. Visit [OneNode DB Sign Up](https://db.onenode.ai).
-2. After signing up, log in and navigate to `/dashboard`, your main hub for managing databases, collections, and API keys.
-
-## Step 2: Create an API Key
-
-Next, create an API key to authenticate your project:
-
-1. In the sidebar, go to the **API Key** page.
-2. Click to create a new API key—you can optionally name the key.
-3. The key will only be displayed once. **Store it securely**.
-
-## Step 3: Create a Collection
-
-To start storing your data, follow these steps to create a collection:
-
-1. In the sidebar, click the **Collection** tab and use the **plus (+)** button to create a new collection.
-2. Enter a **database name** and a **collection name**. Once created, the new collection will appear in the sidebar.
-3. From the collection list in the sidebar, select the collection you just created.
-4. Navigate to the **Connect** tab within the collection page to find the **collection URL** for the collection and access various APIs.
-
-## Step 4: Use Your API Key in TypeScript
+## Step 4: Use Your API Key and Collection URL in TypeScript
 
 To interact with OneNode DB's API, you'll need a **collection URL** and your **API Key** for authorization.
 
-### Setting the API Key in TypeScript
+### Setting the API Key and Collection URL in TypeScript
 
-For this quick start guide (non-production environment), directly assign your API key to the ONENODE_API_KEY variable:
+For this quick start guide (non-production environment), directly assign your API key and collection URL to variables:
 
-```typescript copy filename="TypeScript" showLineNumbers
+```typescript
 const ONENODE_API_KEY = "your_api_key_here";
+const collectionUrl = "your_collection_url_here";
 ```
 
 > **Note**: In a production environment, do not hardcode your API Key. Instead, use environment variables or secure configuration tools to protect your credentials.
 
 Include it in your request headers:
 
-```typescript copy filename="TypeScript" showLineNumbers
+```typescript
 const headers = {
   Authorization: `Bearer ${ONENODE_API_KEY}`,
   "Content-Type": "application/json",
@@ -341,7 +322,7 @@ const headers = {
 
 Use TypeScript to insert a doc into the collection:
 
-```typescript copy filename="TypeScript" showLineNumbers
+```typescript
 // Define the doc to be inserted
 const doc = {
   name: "Alice",
@@ -407,7 +388,7 @@ Here's an example of the saved data:
 
 Here is the complete TypeScript code to insert a doc, including setting up the API key and headers:
 
-```typescript copy filename="TypeScript" showLineNumbers
+```typescript
 // Set the API key (non-production setup)
 const ONENODE_API_KEY = "your_api_key_here";
 
@@ -466,7 +447,7 @@ To query the saved data, make a POST request to:
 
 Here's how to perform a query using TypeScript:
 
-```typescript copy filename="TypeScript" showLineNumbers
+```typescript
 // Set the API key (non-production setup)
 const ONENODE_API_KEY = "your_api_key_here";
 
@@ -527,7 +508,7 @@ Successful query response:
 
 Below is the complete TypeScript code to perform a query, including setting up the API key and headers:
 
-```typescript copy filename="TypeScript" showLineNumbers
+```typescript
 // Set the API key (non-production setup)
 const ONENODE_API_KEY = "your_api_key_here";
 
@@ -566,11 +547,11 @@ fetch(`${collectionUrl}/document/query`, {
   });
 ```
 
+</LanguageContent>
+
 ---
 
 Feel free to let me know if there’s anything specific you’d like to add or clarify further in this documentation!
-
-</LanguageContent>
 
 ## Security Recommendations
 

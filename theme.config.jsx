@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import LanguageToggle from "./src/components/LanguageToggle";
+import TOC from "./src/components/TOC";
 
 export default {
   logo: (
@@ -16,6 +17,7 @@ export default {
       <b>OneNode DB</b>
     </div>
   ),
+  toc: { component: <TOC /> },
   navbar: {
     extraContent: <LanguageToggle />,
   },
