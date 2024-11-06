@@ -1,27 +1,27 @@
 # OneNode Extended JSON (EmbJSON)
 
-**OneNode Extended JSON (EmbJSON)** is a format that works in tandem with the **MongoDB Extended JSON** format, tailored specifically for applications using Large Language Models (LLMs). It enhances data embedding and indexing, making it an ideal choice for AI projects focused on semantic search and vector-based indexing.
+**OneNode Extended JSON (EmbJSON)** is a powerful data format designed to simplify database indexing pipelines, allowing developers to use a single database for most LLM applications. EmbJSON provides a versatile and efficient solution for handling data, making it easier to implement advanced AI features without the overhead of managing multiple databases. This streamlined approach enables developers to focus on building intelligent applications rather than dealing with complex data architecture.
 
-Both formats are fully supported by **OneNode DB**, enabling versatile data handling and storage.
+## Key Features of EmbJSON
 
-For more information on MongoDB Extended JSON, refer to the [official MongoDB documentation](https://www.mongodb.com/docs/).
+- **Custom Embedding Models**: Specify an embedding model using the `emb_model` parameter to fine-tune how your data is represented in vector space.
+- **LLM Optimization**: Built for efficient text embeddings and vector-based queries, EmbJSON is ideal for semantic search.
+- **Flexible Indexing**: Customize data indexing to optimize embedding and retrieval based on your specific needs.
+- **Asynchronous Processing**: All EmbJSON data types are processed asynchronously by default, allowing client applications to continue running smoothly while embedding and indexing take place in the background.
 
-## Key Features of OneNode Extended JSON
+## Overview of EmbJSON Data Types
 
-- **Custom Embedding Models**: Specify the embedding model with the `emb_model` parameter to fine-tune data representation in vector space, ensuring optimal results.
-- **LLM Optimization**: EmbJSON supports text embeddings and vector-based data, streamlining semantic data storage and facilitating efficient queries.
-- **Flexible Indexing**: Control how data is indexed with customizable parameters, enabling efficient embedding and retrieval tailored to your specific use case.
-
-## Structure and Data Types
-
-EmbJSON includes various data types, each structured for specific use cases such as text embeddings, vectors, or custom binary formats. Detailed explanations for each type can be found in their respective sections of the documentation.
+- **EmbText**: Designed for storing and embedding text data. EmbText can handle everything from single words to lengthy documents, embedding and indexing content automatically for semantic search.
+- **EmbImage** (Coming 2025): Will support image data, enabling semantic text search capabilities for images.
+- **EmbVideo** (Future Release): Will handle video data, enabling semantic embedding and search within video content.
+- **EmbFile** (Future Release): A generic type for managing a variety of file formats, including PDFs, Word documents, and more, allowing for semantic embedding and search across different types of content.
+- **Other Data Types**: Additional data types like **EmbAudio** and **Emb3D** are also planned for future releases, aimed at enabling semantic embeddings for audio files and 3D models.
 
 ## Why Choose OneNode Extended JSON?
 
-EmbJSON simplifies the embedding and indexing process for AI and LLM applications by offering flexibility to:
+- **Streamlined Embedding**: Select and customize embedding models to suit your needs.
+- **Optimized Data Retrieval**: Efficient indexing makes semantic search fast and reliable.
+- **Simple Data Management**: Seamlessly manage complex data types like embeddings.
+- **Unified Database Solution**: EmbJSON abstracts the complexity of database architecture for LLM applications, meaning you only need one database for most of your AI needs.
 
-- Select the optimal embedding model using `emb_model`.
-- Optimize data indexing for fast and efficient retrieval.
-- Easily manage complex data types, such as embeddings.
-
-Explore further details and in-depth guides on each EmbJSON type throughout the documentation to fully harness its capabilities.
+To explore how EmbJSON can elevate your AI projects, check out the detailed documentation and guides available.
