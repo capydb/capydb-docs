@@ -1,5 +1,6 @@
 import LanguageToggle from "../components/LanguageToggle";
 import LanguageContent from "../components/LanguageContent";
+import { Callout } from "nextra/components";
 
 <LanguageContent lang="python">
 
@@ -53,10 +54,16 @@ For this quick start guide (non-production environment), directly assign your AP
 
 ```python
 ONENODE_API_KEY = "your_api_key_here"
-collection_url = "your_collection_url_here"
+COLLECTION_URL = "your_collection_url_here"
 ```
 
-> **Note**: In a production environment, do not hardcode your API Key. Instead, use environment variables or secure configuration tools to protect your credentials.
+<Callout type="warning">
+
+**Important:** Only hardcode credentials for local development.
+
+In production, use environment variables or secure server-side logic for **API Key** and **Collection URL** to prevent unauthorized access and keep information secure.
+
+</Callout>
 
 Include it in your request headers:
 
@@ -95,7 +102,7 @@ data = {
 }
 
 # Make the POST request to insert the document
-response = requests.post(f"{collection_url}/document", headers=headers, data=json.dumps(data))
+response = requests.post(f"{COLLECTION_URL}/document", headers=headers, data=json.dumps(data))
 
 # Check the response
 if response.status_code == 200:
@@ -104,7 +111,9 @@ else:
     print("Failed to insert document:", response.text)
 ```
 
-### EmbText Data Type - What Happens After Saving
+<Callout type="info">
+
+### EmbJSON - What Happens After Saving
 
 When saving an `EmbText` data type, OneNode DB performs additional processing:
 
@@ -113,7 +122,7 @@ When saving an `EmbText` data type, OneNode DB performs additional processing:
 
 Here's an example of the saved data:
 
-```json
+```json showLineNumbers {8-10}
 {
   "name": "Alice",
   "age": "7",
@@ -130,6 +139,8 @@ Here's an example of the saved data:
 }
 ```
 
+</Callout>
+
 ### Complete Python Code for Inserting a Document
 
 Here is the complete Python code to insert a document, including setting up the API key and headers:
@@ -142,7 +153,7 @@ import json
 ONENODE_API_KEY = "your_api_key_here"
 
 # Set the collection URL
-collection_url = "your_collection_url_here"
+COLLECTION_URL = "your_collection_url_here"
 
 # Set the headers
 headers = {
@@ -168,7 +179,7 @@ data = {
 }
 
 # Make the POST request to insert the document
-response = requests.post(f"{collection_url}/document", headers=headers, data=json.dumps(data))
+response = requests.post(f"{COLLECTION_URL}/document", headers=headers, data=json.dumps(data))
 
 # Check the response
 if response.status_code == 200:
@@ -179,10 +190,10 @@ else:
 
 ## Step 6: Querying the Data
 
-To query the saved data, make a POST request to:
+To retrieve data based on semantic similarity, make a POST request to:
 
 ```
-{collection_url}/document/query
+{COLLECTION_URL}/document/query
 ```
 
 ### Query Request
@@ -202,7 +213,7 @@ import json
 ONENODE_API_KEY = "your_api_key_here"
 
 # Set the collection URL
-collection_url = "your_collection_url_here"
+COLLECTION_URL = "your_collection_url_here"
 
 # Set the headers
 headers = {
@@ -221,7 +232,7 @@ query_body = {
 }
 
 # Make the POST request to query the document
-query_response = requests.post(f"{collection_url}/document/query", headers=headers, data=json.dumps(query_body))
+query_response = requests.post(f"{COLLECTION_URL}/document/query", headers=headers, data=json.dumps(query_body))
 
 # Check the response
 if query_response.status_code == 200:
@@ -260,7 +271,7 @@ import json
 ONENODE_API_KEY = "your_api_key_here"
 
 # Set the collection URL
-collection_url = "your_collection_url_here"
+COLLECTION_URL = "your_collection_url_here"
 
 # Set the headers
 headers = {
@@ -279,7 +290,7 @@ query_body = {
 }
 
 # Make the POST request to query the document
-query_response = requests.post(f"{collection_url}/document/query", headers=headers, data=json.dumps(query_body))
+query_response = requests.post(f"{COLLECTION_URL}/document/query", headers=headers, data=json.dumps(query_body))
 
 # Check the response
 if query_response.status_code == 200:
@@ -305,7 +316,13 @@ const ONENODE_API_KEY = "your_api_key_here";
 const collectionUrl = "your_collection_url_here";
 ```
 
-> **Note**: In a production environment, do not hardcode your API Key. Instead, use environment variables or secure configuration tools to protect your credentials.
+<Callout type="warning">
+
+**Important:** Only hardcode credentials for local development.
+
+In production, use environment variables or secure server-side logic for **API Key** and **Collection URL** to prevent unauthorized access and keep information secure.
+
+</Callout>
 
 Include it in your request headers:
 
@@ -358,7 +375,9 @@ fetch(`${collectionUrl}/document`, {
   });
 ```
 
-### EmbText Data Type - What Happens After Saving
+<Callout type="info">
+
+### EmbJSON - What Happens After Saving
 
 When saving an EmbText data type, OneNode DB performs additional processing:
 
@@ -367,7 +386,7 @@ When saving an EmbText data type, OneNode DB performs additional processing:
 
 Here's an example of the saved data:
 
-```json
+```json showLineNumbers {8-10}
 {
   "name": "Alice",
   "age": "7",
@@ -383,6 +402,8 @@ Here's an example of the saved data:
   }
 }
 ```
+
+</Callout>
 
 ### Complete TypeScript Code for Inserting a Doc
 
@@ -435,9 +456,9 @@ fetch(`${collectionUrl}/document`, {
 
 ## Step 6: Querying the Data
 
-To query the saved data, make a POST request to:
+To retrieve data based on semantic similarity, make a POST request to:
 
-`{collection_url}/document/query`
+`{COLLECTION_URL}/document/query`
 
 ### Query Request
 
