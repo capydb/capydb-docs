@@ -17,6 +17,7 @@ export default {
       <b>OneNode DB</b>
     </div>
   ),
+  logoLink: "https://db.onenode.ai",
   toc: { component: <TOC /> },
   navbar: {
     extraContent: <LanguageToggle />,
