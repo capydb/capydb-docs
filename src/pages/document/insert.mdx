@@ -7,7 +7,7 @@ import LanguageContent from "../../components/LanguageContent";
 
 <LanguageContent lang="python">
 
-OneNode DB supports **MongoDB Extended JSON** and **OneNode Extended JSON** (EmbJSON). This guide explains how to insert documents into OneNode DB using the `/document` endpoint via the REST API. The following examples demonstrate the use of MongoDB Extended JSON format for Object IDs and **EmbJSON** for embedding text.
+CapybaraDB supports **MongoDB Extended JSON** and **CapybaraDB Extended JSON** (EmbJSON). This guide explains how to insert documents into CapybaraDB using the `/document` endpoint via the REST API. The following examples demonstrate the use of MongoDB Extended JSON format for Object IDs and **EmbJSON** for embedding text.
 
 ### Endpoint
 
@@ -28,8 +28,8 @@ import requests
 import json
 
 # Hardcoded API Key and Collection URL (example usage only, not for production)
-ONENODE_API_KEY = "your_example_api_key_here"
-collection_url = "https://api.onenode.ai/v1/db/123abc/collection/my_collection"
+CAPYBARADB_API_KEY = "your_example_api_key_here"
+collection_url = "https://api.capybaradb.co/v1/db/123abc/collection/my_collection"
 
 # Insert Document URL
 url = f"{collection_url}/document"
@@ -72,7 +72,7 @@ data = {
 
 # Headers with API Key
 headers = {
-    "Authorization": f"Bearer {ONENODE_API_KEY}",
+    "Authorization": f"Bearer {CAPYBARADB_API_KEY}",
     "Content-Type": "application/json"
 }
 
@@ -102,13 +102,13 @@ The `inserted_ids` field contains the IDs of the successfully inserted documents
 
 ---
 
-If you need additional help with the OneNode DB API, feel free to explore our documentation or reach out to support.
+If you need additional help with the CapybaraDB API, feel free to explore our documentation or reach out to support.
 
 </LanguageContent>
 
 <LanguageContent lang="typescript">
 
-OneNode DB supports **MongoDB Extended JSON** and **OneNode Extended JSON** (EmbJSON). This guide explains how to insert documents into OneNode DB using the `/document` endpoint via the REST API. The following examples demonstrate the use of MongoDB Extended JSON format for Object IDs and **EmbJSON** for embedding text.
+CapybaraDB supports **MongoDB Extended JSON** and **CapybaraDB Extended JSON** (EmbJSON). This guide explains how to insert documents into CapybaraDB using the `/document` endpoint via the REST API. The following examples demonstrate the use of MongoDB Extended JSON format for Object IDs and **EmbJSON** for embedding text.
 
 ### Endpoint
 
@@ -126,9 +126,9 @@ Here's an example of how to insert documents using TypeScript with the `fetch` A
 
 ```typescript copy filename="TypeScript" showLineNumbers
 // Hardcoded API Key and Collection URL (example usage only, not for production)
-const ONENODE_API_KEY = "your_example_api_key_here";
+const CAPYBARADB_API_KEY = "your_example_api_key_here";
 const collectionUrl =
-  "https://api.onenode.ai/v1/db/123abc/collection/my_collection";
+  "https://api.capybaradb.co/v1/db/123abc/collection/my_collection";
 
 // Insert Document URL
 const url = `${collectionUrl}/document`;
@@ -171,7 +171,7 @@ const data = {
 
 // Headers with API Key
 const headers = {
-  Authorization: `Bearer ${ONENODE_API_KEY}`,
+  Authorization: `Bearer ${CAPYBARADB_API_KEY}`,
   "Content-Type": "application/json",
 };
 
@@ -209,6 +209,6 @@ The `inserted_ids` field contains the IDs of the successfully inserted documents
 
 ---
 
-If you need additional help with the OneNode DB API, feel free to explore our documentation or reach out to support.
+If you need additional help with the CapybaraDB API, feel free to explore our documentation or reach out to support.
 
 </LanguageContent>

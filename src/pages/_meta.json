@@ -1,11 +1,11 @@
 {
   "Dashboard": {
     "type": "page",
-    "href": "https://db.onenode.ai/dashboard"
+    "href": "https://capybaradb.co/dashboard"
   },
   "contact": {
     "type": "page",
-    "href": "https://db.onenode.ai/home/contact"
+    "href": "https://capybaradb.co/home/contact"
   },
   "overview": "Overview",
   "index": "Quick Start",

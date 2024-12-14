@@ -5,6 +5,15 @@ const withNextra = nextra({
   themeConfig: "./theme.config.jsx",
   defaultShowCopyCode: true,
 });
-const nextConfig = withNextra();
+const nextConfig = withNextra({
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
+  },
+});
 
 export default nextConfig;

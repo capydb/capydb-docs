@@ -5,8 +5,8 @@ import "../styles/globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "OneNode DB Documentation",
-  description: "Learn how to use OneNode DB",
+  title: "CapybaraDB Documentation",
+  description: "Learn how to use CapybaraDB",
 };
 
 export default function RootLayout({

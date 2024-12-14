@@ -7,7 +7,7 @@ import LanguageContent from "../../components/LanguageContent";
 
 <LanguageContent lang="python">
 
-OneNode DB supports deletion of documents using operations similar to MongoDB. You can delete one or multiple documents by specifying filters. This guide explains how to use the `/document` endpoint via the REST API to perform delete operations.
+CapybaraDB supports deletion of documents using operations similar to MongoDB. You can delete one or multiple documents by specifying filters. This guide explains how to use the `/document` endpoint via the REST API to perform delete operations.
 
 ## Parameters for Delete Operations
 
@@ -38,8 +38,8 @@ import os
 import requests
 
 # API Key and Collection URL
-ONENODE_API_KEY = os.getenv('ONENODE_API_KEY')
-collection_url = "https://api.onenode.ai/v1/db/123abc/collection/my_collection"
+CAPYBARADB_API_KEY = os.getenv('CAPYBARADB_API_KEY')
+collection_url = "https://api.capybaradb.co/v1/db/123abc/collection/my_collection"
 
 # Document URL for Delete
 url = f"{collection_url}/document"
@@ -56,7 +56,7 @@ data = {
 
 # Headers with API Key
 headers = {
-    "Authorization": f"Bearer {ONENODE_API_KEY}",
+    "Authorization": f"Bearer {CAPYBARADB_API_KEY}",
     "Content-Type": "application/json"
 }
 
@@ -86,7 +86,7 @@ A successful delete operation will return a JSON response indicating the number 
 
 <LanguageContent lang="typescript">
 
-OneNode DB supports deletion of documents using operations similar to MongoDB. You can delete one or multiple documents by specifying filters. This guide explains how to use the `/document` endpoint via the REST API to perform delete operations.
+CapybaraDB supports deletion of documents using operations similar to MongoDB. You can delete one or multiple documents by specifying filters. This guide explains how to use the `/document` endpoint via the REST API to perform delete operations.
 
 ## Parameters for Delete Operations
 
@@ -114,9 +114,9 @@ Here’s how you can delete documents using TypeScript, by applying a filter:
 
 ```typescript filename="TypeScript" showLineNumbers
 // API Key and Collection URL (Use environment variables for production purposes)
-const ONENODE_API_KEY = "your_example_api_key_here";
+const CAPYBARADB_API_KEY = "your_example_api_key_here";
 const collectionUrl =
-  "https://api.onenode.ai/v1/db/123abc/collection/my_collection";
+  "https://api.capybaradb.co/v1/db/123abc/collection/my_collection";
 
 // Document URL for Delete
 const url = `${collectionUrl}/document`;
@@ -133,7 +133,7 @@ const data = {
 
 // Headers with API Key
 const headers = {
-  Authorization: `Bearer ${ONENODE_API_KEY}`,
+  Authorization: `Bearer ${CAPYBARADB_API_KEY}`,
   "Content-Type": "application/json",
 };
 

@@ -7,7 +7,7 @@ import LanguageContent from "../../components/LanguageContent";
 
 <LanguageContent lang="python">
 
-OneNode DB allows updating documents using operations that are similar to MongoDB. You can update one or multiple documents by specifying filters, update fields, and an optional upsert parameter. This guide explains how to use the `/document` endpoint via the REST API to perform update operations.
+CapybaraDB allows updating documents using operations that are similar to MongoDB. You can update one or multiple documents by specifying filters, update fields, and an optional upsert parameter. This guide explains how to use the `/document` endpoint via the REST API to perform update operations.
 
 ## Parameters for Update Operations
 
@@ -33,15 +33,15 @@ Where `{collection_url}` is the full collection URL that includes your `db_id` a
 
 ### Example Python Code for `update`
 
-Here’s how you can update documents using Python, by applying a filter and an update operation. This example is designed to be similar to the insertion example, showing how you can seamlessly transition from inserting to updating documents in OneNode DB:
+Here’s how you can update documents using Python, by applying a filter and an update operation. This example is designed to be similar to the insertion example, showing how you can seamlessly transition from inserting to updating documents in CapybaraDB:
 
 ```python copy filename="Python" showLineNumbers
 import requests
 import json
 
 # API Key and Collection URL (Use environment variables for production purposes)
-ONENODE_API_KEY = "your_example_api_key_here"
-collection_url = "https://api.onenode.ai/v1/db/123abc/collection/my_collection"
+CAPYBARADB_API_KEY = "your_example_api_key_here"
+collection_url = "https://api.capybaradb.co/v1/db/123abc/collection/my_collection"
 
 # Document URL for Update
 url = f"{collection_url}/document"
@@ -76,7 +76,7 @@ data = {
 
 # Headers with API Key
 headers = {
-    "Authorization": f"Bearer {ONENODE_API_KEY}",
+    "Authorization": f"Bearer {CAPYBARADB_API_KEY}",
     "Content-Type": "application/json"
 }
 
@@ -91,7 +91,7 @@ print(response.json())
 
 <LanguageContent lang="typescript">
 
-OneNode DB allows updating documents using operations that are similar to MongoDB. You can update one or multiple documents by specifying filters, update fields, and an optional upsert parameter. This guide explains how to use the `/document` endpoint via the REST API to perform update operations.
+CapybaraDB allows updating documents using operations that are similar to MongoDB. You can update one or multiple documents by specifying filters, update fields, and an optional upsert parameter. This guide explains how to use the `/document` endpoint via the REST API to perform update operations.
 
 ## Parameters for Update Operations
 
@@ -117,13 +117,13 @@ Where `{collection_url}` is the full collection URL that includes your `db_id` a
 
 ### Example TypeScript Code for `update`
 
-Here’s how you can update documents using TypeScript, by applying a filter and an update operation. This example is designed to be similar to the insertion example, showing how you can seamlessly transition from inserting to updating documents in OneNode DB:
+Here’s how you can update documents using TypeScript, by applying a filter and an update operation. This example is designed to be similar to the insertion example, showing how you can seamlessly transition from inserting to updating documents in CapybaraDB:
 
 ```typescript copy filename="TypeScript" showLineNumbers
 // API Key and Collection URL (Use environment variables for production purposes)
-const ONENODE_API_KEY = "your_example_api_key_here";
+const CAPYBARADB_API_KEY = "your_example_api_key_here";
 const collectionUrl =
-  "https://api.onenode.ai/v1/db/123abc/collection/my_collection";
+  "https://api.capybaradb.co/v1/db/123abc/collection/my_collection";
 
 // Document URL for Update
 const url = `${collectionUrl}/document`;
@@ -158,7 +158,7 @@ const data = {
 
 // Headers with API Key
 const headers = {
-  Authorization: `Bearer ${ONENODE_API_KEY}`,
+  Authorization: `Bearer ${CAPYBARADB_API_KEY}`,
   "Content-Type": "application/json",
 };
 
@@ -198,4 +198,4 @@ If an upsert was performed, the `upserted_id` will contain the ID of the new doc
 
 ---
 
-If you need additional help with the OneNode DB API, feel free to explore our documentation or reach out to support.
+If you need additional help with the CapybaraDB API, feel free to explore our documentation or reach out to support.

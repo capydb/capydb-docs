@@ -2,7 +2,7 @@ import { Callout } from "nextra/components";
 
 # EmbText
 
-**EmbText** is one of the **EmbJSON** data types supported by OneNode DB, designed for handling text that requires semantic embedding. It allows you to store text in a structured format where it can be automatically embedded and indexed for efficient semantic search.
+**EmbText** is one of the **EmbJSON** data types supported by CapybaraDB, designed for handling text that requires semantic embedding. It allows you to store text in a structured format where it can be automatically embedded and indexed for efficient semantic search.
 
 ## Basic Structure of EmbText
 
@@ -36,7 +36,7 @@ The structure of EmbText is simple and standardized, ensuring that the text is p
 
 ## Asynchronous Processing
 
-When an **EmbText** field is inserted into OneNode DB, the following processes take place asynchronously:
+When an **EmbText** field is inserted into CapybaraDB, the following processes take place asynchronously:
 
 ### 1. Chunking
 
@@ -68,7 +68,7 @@ After chunking, embedding, and indexing are complete, you can perform **query** 
 
 ## Example of What It Looks Like
 
-_Note: In OneNode DB, the default document **************\*\***************\*\***************\*\***************`_id`**************\*\***************\*\***************\*\*************** field is an auto-generated BSON ObjectId unless specified otherwise by the user. This is used in the examples below._
+_Note: In CapybaraDB, the default document **************\*\***************\*\***************\*\***************`_id`**************\*\***************\*\***************\*\*************** field is an auto-generated BSON ObjectId unless specified otherwise by the user. This is used in the examples below._
 
 Here’s an example of how a document looks like after saving:
 

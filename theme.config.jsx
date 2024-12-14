@@ -9,15 +9,15 @@ export default {
     <div style={{ display: "flex", alignItems: "center" }}>
       <Image
         style={{ display: "inline-block", margin: "5px", paddingBottom: "2px" }}
-        src="/images/mainIcon.png"
-        alt="OneNode logo"
+        src="https://capybaradb.co/images/mainIcon.png"
+        alt="CapybaraDB logo"
         width={25}
         height={25}
       />
-      <b>OneNode DB</b>
+      <b>CapybaraDB</b>
     </div>
   ),
-  logoLink: "https://db.onenode.ai",
+  logoLink: "https://capybaradb.co",
   toc: { component: <TOC /> },
   navbar: {
     extraContent: <LanguageToggle />,
@@ -63,7 +63,7 @@ export default {
   },
   useNextSeoProps() {
     return {
-      titleTemplate: "%s - OneNode DB Docs",
+      titleTemplate: "%s - CapybaraDB Docs",
     };
   },
 

@@ -16,13 +16,13 @@ import { Callout } from "nextra/components";
 
 <LanguageToggle />
 
-Welcome to **OneNode DB**! This guide will help you get started quickly with our powerful API service. Whether you're inserting your first document or exploring advanced features, you'll find everything you need to make your first API request in just a few simple steps.
+Welcome to **CapybaraDB**! This guide will help you get started quickly with our powerful API service. Whether you're inserting your first document or exploring advanced features, you'll find everything you need to make your first API request in just a few simple steps.
 
 ## Step 1: Sign Up
 
-Start by signing up for **OneNode DB**:
+Start by signing up for **CapybaraDB**:
 
-1. Visit [OneNode DB Sign Up](https://db.onenode.ai).
+1. Visit [CapybaraDB Sign Up](https://capybaradb.co).
 2. After signing up, log in and navigate to `/dashboard`, your main hub for managing databases, collections, and API keys.
 
 ## Step 2: Create an API Key
@@ -46,14 +46,14 @@ To start storing your data, follow these steps to create a collection:
 
 ## Step 4: Use Your API Key and Collection URL in Python
 
-To interact with OneNode DB's API, you'll need a **collection URL** and your **API Key** for authorization.
+To interact with CapybaraDB's API, you'll need a **collection URL** and your **API Key** for authorization.
 
 ### Setting the API Key and Collection URL in Python
 
 For this quick start guide (non-production environment), directly assign your API key and collection URL to variables:
 
 ```python
-ONENODE_API_KEY = "your_api_key_here"
+CAPYBARADB_API_KEY = "your_api_key_here"
 COLLECTION_URL = "your_collection_url_here"
 ```
 
@@ -69,7 +69,7 @@ Include it in your request headers:
 
 ```python
 headers = {
-    "Authorization": f"Bearer {ONENODE_API_KEY}",
+    "Authorization": f"Bearer {CAPYBARADB_API_KEY}",
     "Content-Type": "application/json"
 }
 ```
@@ -115,7 +115,7 @@ else:
 
 ### EmbJSON - What Happens After Saving
 
-When saving an `EmbText` data type, OneNode DB performs additional processing:
+When saving an `EmbText` data type, CapybaraDB performs additional processing:
 
 - The saved data will have an updated field called `chunks` in addition to `@embText.text` and `@embText.emb_model`.
 - Each chunk is vectorized and indexed in the database, enabling efficient querying and similarity searches.
@@ -150,14 +150,14 @@ import requests
 import json
 
 # Set the API key (non-production setup)
-ONENODE_API_KEY = "your_api_key_here"
+CAPYBARADB_API_KEY = "your_api_key_here"
 
 # Set the collection URL
 COLLECTION_URL = "your_collection_url_here"
 
 # Set the headers
 headers = {
-    "Authorization": f"Bearer {ONENODE_API_KEY}",
+    "Authorization": f"Bearer {CAPYBARADB_API_KEY}",
     "Content-Type": "application/json"
 }
 
@@ -200,7 +200,7 @@ To retrieve data based on semantic similarity, make a POST request to:
 
 - Include your **API Key** in the headers.
 - The request body should contain a `query` field, with optional `emb_model`, `top_k`, and `filter` parameters.
-- The `filter` parameter is a dictionary that allows you to narrow down the documents to be queried. OneNode DB supports all filter types that are supported by MongoDB, using the same format. When a filter is provided, the query will target only the documents that match the filter criteria.
+- The `filter` parameter is a dictionary that allows you to narrow down the documents to be queried. CapybaraDB supports all filter types that are supported by MongoDB, using the same format. When a filter is provided, the query will target only the documents that match the filter criteria.
 - You can visit the `/filter` page in the documentation for more details on the filter syntax.
 
 Here's how to perform a query using Python:
@@ -210,14 +210,14 @@ import requests
 import json
 
 # Set the API key (non-production setup)
-ONENODE_API_KEY = "your_api_key_here"
+CAPYBARADB_API_KEY = "your_api_key_here"
 
 # Set the collection URL
 COLLECTION_URL = "your_collection_url_here"
 
 # Set the headers
 headers = {
-    "Authorization": f"Bearer {ONENODE_API_KEY}",
+    "Authorization": f"Bearer {CAPYBARADB_API_KEY}",
     "Content-Type": "application/json"
 }
 
@@ -268,14 +268,14 @@ import requests
 import json
 
 # Set the API key (non-production setup)
-ONENODE_API_KEY = "your_api_key_here"
+CAPYBARADB_API_KEY = "your_api_key_here"
 
 # Set the collection URL
 COLLECTION_URL = "your_collection_url_here"
 
 # Set the headers
 headers = {
-    "Authorization": f"Bearer {ONENODE_API_KEY}",
+    "Authorization": f"Bearer {CAPYBARADB_API_KEY}",
     "Content-Type": "application/json"
 }
 
@@ -305,14 +305,14 @@ else:
 
 ## Step 4: Use Your API Key and Collection URL in TypeScript
 
-To interact with OneNode DB's API, you'll need a **collection URL** and your **API Key** for authorization.
+To interact with CapybaraDB's API, you'll need a **collection URL** and your **API Key** for authorization.
 
 ### Setting the API Key and Collection URL in TypeScript
 
 For this quick start guide (non-production environment), directly assign your API key and collection URL to variables:
 
 ```typescript
-const ONENODE_API_KEY = "your_api_key_here";
+const CAPYBARADB_API_KEY = "your_api_key_here";
 const collectionUrl = "your_collection_url_here";
 ```
 
@@ -328,7 +328,7 @@ Include it in your request headers:
 
 ```typescript
 const headers = {
-  Authorization: `Bearer ${ONENODE_API_KEY}`,
+  Authorization: `Bearer ${CAPYBARADB_API_KEY}`,
   "Content-Type": "application/json",
 };
 ```
@@ -379,7 +379,7 @@ fetch(`${collectionUrl}/document`, {
 
 ### EmbJSON - What Happens After Saving
 
-When saving an EmbText data type, OneNode DB performs additional processing:
+When saving an EmbText data type, CapybaraDB performs additional processing:
 
 - The saved data will have an updated field called chunks in addition to `@embText.text` and `@embText.emb_model`.
 - Each chunk is vectorized and indexed in the database, enabling efficient querying and similarity searches.
@@ -411,14 +411,14 @@ Here is the complete TypeScript code to insert a doc, including setting up the A
 
 ```typescript
 // Set the API key (non-production setup)
-const ONENODE_API_KEY = "your_api_key_here";
+const CAPYBARADB_API_KEY = "your_api_key_here";
 
 // Set the collection URL
 const collectionUrl = "your_collection_url_here";
 
 // Set the headers
 const headers = {
-  Authorization: `Bearer ${ONENODE_API_KEY}`,
+  Authorization: `Bearer ${CAPYBARADB_API_KEY}`,
   "Content-Type": "application/json",
 };
 
@@ -464,20 +464,20 @@ To retrieve data based on semantic similarity, make a POST request to:
 
 - Include your **API Key** in the headers.
 - The request body should contain a `query` field, with optional `emb_model`, `top_k`, and `filter` parameters.
-- The `filter` parameter is a dictionary that allows you to narrow down the documents to be queried. OneNode DB supports all filter types that are supported by MongoDB, using the same format. When a filter is provided, the query will target only the documents that match the filter criteria.
+- The `filter` parameter is a dictionary that allows you to narrow down the documents to be queried. CapybaraDB supports all filter types that are supported by MongoDB, using the same format. When a filter is provided, the query will target only the documents that match the filter criteria.
 
 Here's how to perform a query using TypeScript:
 
 ```typescript
 // Set the API key (non-production setup)
-const ONENODE_API_KEY = "your_api_key_here";
+const CAPYBARADB_API_KEY = "your_api_key_here";
 
 // Set the collection URL
 const collectionUrl = "your_collection_url_here";
 
 // Set the headers
 const headers = {
-  Authorization: `Bearer ${ONENODE_API_KEY}`,
+  Authorization: `Bearer ${CAPYBARADB_API_KEY}`,
   "Content-Type": "application/json",
 };
 
@@ -531,14 +531,14 @@ Below is the complete TypeScript code to perform a query, including setting up t
 
 ```typescript
 // Set the API key (non-production setup)
-const ONENODE_API_KEY = "your_api_key_here";
+const CAPYBARADB_API_KEY = "your_api_key_here";
 
 // Set the collection URL
 const collectionUrl = "your_collection_url_here";
 
 // Set the headers
 const headers = {
-  Authorization: `Bearer ${ONENODE_API_KEY}`,
+  Authorization: `Bearer ${CAPYBARADB_API_KEY}`,
   "Content-Type": "application/json",
 };
 
@@ -581,9 +581,9 @@ Feel free to let me know if there’s anything specific you’d like to add or c
 
 ## Next Steps
 
-- Experiment with more complex data types using OneNode's extended JSON.
+- Experiment with more complex data types using CapybaraDB extended JSON.
 - Explore the full API documentation for more features.
 
-If you have any questions, feel free to reach out to us at hello@onenode.ai.
+If you have any questions, feel free to reach out to us at hello@capybaradb.co.
 
 Happy building!
