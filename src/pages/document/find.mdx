@@ -5,51 +5,21 @@ import LanguageContent from "../../components/LanguageContent";
 
 <LanguageToggle />
 
-<LanguageContent lang="python">
-
-CapybaraDB allows you to query and retrieve documents from a collection using operations similar to MongoDB's `find()` functionality. You can use filters to match specific documents, and optionally, specify projection fields, sort order, and pagination options. This guide explains how to use the `/document/find` endpoint via the REST API.
-
-## Parameters for Find Operations
-
-| Parameter                 | Description                                                                                                                                                                                                                                                                                                           |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **filter**                | A query object to match the documents to retrieve. This works the same way as MongoDB filters, allowing you to specify conditions to find the documents. For more details, refer to the [official MongoDB documentation on query filters](https://www.mongodb.com/docs/manual/core/document/#query-filter-documents). |
-| **projection** (optional) | A field specification object to control which fields are returned in the result set. Use `1` to include and `0` to exclude fields.                                                                                                                                                                                    |
-| **sort** (optional)       | An object specifying the sort order for the result set (e.g., `{ "age": 1 }` to sort by `age` in ascending order, or `{ "age": -1 }` for descending).                                                                                                                                                                 |
-| **limit** (optional)      | A number to limit the number of documents returned.                                                                                                                                                                                                                                                                   |
-| **skip** (optional)       | A number to skip the first `n` documents in the result set, useful for pagination.                                                                                                                                                                                                                                    |
+CapybaraDB allows you to query and retrieve documents from a collection using operations similar to MongoDB's `find()` functionality. You can use filters to match specific documents, and optionally, specify projection fields, sort order, and pagination options.
 
 ## Find Operation
 
 The `find` operation is used to query multiple documents in a collection based on a filter. You can optionally include projection, sort, limit, and skip parameters for more advanced queries.
 
-### Endpoint
-
-To query documents, use the following endpoint:
-
-```
-{collection_url}/document/find
-```
-
-Where `{collection_url}` is the full collection URL that includes your `db_id` and `collection_name`.
-
 ### Example Python Code for `find`
 
 Here’s how you can query documents using Python, by applying a filter, projection, and sort operation:
 
+<LanguageContent lang="python">
+
 ```python filename="Python" showLineNumbers
-import os
-import requests
-
-# API Key and Collection URL
-CAPYBARADB_API_KEY = os.getenv('CAPYBARADB_API_KEY')
-collection_url = "https://api.capybaradb.co/v1/db/123abc/collection/my_collection"
-
-# Find URL
-url = f"{collection_url}/document/find"
-
 # Filter to match the document(s)
-filter = {
+filter_criteria = {
     "age": {"$gt": 25}
 }
 
@@ -67,97 +37,15 @@ sort = {
 limit = 5
 skip = 0
 
-# Request body
-data = {
-    "filter": filter,
-    "projection": projection,
-    "sort": sort,
-    "limit": limit,
-    "skip": skip
-}
-
-# Headers with API Key
-headers = {
-    "Authorization": f"Bearer {CAPYBARADB_API_KEY}",
-    "Content-Type": "application/json"
-}
-
 # Sending the request
-response = requests.post(url, json=data, headers=headers)
-
-# Print the response
-print(response.json())
+response = collection.find(filter_criteria, projection, sort, limit, skip)
 ```
-
-### Find Response
-
-A successful find operation will return a JSON response containing the matching documents in the collection. Here’s an example response:
-
-```json filename="JSON" showLineNumbers
-{
-  "documents": [
-    {
-      "name": "Alice Smith",
-      "age": 29
-    },
-    {
-      "name": "Bob Johnson",
-      "age": 40
-    }
-  ]
-}
-```
-
-## Important Notes
-
-- **filter**: The filter works similarly to MongoDB’s query language, allowing you to specify conditions for retrieving documents. For more details, refer to the [official MongoDB documentation on query filters](https://www.mongodb.com/docs/manual/core/document/#query-filter-documents).
-- **projection**: Use the projection parameter to control which fields are returned in the result set. Use `1` to include and `0` to exclude fields.
-- **sort**: You can use the sort parameter to order the result set by one or more fields in ascending (`1`) or descending (`-1`) order.
-- **limit** and **skip**: These are optional parameters for controlling the number of documents returned and for pagination.
 
 </LanguageContent>
 
 <LanguageContent lang="typescript">
 
-CapybaraDB allows you to query and retrieve documents from a collection using operations similar to MongoDB's `find()` functionality. You can use filters to match specific documents, and optionally, specify projection fields, sort order, and pagination options. This guide explains how to use the `/document/find` endpoint via the REST API.
-
-## Parameters for Find Operations
-
-| Parameter                 | Description                                                                                                                                                                                                                                                                                                           |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **filter**                | A query object to match the documents to retrieve. This works the same way as MongoDB filters, allowing you to specify conditions to find the documents. For more details, refer to the [official MongoDB documentation on query filters](https://www.mongodb.com/docs/manual/core/document/#query-filter-documents). |
-| **projection** (optional) | A field specification object to control which fields are returned in the result set. Use `1` to include and `0` to exclude fields.                                                                                                                                                                                    |
-| **sort** (optional)       | An object specifying the sort order for the result set (e.g., `{ "age": 1 }` to sort by `age` in ascending order, or `{ "age": -1 }` for descending).                                                                                                                                                                 |
-| **limit** (optional)      | A number to limit the number of documents returned.                                                                                                                                                                                                                                                                   |
-| **skip** (optional)       | A number to skip the first `n` documents in the result set, useful for pagination.                                                                                                                                                                                                                                    |
-
-## Find Operation
-
-The `find` operation is used to query multiple documents in a collection based on a filter. You can optionally include projection, sort, limit, and skip parameters for more advanced queries.
-
-### Endpoint
-
-To query documents, use the following endpoint:
-
-```
-{collection_url}/document/find
-```
-
-Where `{collection_url}` is the full collection URL that includes your `db_id` and `collection_name`.
-
-### Example TypeScript Code for `find`
-
-Here’s how you can query documents using TypeScript, by applying a filter, projection, and sort operation:
-
 ```typescript filename="TypeScript" showLineNumbers
-// API Key and Collection URL (Use environment variables for production purposes)
-const CAPYBARADB_API_KEY = "your_example_api_key_here";
-const collectionUrl =
-  "https://api.capybaradb.co/v1/db/123abc/collection/my_collection";
-
-// Find URL
-const url = `${collectionUrl}/document/find`;
-
 // Filter to match the document(s)
 const filter = {
   age: { $gt: 25 },
@@ -177,35 +65,10 @@ const sort = {
 const limit = 5;
 const skip = 0;
 
-// Request body
-const data = {
-  filter: filter,
-  projection: projection,
-  sort: sort,
-  limit: limit,
-  skip: skip,
-};
-
-// Headers with API Key
-const headers = {
-  Authorization: `Bearer ${CAPYBARADB_API_KEY}`,
-  "Content-Type": "application/json",
-};
-
-// Sending the request using fetch
-fetch(url, {
-  method: "POST",
-  headers: headers,
-  body: JSON.stringify(data),
-})
-  .then((response) => response.json())
-  .then((data) => {
-    console.log("Find response:", data);
-  })
-  .catch((error) => {
-    console.error("Error querying documents:", error);
-  });
+const response = collection.find(filter, projection, sort, limit, skip);
 ```
+
+</LanguageContent>
 
 ### Find Response
 
@@ -226,6 +89,16 @@ A successful find operation will return a JSON response containing the matching 
 }
 ```
 
+## Parameters for Find Operations
+
+| Parameter                 | Description                                                                                                                                                                                                                                                                                                           |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **filter**                | A query object to match the documents to retrieve. This works the same way as MongoDB filters, allowing you to specify conditions to find the documents. For more details, refer to the [official MongoDB documentation on query filters](https://www.mongodb.com/docs/manual/core/document/#query-filter-documents). |
+| **projection** (optional) | A field specification object to control which fields are returned in the result set. Use `1` to include and `0` to exclude fields.                                                                                                                                                                                    |
+| **sort** (optional)       | An object specifying the sort order for the result set (e.g., `{ "age": 1 }` to sort by `age` in ascending order, or `{ "age": -1 }` for descending).                                                                                                                                                                 |
+| **limit** (optional)      | A number to limit the number of documents returned.                                                                                                                                                                                                                                                                   |
+| **skip** (optional)       | A number to skip the first `n` documents in the result set, useful for pagination.                                                                                                                                                                                                                                    |
+
 ## Important Notes
 
 - **filter**: The filter works similarly to MongoDB’s query language, allowing you to specify conditions for retrieving documents. For more details, refer to the [official MongoDB documentation on query filters](https://www.mongodb.com/docs/manual/core/document/#query-filter-documents).
@@ -233,4 +106,4 @@ A successful find operation will return a JSON response containing the matching 
 - **sort**: You can use the sort parameter to order the result set by one or more fields in ascending (`1`) or descending (`-1`) order.
 - **limit** and **skip**: These are optional parameters for controlling the number of documents returned and for pagination.
 
-</LanguageContent>
+### Got questions? [Email us](mailto:hello@capybaradb.co)

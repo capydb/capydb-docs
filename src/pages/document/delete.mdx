@@ -5,152 +5,41 @@ import LanguageContent from "../../components/LanguageContent";
 
 <LanguageToggle />
 
-<LanguageContent lang="python">
-
-CapybaraDB supports deletion of documents using operations similar to MongoDB. You can delete one or multiple documents by specifying filters. This guide explains how to use the `/document` endpoint via the REST API to perform delete operations.
-
-## Parameters for Delete Operations
-
-| Parameter  | Description                                                                                                                                                                                                                                                                                                                           |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **filter** | A query object to match the documents to delete. This works the same way as MongoDB filters, where you specify conditions to find the documents that need to be deleted. For more details, refer to the [official MongoDB documentation on query filters](https://www.mongodb.com/docs/manual/core/document/#query-filter-documents). |
+CapybaraDB supports deletion of documents using operations similar to MongoDB. You can delete one or multiple documents by specifying filters. This guide explains how to perform delete operations.
 
 ## Delete Operation
 
-The `delete` operation is used to delete one or multiple documents in a collection based on a filter. The `/document` endpoint is used with a `DELETE` request to perform both single and multiple document deletions.
-
-### Endpoint
-
-To delete documents, use the following endpoint:
-
-```
-{collection_url}/document
-```
-
-Where `{collection_url}` is the full collection URL that includes your `db_id` and `collection_name`.
+The `delete` operation is used to delete one or multiple documents in a collection based on a filter.
 
 ### Example Python Code for `delete`
 
-Here’s how you can delete documents using Python, by applying a filter:
+Here’s how you can delete documents by applying a filter:
+
+<LanguageContent lang="python">
 
 ```python filename="Python" showLineNumbers
-import os
-import requests
-
-# API Key and Collection URL
-CAPYBARADB_API_KEY = os.getenv('CAPYBARADB_API_KEY')
-collection_url = "https://api.capybaradb.co/v1/db/123abc/collection/my_collection"
-
-# Document URL for Delete
-url = f"{collection_url}/document"
-
 # Filter to match the document(s) to delete
-filter = {
+filter_criteria = {
     "email": "johndoe@example.com"
 }
 
-# Request body
-data = {
-    "filter": filter
-}
-
-# Headers with API Key
-headers = {
-    "Authorization": f"Bearer {CAPYBARADB_API_KEY}",
-    "Content-Type": "application/json"
-}
-
-# Sending the DELETE request
-response = requests.delete(url, json=data, headers=headers)
-
-# Print the response
-print(response.json())
+response = collection.delete(filter_criteria)
 ```
-
-### Delete Response
-
-A successful delete operation will return a JSON response indicating the number of deleted documents:
-
-```json
-{
-  "deleted_count": 1
-}
-```
-
-## Important Notes
-
-- **filter**: The filter works similarly to MongoDB’s query language, allowing you to specify conditions for finding documents to delete. For more details, refer to the [official MongoDB documentation on query filters](https://www.mongodb.com/docs/manual/core/document/#query-filter-documents).
-- **Return Information**: The response includes the count of deleted documents.
 
 </LanguageContent>
 
 <LanguageContent lang="typescript">
 
-CapybaraDB supports deletion of documents using operations similar to MongoDB. You can delete one or multiple documents by specifying filters. This guide explains how to use the `/document` endpoint via the REST API to perform delete operations.
-
-## Parameters for Delete Operations
-
-| Parameter  | Description                                                                                                                                                                                                                                                                                                                           |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **filter** | A query object to match the documents to delete. This works the same way as MongoDB filters, where you specify conditions to find the documents that need to be deleted. For more details, refer to the [official MongoDB documentation on query filters](https://www.mongodb.com/docs/manual/core/document/#query-filter-documents). |
-
-## Delete Operation
-
-The `delete` operation is used to delete one or multiple documents in a collection based on a filter. The `/document` endpoint is used with a `DELETE` request to perform both single and multiple document deletions.
-
-### Endpoint
-
-To delete documents, use the following endpoint:
-
-```
-{collection_url}/document
-```
-
-Where `{collection_url}` is the full collection URL that includes your `db_id` and `collection_name`.
-
-### Example TypeScript Code for `delete`
-
-Here’s how you can delete documents using TypeScript, by applying a filter:
-
 ```typescript filename="TypeScript" showLineNumbers
-// API Key and Collection URL (Use environment variables for production purposes)
-const CAPYBARADB_API_KEY = "your_example_api_key_here";
-const collectionUrl =
-  "https://api.capybaradb.co/v1/db/123abc/collection/my_collection";
-
-// Document URL for Delete
-const url = `${collectionUrl}/document`;
-
 // Filter to match the document(s) to delete
-const filter = {
+const filter_criteria = {
   email: "johndoe@example.com",
 };
 
-// Request body
-const data = {
-  filter: filter,
-};
-
-// Headers with API Key
-const headers = {
-  Authorization: `Bearer ${CAPYBARADB_API_KEY}`,
-  "Content-Type": "application/json",
-};
-
-// Sending the DELETE request using fetch
-fetch(url, {
-  method: "DELETE",
-  headers: headers,
-  body: JSON.stringify(data),
-})
-  .then((response) => response.json())
-  .then((data) => {
-    console.log("Delete response:", data);
-  })
-  .catch((error) => {
-    console.error("Error deleting document:", error);
-  });
+response = collection.delete(filter_criteria);
 ```
+
+</LanguageContent>
 
 ### Delete Response
 
@@ -158,13 +47,14 @@ A successful delete operation will return a JSON response indicating the number 
 
 ```json
 {
-  "deleted_count": 1
+  "deleted_count": 1 // the count of deleted documents
 }
 ```
 
-## Important Notes
+## Parameters for Delete Operations
 
-- **filter**: The filter works similarly to MongoDB’s query language, allowing you to specify conditions for finding documents to delete. For more details, refer to the [official MongoDB documentation on query filters](https://www.mongodb.com/docs/manual/core/document/#query-filter-documents).
-- **Return Information**: The response includes the count of deleted documents.
+| Parameter  | Description                                                                                                                                                                                                                                                                                                                           |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **filter** | A query object to match the documents to delete. This works the same way as MongoDB filters, where you specify conditions to find the documents that need to be deleted. For more details, refer to the [official MongoDB documentation on query filters](https://www.mongodb.com/docs/manual/core/document/#query-filter-documents). |
 
-</LanguageContent>
+### Got questions? [Email us](mailto:hello@capybaradb.co)

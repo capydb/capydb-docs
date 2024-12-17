@@ -7,80 +7,25 @@ import LanguageContent from "../../components/LanguageContent";
 
 <LanguageContent lang="python">
 
-CapybaraDB supports **MongoDB Extended JSON** and **CapybaraDB Extended JSON** (EmbJSON). This guide explains how to insert documents into CapybaraDB using the `/document` endpoint via the REST API. The following examples demonstrate the use of MongoDB Extended JSON format for Object IDs and **EmbJSON** for embedding text.
-
-### Endpoint
-
-To insert documents, use the following endpoint:
-
-```copy
-{collection_url}/document
-```
-
-Where `{collection_url}` is the complete URL of the collection, which includes your `db_id` and `collection_name`.
+CapybaraDB supports **MongoDB Extended JSON** and **EmbJSON** (CapybaraDB Extended JSON). This guide explains how to insert documents into CapybaraDB.
 
 ### Example: Python Code for `insert` Operation
 
 Here's an example of how to insert documents using Python. You can insert a single document or multiple documents using the same endpoint. This example includes documents with Object IDs and **EmbJSON** fields:
 
 ```python copy filename="Python" showLineNumbers
-import requests
-import json
+from capybaradb import EmbText
 
-# Hardcoded API Key and Collection URL (example usage only, not for production)
-CAPYBARADB_API_KEY = "your_example_api_key_here"
-collection_url = "https://api.capybaradb.co/v1/db/123abc/collection/my_collection"
-
-# Insert Document URL
-url = f"{collection_url}/document"
-
-# Documents to insert (MongoDB Extended JSON with Object ID and EmbJSON)
-data = {
-    "documents": [
-        {
-            "_id": {"$oid": "64d2f8f01234abcd5678ef90"},
-            "name": "John Doe",
-            "email": "johndoe@example.com",
-            "age": 30,
-            "bio": {
-                "@embText": {
-                    "text": "John is a software engineer with expertise in AI.",
-                    "model": "text-embedding-3-small"
-                }
-            }
-        },
-        {
-            "_id": {"$oid": "64d2f8f01234abcd5678ef91"},
-            "name": "Alice Smith",
-            "email": "alice@example.com",
-            "age": 25,
-            "bio": {
-                "@embText": {
-                    "text": "Alice is a data scientist with a background in machine learning.",
-                    "model": "text-embedding-3-small"
-                }
-            }
-        },
-        {
-            "_id": {"$oid": "64d2f8f01234abcd5678ef92"},
-            "name": "Bob Johnson",
-            "email": "bob@example.com",
-            "age": 40
-        }
-    ]
+doc = {
+    "name": "John Doe",
+    "email": "johndoe@example.com",
+    "age": 30,
+    "bio": EmbText("John is a software engineer with expertise in AI.")
 }
 
-# Headers with API Key
-headers = {
-    "Authorization": f"Bearer {CAPYBARADB_API_KEY}",
-    "Content-Type": "application/json"
-}
 
 # Sending the request
-response = requests.post(url, headers=headers, data=json.dumps(data))
-
-# Print the response
-print(response.json())
+response = CapybaraDB.insert_one(doc)
 ```
 
 ### Insert Response
@@ -110,84 +55,21 @@ If you need additional help with the CapybaraDB API, feel free to explore our do
 
 CapybaraDB supports **MongoDB Extended JSON** and **CapybaraDB Extended JSON** (EmbJSON). This guide explains how to insert documents into CapybaraDB using the `/document` endpoint via the REST API. The following examples demonstrate the use of MongoDB Extended JSON format for Object IDs and **EmbJSON** for embedding text.
 
-### Endpoint
-
-To insert documents, use the following endpoint:
-
-```
-{collection_url}/document
-```
-
-Where `{collection_url}` is the complete URL of the collection, which includes your `db_id` and `collection_name`.
-
 ### Example: TypeScript Code for `insert` Operation
 
 Here's an example of how to insert documents using TypeScript with the `fetch` API. You can insert a single document or multiple documents using the same endpoint. This example includes documents with Object IDs and **EmbJSON** fields:
 
 ```typescript copy filename="TypeScript" showLineNumbers
-// Hardcoded API Key and Collection URL (example usage only, not for production)
-const CAPYBARADB_API_KEY = "your_example_api_key_here";
-const collectionUrl =
-  "https://api.capybaradb.co/v1/db/123abc/collection/my_collection";
+import { EmbText } from "capybaradb";
 
-// Insert Document URL
-const url = `${collectionUrl}/document`;
-
-// Documents to insert (MongoDB Extended JSON with Object ID and EmbJSON)
-const data = {
-  documents: [
-    {
-      _id: { $oid: "64d2f8f01234abcd5678ef90" },
-      name: "John Doe",
-      email: "johndoe@example.com",
-      age: 30,
-      bio: {
-        "@embText": {
-          text: "John is a software engineer with expertise in AI.",
-          model: "text-embedding-3-small",
-        },
-      },
-    },
-    {
-      _id: { $oid: "64d2f8f01234abcd5678ef91" },
-      name: "Alice Smith",
-      email: "alice@example.com",
-      age: 25,
-      bio: {
-        "@embText": {
-          text: "Alice is a data scientist with a background in machine learning.",
-          model: "text-embedding-3-small",
-        },
-      },
-    },
-    {
-      _id: { $oid: "64d2f8f01234abcd5678ef92" },
-      name: "Bob Johnson",
-      email: "bob@example.com",
-      age: 40,
-    },
-  ],
+const doc = {
+  name: "John Doe",
+  email: "johndoe@example.com",
+  age: 30,
+  bio: new EmbText("John is a software engineer with expertise in AI."),
 };
 
-// Headers with API Key
-const headers = {
-  Authorization: `Bearer ${CAPYBARADB_API_KEY}`,
-  "Content-Type": "application/json",
-};
-
-// Sending the request
-fetch(url, {
-  method: "POST",
-  headers: headers,
-  body: JSON.stringify(data),
-})
-  .then((response) => response.json())
-  .then((data) => {
-    console.log("Insert Response:", data);
-  })
-  .catch((error) => {
-    console.error("Error inserting documents:", error);
-  });
+response = collection.insert_one(doc);
 ```
 
 ### Insert Response
@@ -212,3 +94,5 @@ The `inserted_ids` field contains the IDs of the successfully inserted documents
 If you need additional help with the CapybaraDB API, feel free to explore our documentation or reach out to support.
 
 </LanguageContent>
+
+### Got questions? [Email us](mailto:hello@capybaradb.co)

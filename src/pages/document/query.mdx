@@ -6,85 +6,15 @@ import { Callout } from "nextra/components";
 
 <LanguageToggle />
 
-This guide explains how to perform **semantic queries** on documents in CapybaraDB using the `/document/query` endpoint via the REST API. The examples below demonstrate how to leverage **EmbJSON** for effective semantic searches.
+This guide explains how to perform semantic queries on documents in CapybaraDB. The query operation retrieves documents based on semantic matches to the provided query text. Optional parameters like emb_model, top_k, and projection allow you to control the embedding model used, the number of results, and the fields returned. The examples below demonstrate how to leverage EmbJSON for effective semantic searches.
 
-## Key Concepts and Query Parameters
-
-### EmbJSON Fields
-
-The `query` operation works exclusively with **EmbJSON** fields, such as `EmbText`. For more details, refer to the [EmbJSON documentation](#).
-
-### Automatic Embedding
-
-The query text is embedded automatically using the specified embedding model, and results are based on their semantic similarity to the stored EmbJSON fields.
-
-### Embedding Model Compatibility
-
-The `emb_model` specified in the query does not need to exactly match the models used in the EmbJSON fields within the collection. If the embedding model specified in the query differs from the models used in the collection, the query will only search the EmbJSON fields that use the same embedding model as the one specified in the query.
-
-For example, if your collection contains multiple embedding models and you specify a particular model, only the documents using that same model will be targeted. If you need to search across all documents using different embedding models, you must make separate API calls for each embedding model to ensure complete coverage of the collection.
-
-### Query Parameters
-
-| Parameter                     | Description                                                                                                                                                                                                                                                                                                                        | Data Type / Format |
-| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| **query**                     | The text to be embedded and matched against stored EmbJSON fields. This parameter is required.                                                                                                                                                                                                                                     | string             |
-| **emb_model** (optional)      | The embedding model used for the query. Defaults to OpenAI's text-embedding-3-small. Users can select from supported embedding models listed at /models. Refer to [Supported Embedding Models](#) for more details. If the specified model does not match those used in the stored EmbJSON, only matching fields will be targeted. | string             |
-| **top_k** (optional)          | Specifies the maximum number of top-matching chunks to return, sorted by semantic similarity. Default is 10. Use **top_k** to control how many chunks are returned, ensuring you receive the most relevant semantic matches.                                                                                                       | integer            |
-| **include_values** (optional) | Boolean flag to include vector values for each matched chunk in the response. Default is false. Set **include_values** to true to include the actual vector values of each matched chunk in the response.                                                                                                                          | boolean            |
-| **projection** (optional)     | Defines which fields to return in the response. The default value is `{ "mode": "exclude" }`. Accepts a required `mode` (include or exclude) and an optional `fields` list. See the table below for how different values of `projection` affect the response.                                                                      | JSON object        |
-
-<Callout type="info">
-
-### Format of `projection` Parameter
-
-| Key        | Description                                                                                | Format                                   |
-| ---------- | ------------------------------------------------------------------------------------------ | ---------------------------------------- |
-| **mode**   | **Required.** Specifies whether to include or exclude certain fields in the response.      | string (`"include"` or `"exclude"`)      |
-| **fields** | **Optional.** A list of specific fields to include or exclude based on the `mode` setting. | list of strings (`["field1", "field2"]`) |
-
-### Projection Parameter Scenarios
-
-| Example Projection Value                               | Result                                               |
-| ------------------------------------------------------ | ---------------------------------------------------- |
-| `{ "mode": "include" }`                                | The entire document is returned.                     |
-| `{ "mode": "include", "fields": ["title", "author"] }` | Only the `title` and `author` fields are returned.   |
-| `{ "mode": "exclude" }`                                | Only the `_id` field is returned.                    |
-| `{ "mode": "exclude", "fields": ["title", "author"] }` | All fields except `title` and `author` are returned. |
-
-</Callout>
-## Query Operation Overview
-
-The `query` operation retrieves documents based on semantic matches to the provided query text. Optional parameters like **emb_model**, **top_k**, and **projection** allow you to control the embedding model used, the number of results, and the fields returned.
-
-### Endpoint
-
-To execute a query, use the following endpoint:
-
-```showLineNumbers
-{collection_url}/document/query
-```
-
-Where `{collection_url}` is the complete collection URL including your `db_id` and `collection_name`.
+### Example: Code for `query` Operation
 
 <LanguageContent lang="python">
-
-### Example: Python Code for `query` Operation
 
 Below is an example of how to perform a semantic query using Python. This example includes **EmbJSON** fields that align with the type of data you may have inserted previously:
 
 ```python filename="Python" showLineNumbers
-import requests
-import json
-
-# Hardcoded API Key and Collection URL (example usage only, not for production)
-CAPYBARADB_API_KEY = "your_example_api_key_here"
-collection_url = "https://api.capybaradb.co/v1/db/123abc/collection/my_collection"
-
-# Query URL
-url = f"{collection_url}/document/query"
-
-# Query parameters
 query_text = "Software engineer with expertise in AI"
 emb_model = "text-embedding-3-small"
 top_k = 3
@@ -94,46 +24,16 @@ projection = {
     "fields": ["name", "bio"]
 }
 
-# Request body
-data = {
-    "query": query_text,
-    "emb_model": emb_model,
-    "top_k": top_k,
-    "include_values": include_values,
-    "projection": projection
-}
-
-# Headers with API Key
-headers = {
-    "Authorization": f"Bearer {CAPYBARADB_API_KEY}",
-    "Content-Type": "application/json"
-}
-
-# Sending the request
-response = requests.post(url, headers=headers, data=json.dumps(data))
-
-# Print the response
-print(response.json())
+response = collection.query(query)
 ```
 
 </LanguageContent>
 
 <LanguageContent lang="typescript">
 
-### Example: TypeScript Code for `query` Operation
-
 Below is an example of how to perform a semantic query using Python. This example includes **EmbJSON** fields that align with the type of data you may have inserted previously:
 
 ```typescript filename="TypeScript" showLineNumbers
-// Hardcoded API Key and Collection URL (example usage only, not for production)
-const CAPYBARADB_API_KEY = "your_example_api_key_here";
-const collectionUrl =
-  "https://api.capybaradb.co/v1/db/123abc/collection/my_collection";
-
-// Query URL
-const url = `${collectionUrl}/document/query`;
-
-// Query parameters
 const queryText = "Software engineer with expertise in AI";
 const embModel = "text-embedding-3-small";
 const topK = 3;
@@ -142,40 +42,6 @@ const projection = {
   mode: "include",
   fields: ["name", "bio"],
 };
-
-// Request body
-const data = {
-  query: queryText,
-  emb_model: embModel,
-  top_k: topK,
-  include_values: includeValues,
-  projection: projection,
-};
-
-// Headers with API Key
-const headers = {
-  Authorization: `Bearer ${CAPYBARADB_API_KEY}`,
-  "Content-Type": "application/json",
-};
-
-// Sending the request using fetch
-fetch(url, {
-  method: "POST",
-  headers: headers,
-  body: JSON.stringify(data),
-})
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json();
-  })
-  .then((responseData) => {
-    console.log(responseData);
-  })
-  .catch((error) => {
-    console.error("Error querying documents:", error);
-  });
 ```
 
 </LanguageContent>
@@ -266,6 +132,34 @@ If the projection parameter is omitted, the default behavior is to exclude all f
 
 In this response, only the \_id field is included in the document since the projection parameter was not specified.
 
----
+### Query Parameters
 
-If you need additional help with the CapybaraDB API, feel free to explore our documentation or reach out to support.
+| Parameter                     | Description                                                                                                                                                                                                                                                                                                                        | Data Type / Format |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| **query**                     | The text to be embedded and matched against stored EmbJSON fields. This parameter is required.                                                                                                                                                                                                                                     | string             |
+| **emb_model** (optional)      | The embedding model used for the query. Defaults to OpenAI's text-embedding-3-small. Users can select from supported embedding models listed at /models. Refer to [Supported Embedding Models](#) for more details. If the specified model does not match those used in the stored EmbJSON, only matching fields will be targeted. | string             |
+| **top_k** (optional)          | Specifies the maximum number of top-matching chunks to return, sorted by semantic similarity. Default is 10. Use **top_k** to control how many chunks are returned, ensuring you receive the most relevant semantic matches.                                                                                                       | integer            |
+| **include_values** (optional) | Boolean flag to include vector values for each matched chunk in the response. Default is false. Set **include_values** to true to include the actual vector values of each matched chunk in the response.                                                                                                                          | boolean            |
+| **projection** (optional)     | Defines which fields to return in the response. The default value is `{ "mode": "exclude" }`. Accepts a required `mode` (include or exclude) and an optional `fields` list. See the table below for how different values of `projection` affect the response.                                                                      | JSON object        |
+
+<Callout type="info">
+
+### Format of `projection` Parameter
+
+| Key        | Description                                                                                | Format                                   |
+| ---------- | ------------------------------------------------------------------------------------------ | ---------------------------------------- |
+| **mode**   | **Required.** Specifies whether to include or exclude certain fields in the response.      | string (`"include"` or `"exclude"`)      |
+| **fields** | **Optional.** A list of specific fields to include or exclude based on the `mode` setting. | list of strings (`["field1", "field2"]`) |
+
+### Projection Parameter Scenarios
+
+| Example Projection Value                               | Result                                               |
+| ------------------------------------------------------ | ---------------------------------------------------- |
+| `{ "mode": "include" }`                                | The entire document is returned.                     |
+| `{ "mode": "include", "fields": ["title", "author"] }` | Only the `title` and `author` fields are returned.   |
+| `{ "mode": "exclude" }`                                | Only the `_id` field is returned.                    |
+| `{ "mode": "exclude", "fields": ["title", "author"] }` | All fields except `title` and `author` are returned. |
+
+</Callout>
+
+### Got questions? [Email us](mailto:hello@capybaradb.co)

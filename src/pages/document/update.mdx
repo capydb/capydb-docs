@@ -5,49 +5,21 @@ import LanguageContent from "../../components/LanguageContent";
 
 <LanguageToggle />
 
-<LanguageContent lang="python">
-
-CapybaraDB allows updating documents using operations that are similar to MongoDB. You can update one or multiple documents by specifying filters, update fields, and an optional upsert parameter. This guide explains how to use the `/document` endpoint via the REST API to perform update operations.
-
-## Parameters for Update Operations
-
-| Parameter  | Description                                                                                                                                                                                                                                                                                                                      |
-| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **filter** | A query object to match the documents to update. This works the same way as MongoDB filters, where you specify conditions to find the documents that need updating. For more details, refer to the [official MongoDB documentation on query filters](https://www.mongodb.com/docs/manual/core/document/#query-filter-documents). |
-| **update** | The update operations to apply to the matched documents. You can use MongoDB-like update operators such as `$set`, `$inc`, etc. For a full list of update operators, refer to the [official MongoDB documentation on update operators](https://www.mongodb.com/docs/manual/reference/operator/update-field).                     |
-| **upsert** | (Optional) A boolean flag to create a new document if no documents match the filter. If set to `true`, a new document will be created using the `filter` and `update` information.                                                                                                                                               |
+CapybaraDB allows updating documents using operations that are similar to MongoDB. You can update one or multiple documents by specifying filters, update fields, and an optional upsert parameter. This guide explains how to perform update operations.
 
 ## Update Operation
 
-The `update` operation is used to update one or multiple documents in a collection based on a filter. The same `/document` endpoint is used with a `PUT` request to perform both single and multiple document updates.
-
-### Endpoint
-
-To update documents, use the following endpoint:
-
-```
-{collection_url}/document
-```
-
-Where `{collection_url}` is the full collection URL that includes your `db_id` and `collection_name`.
+The `update` operation is used to update one or multiple documents in a collection based on a filter.
 
 ### Example Python Code for `update`
 
-Here’s how you can update documents using Python, by applying a filter and an update operation. This example is designed to be similar to the insertion example, showing how you can seamlessly transition from inserting to updating documents in CapybaraDB:
+Here’s how you can update documents by applying a filter and an update operation. This example is designed to be similar to the insertion example, showing how you can seamlessly transition from inserting to updating documents in CapybaraDB:
+
+<LanguageContent lang="python">
 
 ```python copy filename="Python" showLineNumbers
-import requests
-import json
-
-# API Key and Collection URL (Use environment variables for production purposes)
-CAPYBARADB_API_KEY = "your_example_api_key_here"
-collection_url = "https://api.capybaradb.co/v1/db/123abc/collection/my_collection"
-
-# Document URL for Update
-url = f"{collection_url}/document"
-
 # Filter to match the document(s) based on email (similar to the insert example)
-filter = {
+filter_criteria = {
     "email": "johndoe@example.com"
 }
 
@@ -67,69 +39,15 @@ update = {
 # Optional upsert (set to true if you want to insert a new document if no match is found)
 upsert = False
 
-# Request body
-data = {
-    "filter": filter,
-    "update": update,
-    "upsert": upsert
-}
-
-# Headers with API Key
-headers = {
-    "Authorization": f"Bearer {CAPYBARADB_API_KEY}",
-    "Content-Type": "application/json"
-}
-
-# Sending the request
-response = requests.put(url, json=data, headers=headers)
-
-# Print the response
-print(response.json())
+response = collection.update(update, filter_criteria, upsert)
 ```
 
 </LanguageContent>
 
 <LanguageContent lang="typescript">
 
-CapybaraDB allows updating documents using operations that are similar to MongoDB. You can update one or multiple documents by specifying filters, update fields, and an optional upsert parameter. This guide explains how to use the `/document` endpoint via the REST API to perform update operations.
-
-## Parameters for Update Operations
-
-| Parameter  | Description                                                                                                                                                                                                                                                                                                                      |
-| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **filter** | A query object to match the documents to update. This works the same way as MongoDB filters, where you specify conditions to find the documents that need updating. For more details, refer to the [official MongoDB documentation on query filters](https://www.mongodb.com/docs/manual/core/document/#query-filter-documents). |
-| **update** | The update operations to apply to the matched documents. You can use MongoDB-like update operators such as `$set`, `$inc`, etc. For a full list of update operators, refer to the [official MongoDB documentation on update operators](https://www.mongodb.com/docs/manual/reference/operator/update-field).                     |
-| **upsert** | (Optional) A boolean flag to create a new document if no documents match the filter. If set to `true`, a new document will be created using the `filter` and `update` information.                                                                                                                                               |
-
-## Update Operation
-
-The `update` operation is used to update one or multiple documents in a collection based on a filter. The same `/document` endpoint is used with a `PUT` request to perform both single and multiple document updates.
-
-### Endpoint
-
-To update documents, use the following endpoint:
-
-```
-{collection_url}/document
-```
-
-Where `{collection_url}` is the full collection URL that includes your `db_id` and `collection_name`.
-
-### Example TypeScript Code for `update`
-
-Here’s how you can update documents using TypeScript, by applying a filter and an update operation. This example is designed to be similar to the insertion example, showing how you can seamlessly transition from inserting to updating documents in CapybaraDB:
-
 ```typescript copy filename="TypeScript" showLineNumbers
-// API Key and Collection URL (Use environment variables for production purposes)
-const CAPYBARADB_API_KEY = "your_example_api_key_here";
-const collectionUrl =
-  "https://api.capybaradb.co/v1/db/123abc/collection/my_collection";
-
-// Document URL for Update
-const url = `${collectionUrl}/document`;
-
-// Filter to match the document(s) based on email (similar to the insert example)
-const filter = {
+const filter_criteria = {
   email: "johndoe@example.com",
 };
 
@@ -149,32 +67,7 @@ const update = {
 // Optional upsert (set to true if you want to insert a new document if no match is found)
 const upsert = false;
 
-// Request body
-const data = {
-  filter: filter,
-  update: update,
-  upsert: upsert,
-};
-
-// Headers with API Key
-const headers = {
-  Authorization: `Bearer ${CAPYBARADB_API_KEY}`,
-  "Content-Type": "application/json",
-};
-
-// Sending the request using fetch
-fetch(url, {
-  method: "PUT",
-  headers: headers,
-  body: JSON.stringify(data),
-})
-  .then((response) => response.json())
-  .then((data) => {
-    console.log("Update response:", data);
-  })
-  .catch((error) => {
-    console.error("Error updating document:", error);
-  });
+response = collection.update(update, filter_criteria, upsert);
 ```
 
 </LanguageContent>
@@ -196,6 +89,12 @@ If the `update` object contains `EmbJSON` data type, the response will include a
 
 If an upsert was performed, the `upserted_id` will contain the ID of the new document.
 
----
+## Parameters for Update Operations
 
-If you need additional help with the CapybaraDB API, feel free to explore our documentation or reach out to support.
+| Parameter  | Description                                                                                                                                                                                                                                                                                                                      |
+| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **filter** | A query object to match the documents to update. This works the same way as MongoDB filters, where you specify conditions to find the documents that need updating. For more details, refer to the [official MongoDB documentation on query filters](https://www.mongodb.com/docs/manual/core/document/#query-filter-documents). |
+| **update** | The update operations to apply to the matched documents. You can use MongoDB-like update operators such as `$set`, `$inc`, etc. For a full list of update operators, refer to the [official MongoDB documentation on update operators](https://www.mongodb.com/docs/manual/reference/operator/update-field).                     |
+| **upsert** | (Optional) A boolean flag to create a new document if no documents match the filter. If set to `true`, a new document will be created using the `filter` and `update` information.                                                                                                                                               |
+
+### Got questions? [Email us](mailto:hello@capybaradb.co)

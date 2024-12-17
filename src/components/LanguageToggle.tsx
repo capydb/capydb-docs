@@ -23,7 +23,7 @@ export default function LanguageToggle() {
         className={`inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium transition-all 
           ${
             language === "python"
-              ? "bg-gray-500 text-white"
+              ? "bg-amber-400 text-black/80 font-bold"
               : ""
           } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2`}
       >
@@ -37,7 +37,7 @@ export default function LanguageToggle() {
         className={`inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium transition-all 
           ${
             language === "typescript"
-              ? "bg-gray-500 text-white"
+              ? "bg-amber-400 text-black/80 font-bold"
               : ""
           } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2`}
       >

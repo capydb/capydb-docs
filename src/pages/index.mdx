@@ -16,16 +16,34 @@ import { Callout } from "nextra/components";
 
 <LanguageToggle />
 
-Welcome to **CapybaraDB**! This guide will help you get started quickly with our powerful API service. Whether you're inserting your first document or exploring advanced features, you'll find everything you need to make your first API request in just a few simple steps.
+Welcome to **CapybaraDB**! The chillest AI-native database out there! This guide will help you get started quickly with our powerful API service. Whether you're inserting your first document or exploring advanced features, you'll find everything you need to make your first API request in just a few simple steps.
 
-## Step 1: Sign Up
+## Step 1: Install SDK
+
+<LanguageContent lang="python">
+
+```
+pip install capybaradb
+```
+
+</LanguageContent>
+
+<LanguageContent lang="typescript">
+
+```
+npm install capybaradb
+```
+
+</LanguageContent>
+
+## Step 2: Sign Up
 
 Start by signing up for **CapybaraDB**:
 
 1. Visit [CapybaraDB Sign Up](https://capybaradb.co).
 2. After signing up, log in and navigate to `/dashboard`, your main hub for managing databases, collections, and API keys.
 
-## Step 2: Create an API Key
+## Step 3: Create an API Key
 
 Next, create an API key to authenticate your project:
 
@@ -33,28 +51,26 @@ Next, create an API key to authenticate your project:
 2. Click to create a new API key—you can optionally name the key.
 3. The key will only be displayed once. **Store it securely**.
 
-## Step 3: Create a Collection
+## Step 4: Create a Collection
 
 To start storing your data, follow these steps to create a collection:
 
 1. In the sidebar, click the **Collection** tab and use the **plus (+)** button to create a new collection.
 2. Enter a **database name** and a **collection name**. Once created, the new collection will appear in the sidebar.
 3. From the collection list in the sidebar, select the collection you just created.
-4. Navigate to the **Connect** tab within the collection page to find the **collection URL** for the collection and access various APIs.
+4. Copy **Project ID** from the side bar and save it with the API key.
 
-<LanguageContent lang="python">
-
-## Step 4: Use Your API Key and Collection URL in Python
+## Step 5: Use Your API Key and Project ID
 
 To interact with CapybaraDB's API, you'll need a **collection URL** and your **API Key** for authorization.
 
-### Setting the API Key and Collection URL in Python
+### Setting the API Key and Project URL
 
-For this quick start guide (non-production environment), directly assign your API key and collection URL to variables:
+For this quick start guide (non-production environment), directly assign your API key and project ID to variables:
 
-```python
-CAPYBARADB_API_KEY = "your_api_key_here"
-COLLECTION_URL = "your_collection_url_here"
+```
+CAPYBARA_API_KEY = "your_api_key"
+CAPYBARA_PROJECT_ID = "your_project_id"
 ```
 
 <Callout type="warning">
@@ -65,51 +81,78 @@ In production, use environment variables or secure server-side logic for **API K
 
 </Callout>
 
-Include it in your request headers:
+<LanguageContent lang="python">
 
-```python
-headers = {
-    "Authorization": f"Bearer {CAPYBARADB_API_KEY}",
-    "Content-Type": "application/json"
-}
-```
-
-## Step 5: Make Your First API Request
+## Step 6: Make Your First API Request
 
 ### Example: Insert a Document
 
 Use Python to insert a document into the collection:
 
 ```python
-import requests
-import json
+from capybaradb import CapybaraDB, EmbText
+from dotenv import load_dotenv
+
+load_dotenv()
+
+one_client = CapybaraDB()
+db = one_client.db('your_db_name')
+collection = db.collection('your_collection_name')
 
 # Define the document to be inserted
-document = {
+doc = {
     "name": "Alice",
     "age": "7",
-    "background": {
-        "@embText": {
-            "text": "Through the Looking-Glass follows Alice as she steps into a fantastical world...",
-            "emb_model": "text-embedding-3-small"  # Optional, explicitly specifying the embedding model
-        }
-    }
-}
-
-# Wrap the document in a list under the 'documents' field
-data = {
-    "documents": [document]
+    "background": EmbText("Through the Looking-Glass follows Alice as she steps into a fantastical world...")
 }
 
 # Make the POST request to insert the document
-response = requests.post(f"{COLLECTION_URL}/document", headers=headers, data=json.dumps(data))
-
-# Check the response
-if response.status_code == 200:
-    print("Document inserted successfully:", response.json())
-else:
-    print("Failed to insert document:", response.text)
+response = collection.insertOne(doc)
 ```
+
+</LanguageContent>
+
+<LanguageContent lang="typescript">
+
+## Step 6: Make Your First API Request
+
+### Example: Insert a Doc
+
+Use TypeScript to insert a doc into the collection:
+
+```typescript
+import { CapybaraDB, EmbText } from "capybaradb";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+async function main() {
+  const client = new CapybaraDB();
+  const db = client.db("your_db_name");
+  const collection = db.collection("your_collection_name");
+
+  // Define the document to be inserted
+  const doc = {
+    name: "Alice",
+    age: "7",
+    background: new EmbText(
+      "Through the Looking-Glass follows Alice as she steps into a fantastical world..."
+    ),
+  };
+
+  try {
+    // Insert the document
+    const result = await collection.insertOne(doc);
+    console.log("Document inserted successfully:", result);
+  } catch (error) {
+    console.error("Error inserting document:", error);
+  }
+}
+
+main();
+```
+
+</LanguageContent>
 
 <Callout type="info">
 
@@ -117,395 +160,52 @@ else:
 
 When saving an `EmbText` data type, CapybaraDB performs additional processing:
 
-- The saved data will have an updated field called `chunks` in addition to `@embText.text` and `@embText.emb_model`.
+- The saved data will have an updated field called `EmbText.chunks` in addition to `EmbText.text` and `EmbText.emb_model`.
 - Each chunk is vectorized and indexed in the database, enabling efficient querying and similarity searches.
-
-Here's an example of the saved data:
-
-```json showLineNumbers {8-10}
-{
-  "name": "Alice",
-  "age": "7",
-  "background": {
-    "@embText": {
-      "text": "Through the Looking-Glass follows Alice as she steps into a fantastical world...",
-      "emb_model": "text-embedding-3-small",
-      "chunks": [
-        "Through the Looking-Glass follows Alice",
-        "as she steps into a fantastical world..."
-      ]
-    }
-  }
-}
-```
 
 </Callout>
 
-### Complete Python Code for Inserting a Document
+<LanguageContent lang="python">
 
-Here is the complete Python code to insert a document, including setting up the API key and headers:
-
-```python
-import requests
-import json
-
-# Set the API key (non-production setup)
-CAPYBARADB_API_KEY = "your_api_key_here"
-
-# Set the collection URL
-COLLECTION_URL = "your_collection_url_here"
-
-# Set the headers
-headers = {
-    "Authorization": f"Bearer {CAPYBARADB_API_KEY}",
-    "Content-Type": "application/json"
-}
-
-# Define the document to be inserted
-document = {
-    "name": "Alice",
-    "age": "7",
-    "background": {
-        "@embText": {
-            "text": "Through the Looking-Glass follows Alice as she steps into a fantastical world...",
-            "emb_model": "text-embedding-3-small"  # Optional, explicitly specifying the embedding model
-        }
-    }
-}
-
-# Wrap the document in a list under the 'documents' field
-data = {
-    "documents": [document]
-}
-
-# Make the POST request to insert the document
-response = requests.post(f"{COLLECTION_URL}/document", headers=headers, data=json.dumps(data))
-
-# Check the response
-if response.status_code == 200:
-    print("Document inserted successfully:", response.json())
-else:
-    print("Failed to insert document:", response.text)
-```
-
-## Step 6: Querying the Data
-
-To retrieve data based on semantic similarity, make a POST request to:
-
-```
-{COLLECTION_URL}/document/query
-```
+## Step 7: Querying the Data
 
 ### Query Request
-
-- Include your **API Key** in the headers.
-- The request body should contain a `query` field, with optional `emb_model`, `top_k`, and `filter` parameters.
-- The `filter` parameter is a dictionary that allows you to narrow down the documents to be queried. CapybaraDB supports all filter types that are supported by MongoDB, using the same format. When a filter is provided, the query will target only the documents that match the filter criteria.
-- You can visit the `/filter` page in the documentation for more details on the filter syntax.
 
 Here's how to perform a query using Python:
 
 ```python
-import requests
-import json
+query = Alice in a fantastical world
 
-# Set the API key (non-production setup)
-CAPYBARADB_API_KEY = "your_api_key_here"
-
-# Set the collection URL
-COLLECTION_URL = "your_collection_url_here"
-
-# Set the headers
-headers = {
-    "Authorization": f"Bearer {CAPYBARADB_API_KEY}",
-    "Content-Type": "application/json"
-}
-
-# Define the query
-query_body = {
-    "emb_model": "text-embedding-3-small",  # Optional, default is 'text-embedding-3-small'
-    "query": "Alice in a fantastical world",
-    "top_k": 5,  # Optional, default is 10
-    "filter": {  # Optional filter to narrow down the documents
-        "age": "7"
-    }
-}
-
-# Make the POST request to query the document
-query_response = requests.post(f"{COLLECTION_URL}/document/query", headers=headers, data=json.dumps(query_body))
-
-# Check the response
-if query_response.status_code == 200:
-    print("Query results:", query_response.json())
-else:
-    print("Failed to query document:", query_response.text)
-```
-
-### Example Response
-
-Successful query response:
-
-```json
-{
-  "matches": [
-    {
-      "document_id": { "$oid": "671bf91580bffb6387b4f3d2" },
-      "path": "background",
-      "chunk": "Through the Looking-Glass follows Alice as she steps into a fantastical world...",
-      "chunk_n": 0,
-      "score": 0.703643203
-    }
-  ]
-}
-```
-
-### Complete Python Code for Querying Data
-
-Here is the complete Python code to perform a query, including setting up the API key and headers:
-
-```python
-import requests
-import json
-
-# Set the API key (non-production setup)
-CAPYBARADB_API_KEY = "your_api_key_here"
-
-# Set the collection URL
-COLLECTION_URL = "your_collection_url_here"
-
-# Set the headers
-headers = {
-    "Authorization": f"Bearer {CAPYBARADB_API_KEY}",
-    "Content-Type": "application/json"
-}
-
-# Define the query
-query_body = {
-    "emb_model": "text-embedding-3-small",  # Optional, default is 'text-embedding-3-small'
-    "query": "Alice in a fantastical world",
-    "top_k": 5,  # Optional, default is 10
-    "filter": {  # Optional filter to narrow down the documents
-        "age": "7"
-    }
-}
-
-# Make the POST request to query the document
-query_response = requests.post(f"{COLLECTION_URL}/document/query", headers=headers, data=json.dumps(query_body))
-
-# Check the response
-if query_response.status_code == 200:
-    print("Query results:", query_response.json())
-else:
-    print("Failed to query document:", query_response.text)
+response = collection.query(query)
 ```
 
 </LanguageContent>
 
 <LanguageContent lang="typescript">
-
-## Step 4: Use Your API Key and Collection URL in TypeScript
-
-To interact with CapybaraDB's API, you'll need a **collection URL** and your **API Key** for authorization.
-
-### Setting the API Key and Collection URL in TypeScript
-
-For this quick start guide (non-production environment), directly assign your API key and collection URL to variables:
-
-```typescript
-const CAPYBARADB_API_KEY = "your_api_key_here";
-const collectionUrl = "your_collection_url_here";
-```
-
-<Callout type="warning">
-
-**Important:** Only hardcode credentials for local development.
-
-In production, use environment variables or secure server-side logic for **API Key** and **Collection URL** to prevent unauthorized access and keep information secure.
-
-</Callout>
-
-Include it in your request headers:
-
-```typescript
-const headers = {
-  Authorization: `Bearer ${CAPYBARADB_API_KEY}`,
-  "Content-Type": "application/json",
-};
-```
-
-## Step 5: Make Your First API Request
-
-### Example: Insert a Doc
-
-Use TypeScript to insert a doc into the collection:
-
-```typescript
-// Define the doc to be inserted
-const doc = {
-  name: "Alice",
-  age: "7",
-  background: {
-    "@embText": {
-      text: "Through the Looking-Glass follows Alice as she steps into a fantastical world...",
-      emb_model: "text-embedding-3-small", // Optional, specify the embedding model
-    },
-  },
-};
-
-// Wrap the doc in a list under the 'documents' field
-const data = {
-  documents: [doc],
-};
-
-// Set the collection URL
-const collectionUrl = "your_collection_url_here";
-
-// Make the POST request to insert the doc
-fetch(`${collectionUrl}/document`, {
-  method: "POST",
-  headers: headers,
-  body: JSON.stringify(data),
-})
-  .then((response) => response.json())
-  .then((data) => {
-    console.log("Doc inserted successfully:", data);
-  })
-  .catch((error) => {
-    console.error("Failed to insert doc:", error);
-  });
-```
-
-<Callout type="info">
-
-### EmbJSON - What Happens After Saving
-
-When saving an EmbText data type, CapybaraDB performs additional processing:
-
-- The saved data will have an updated field called chunks in addition to `@embText.text` and `@embText.emb_model`.
-- Each chunk is vectorized and indexed in the database, enabling efficient querying and similarity searches.
-
-Here's an example of the saved data:
-
-```json showLineNumbers {8-10}
-{
-  "name": "Alice",
-  "age": "7",
-  "background": {
-    "@embText": {
-      "text": "Through the Looking-Glass follows Alice as she steps into a fantastical world...",
-      "emb_model": "text-embedding-3-small",
-      "chunks": [
-        "Through the Looking-Glass follows Alice",
-        "as she steps into a fantastical world..."
-      ]
-    }
-  }
-}
-```
-
-</Callout>
-
-### Complete TypeScript Code for Inserting a Doc
-
-Here is the complete TypeScript code to insert a doc, including setting up the API key and headers:
-
-```typescript
-// Set the API key (non-production setup)
-const CAPYBARADB_API_KEY = "your_api_key_here";
-
-// Set the collection URL
-const collectionUrl = "your_collection_url_here";
-
-// Set the headers
-const headers = {
-  Authorization: `Bearer ${CAPYBARADB_API_KEY}`,
-  "Content-Type": "application/json",
-};
-
-// Define the doc to be inserted
-const doc = {
-  name: "Alice",
-  age: "7",
-  background: {
-    "@embText": {
-      text: "Through the Looking-Glass follows Alice as she steps into a fantastical world...",
-      emb_model: "text-embedding-3-small", // Optional, specify the embedding model
-    },
-  },
-};
-
-// Wrap the doc in a list under the 'documents' field
-const data = {
-  documents: [doc],
-};
-
-// Make the POST request to insert the doc
-fetch(`${collectionUrl}/document`, {
-  method: "POST",
-  headers: headers,
-  body: JSON.stringify(data),
-})
-  .then((response) => response.json())
-  .then((data) => {
-    console.log("Doc inserted successfully:", data);
-  })
-  .catch((error) => {
-    console.error("Failed to insert doc:", error);
-  });
-```
-
-## Step 6: Querying the Data
-
-To retrieve data based on semantic similarity, make a POST request to:
-
-`{COLLECTION_URL}/document/query`
+## Step 7: Querying the Data
 
 ### Query Request
-
-- Include your **API Key** in the headers.
-- The request body should contain a `query` field, with optional `emb_model`, `top_k`, and `filter` parameters.
-- The `filter` parameter is a dictionary that allows you to narrow down the documents to be queried. CapybaraDB supports all filter types that are supported by MongoDB, using the same format. When a filter is provided, the query will target only the documents that match the filter criteria.
 
 Here's how to perform a query using TypeScript:
 
 ```typescript
-// Set the API key (non-production setup)
-const CAPYBARADB_API_KEY = "your_api_key_here";
+async function main() {
+  // Define the query
+  const query = "Alice in a fantastical world";
 
-// Set the collection URL
-const collectionUrl = "your_collection_url_here";
+  try {
+    // Execute the query
+    const response = await collection.query(query);
+    console.log("Query results:", response);
+  } catch (error) {
+    console.error("Failed to query document:", error);
+  }
+}
 
-// Set the headers
-const headers = {
-  Authorization: `Bearer ${CAPYBARADB_API_KEY}`,
-  "Content-Type": "application/json",
-};
-
-// Define the query
-const queryBody = {
-  emb_model: "text-embedding-3-small", // Optional, default is 'text-embedding-3-small'
-  query: "Alice in a fantastical world",
-  top_k: 5, // Optional, default is 10
-  filter: {
-    // Optional filter to narrow down the documents
-    age: "7",
-  },
-};
-
-// Make the POST request to query the doc
-fetch(`${collectionUrl}/document/query`, {
-  method: "POST",
-  headers: headers,
-  body: JSON.stringify(queryBody),
-})
-  .then((response) => response.json())
-  .then((data) => {
-    console.log("Query results:", data);
-  })
-  .catch((error) => {
-    console.error("Failed to query doc:", error);
-  });
+main();
 ```
+
+</LanguageContent>
 
 ### Example Response
 
@@ -524,51 +224,6 @@ Successful query response:
   ]
 }
 ```
-
-### Complete TypeScript Code for Querying Data
-
-Below is the complete TypeScript code to perform a query, including setting up the API key and headers:
-
-```typescript
-// Set the API key (non-production setup)
-const CAPYBARADB_API_KEY = "your_api_key_here";
-
-// Set the collection URL
-const collectionUrl = "your_collection_url_here";
-
-// Set the headers
-const headers = {
-  Authorization: `Bearer ${CAPYBARADB_API_KEY}`,
-  "Content-Type": "application/json",
-};
-
-// Define the query
-const queryBody = {
-  emb_model: "text-embedding-3-small", // Optional, default is 'text-embedding-3-small'
-  query: "Alice in a fantastical world",
-  top_k: 5, // Optional, default is 10
-  filter: {
-    // Optional filter to narrow down the documents
-    age: "7",
-  },
-};
-
-// Make the POST request to query the doc
-fetch(`${collectionUrl}/document/query`, {
-  method: "POST",
-  headers: headers,
-  body: JSON.stringify(queryBody),
-})
-  .then((response) => response.json())
-  .then((data) => {
-    console.log("Query results:", data);
-  })
-  .catch((error) => {
-    console.error("Failed to query doc:", error);
-  });
-```
-
-</LanguageContent>
 
 ---
 
@@ -581,7 +236,7 @@ Feel free to let me know if there’s anything specific you’d like to add or c
 
 ## Next Steps
 
-- Experiment with more complex data types using CapybaraDB extended JSON.
+- Experiment with more complex data types using CapybaraDB's extended JSON.
 - Explore the full API documentation for more features.
 
 If you have any questions, feel free to reach out to us at hello@capybaradb.co.
