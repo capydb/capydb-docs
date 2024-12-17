@@ -2,21 +2,11 @@ import LanguageToggle from "../components/LanguageToggle";
 import LanguageContent from "../components/LanguageContent";
 import { Callout } from "nextra/components";
 
-<LanguageContent lang="python">
-
-# Quick Start for Python
-
-</LanguageContent>
-
-<LanguageContent lang="typescript">
-
-# Quick Start for TypeScript
-
-</LanguageContent>
+# Quick Start
 
 <LanguageToggle />
 
-Welcome to **CapybaraDB**! The chillest AI-native database out there! This guide will help you get started quickly with our powerful API service. Whether you're inserting your first document or exploring advanced features, you'll find everything you need to make your first API request in just a few simple steps.
+Welcome to **CapybaraDB**! The chillest AI-native database out there! This guide will help you get started quickly with our powerful API service. Whether you're inserting your first document or exploring advanced features, you'll find everything you need to Save Documents (No Need for Embedding!) in just a few simple steps.
 
 ## Step 1: Install SDK
 
@@ -41,28 +31,20 @@ npm install capybaradb
 Start by signing up for **CapybaraDB**:
 
 1. Visit [CapybaraDB Sign Up](https://capybaradb.co).
-2. After signing up, log in and navigate to `/dashboard`, your main hub for managing databases, collections, and API keys.
+2. After signing up, you'll be navigated to the developer console.
 
-## Step 3: Create an API Key
+## Step 3: Get the API Key and the Project ID
 
-Next, create an API key to authenticate your project:
+### API Key
 
 1. In the sidebar, go to the **API Key** page.
 2. Click to create a new API key—you can optionally name the key.
 3. The key will only be displayed once. **Store it securely**.
 
-## Step 4: Create a Collection
+### Project ID
 
-To start storing your data, follow these steps to create a collection:
-
-1. In the sidebar, click the **Collection** tab and use the **plus (+)** button to create a new collection.
-2. Enter a **database name** and a **collection name**. Once created, the new collection will appear in the sidebar.
-3. From the collection list in the sidebar, select the collection you just created.
-4. Copy **Project ID** from the side bar and save it with the API key.
-
-## Step 5: Use Your API Key and Project ID
-
-To interact with CapybaraDB's API, you'll need a **collection URL** and your **API Key** for authorization.
+1. Project ID can be found on the welcome page or collection page on the console.
+2. It's recommended to store project ID securely.
 
 ### Setting the API Key and Project URL
 
@@ -81,24 +63,43 @@ In production, use environment variables or secure server-side logic for **API K
 
 </Callout>
 
+## Step 4: Initialize SDK client
+
 <LanguageContent lang="python">
 
-## Step 6: Make Your First API Request
+```python
+import { CapybaraDB, EmbText } from "capybaradb";
+import dotenv from "dotenv";
+
+const client = new CapybaraDB();
+const db = client.db("your_db_name");
+const collection = db.collection("your_collection_name");
+```
+
+</LanguageContent>
+
+<LanguageContent lang="typescript">
+
+```typescript
+import { CapybaraDB, EmbText } from "capybaradb";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const client = new CapybaraDB();
+const db = client.db("your_db_name");
+const collection = db.collection("your_collection_name");
+```
+
+</LanguageContent>
+
+## Step 5: Save Documents (No Need for Embedding!)
 
 ### Example: Insert a Document
 
-Use Python to insert a document into the collection:
+<LanguageContent lang="python">
 
 ```python
-from capybaradb import CapybaraDB, EmbText
-from dotenv import load_dotenv
-
-load_dotenv()
-
-one_client = CapybaraDB()
-db = one_client.db('your_db_name')
-collection = db.collection('your_collection_name')
-
 # Define the document to be inserted
 doc = {
     "name": "Alice",
@@ -114,23 +115,10 @@ response = collection.insertOne(doc)
 
 <LanguageContent lang="typescript">
 
-## Step 6: Make Your First API Request
-
-### Example: Insert a Doc
-
 Use TypeScript to insert a doc into the collection:
 
 ```typescript
-import { CapybaraDB, EmbText } from "capybaradb";
-import dotenv from "dotenv";
-
-dotenv.config();
-
 async function main() {
-  const client = new CapybaraDB();
-  const db = client.db("your_db_name");
-  const collection = db.collection("your_collection_name");
-
   // Define the document to be inserted
   const doc = {
     name: "Alice",
@@ -140,13 +128,7 @@ async function main() {
     ),
   };
 
-  try {
-    // Insert the document
-    const result = await collection.insertOne(doc);
-    console.log("Document inserted successfully:", result);
-  } catch (error) {
-    console.error("Error inserting document:", error);
-  }
+  const result = await collection.insertOne(doc);
 }
 
 main();
@@ -154,7 +136,7 @@ main();
 
 </LanguageContent>
 
-<Callout type="info">
+<Callout>
 
 ### EmbJSON - What Happens After Saving
 
@@ -165,16 +147,16 @@ When saving an `EmbText` data type, CapybaraDB performs additional processing:
 
 </Callout>
 
-<LanguageContent lang="python">
-
-## Step 7: Querying the Data
+## Step 6: Querying the Data
 
 ### Query Request
+
+<LanguageContent lang="python">
 
 Here's how to perform a query using Python:
 
 ```python
-query = Alice in a fantastical world
+query = "Alice in a fantastical world"
 
 response = collection.query(query)
 ```
@@ -182,9 +164,6 @@ response = collection.query(query)
 </LanguageContent>
 
 <LanguageContent lang="typescript">
-## Step 7: Querying the Data
-
-### Query Request
 
 Here's how to perform a query using TypeScript:
 
@@ -193,13 +172,8 @@ async function main() {
   // Define the query
   const query = "Alice in a fantastical world";
 
-  try {
-    // Execute the query
-    const response = await collection.query(query);
-    console.log("Query results:", response);
-  } catch (error) {
-    console.error("Failed to query document:", error);
-  }
+  // Execute the query
+  const response = await collection.query(query);
 }
 
 main();
@@ -225,20 +199,4 @@ Successful query response:
 }
 ```
 
----
-
-Feel free to let me know if there’s anything specific you’d like to add or clarify further in this documentation!
-
-## Security Recommendations
-
-- **Do not hardcode your API Key in production environment**. Use environment variables or secure configuration tools.
-- **Keep your API Key private** and do not share it publicly.
-
-## Next Steps
-
-- Experiment with more complex data types using CapybaraDB's extended JSON.
-- Explore the full API documentation for more features.
-
-If you have any questions, feel free to reach out to us at hello@capybaradb.co.
-
-Happy building!
+### Got questions? [Email us](mailto:hello@capybaradb.co)

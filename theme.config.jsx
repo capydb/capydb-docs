@@ -5,6 +5,16 @@ import LanguageToggle from "./src/components/LanguageToggle";
 import TOC from "./src/components/TOC";
 
 export default {
+  head: (
+    <>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta property="og:title" content="CapybaraDB Docs" />
+      <meta
+        property="og:description"
+        content="The chillest AI-native database out there."
+      />
+    </>
+  ),
   logo: (
     <div style={{ display: "flex", alignItems: "center" }}>
       <Image
