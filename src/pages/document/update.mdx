@@ -27,12 +27,7 @@ filter_criteria = {
 update = {
     "$set": {
         "age": 31,
-        "bio": {
-            "@embText": {
-                "text": "John is now an experienced AI specialist with updated skills.",
-                "model": "text-embedding-3-small"
-            }
-        }
+        "bio": EmbText("John is now an experienced AI specialist with updated skills.")
     }
 }
 
@@ -55,12 +50,9 @@ const filter_criteria = {
 const update = {
   $set: {
     age: 31,
-    bio: {
-      "@embText": {
-        text: "John is now an experienced AI specialist with updated skills.",
-        model: "text-embedding-3-small",
-      },
-    },
+    bio: new EmbText(
+      "John is now an experienced AI specialist with updated skills."
+    ),
   },
 };
 
@@ -91,10 +83,10 @@ If an upsert was performed, the `upserted_id` will contain the ID of the new doc
 
 ## Parameters for Update Operations
 
-| Parameter  | Description                                                                                                                                                                                                                                                                                                                      |
-| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **filter** | A query object to match the documents to update. This works the same way as MongoDB filters, where you specify conditions to find the documents that need updating. For more details, refer to the [official MongoDB documentation on query filters](https://www.mongodb.com/docs/manual/core/document/#query-filter-documents). |
-| **update** | The update operations to apply to the matched documents. You can use MongoDB-like update operators such as `$set`, `$inc`, etc. For a full list of update operators, refer to the [official MongoDB documentation on update operators](https://www.mongodb.com/docs/manual/reference/operator/update-field).                     |
-| **upsert** | (Optional) A boolean flag to create a new document if no documents match the filter. If set to `true`, a new document will be created using the `filter` and `update` information.                                                                                                                                               |
+| Parameter  | Description                                                                                                                                                                                                                                  |
+| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **filter** | A query object to match the documents to update. This works the same way as MongoDB filters, where you specify conditions to find the documents that need updating. For more details, refer to the [filter operator syntax](/syntax/filter). |
+| **update** | The update operations to apply to the matched documents. You can use MongoDB-like update operators such as `$set`, `$inc`, etc. For a full list of update operators, refer to the [update operator syntax](/syntax/update).                  |
+| **upsert** | (Optional) A boolean flag to create a new document if no documents match the filter. If set to `true`, a new document will be created using the `filter` and `update` information.                                                           |
 
 ### Got questions? [Email us](mailto:hello@capybaradb.co)

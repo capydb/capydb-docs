@@ -9,6 +9,7 @@
   },
   "overview": "Overview",
   "index": "Quick Start",
-  "document": "Document",
-  "emb_json": "EmbJSON"
+  "document": "Main Operations",
+  "emb_json": "EmbJSON",
+  "syntax": "Syntax"
 }

@@ -1,0 +1,106 @@
+# Update Syntax
+
+**CapybaraDB** supports a robust and flexible update syntax fully compatible with MongoDB, allowing you to modify, add, or remove fields and elements in your documents.
+
+---
+
+## 1: Field Update Operators
+
+Modify or remove specific fields in a document.
+
+| **Operator**   | **Description**                                                     | **Example**                               |
+| -------------- | ------------------------------------------------------------------- | ----------------------------------------- |
+| `$set`         | Updates the value of a field.                                       | `{ "$set": { "name": "Alice" } }`         |
+| `$unset`       | Removes a field from the document.                                  | `{ "$unset": { "age": "" } }`             |
+| `$rename`      | Renames a field.                                                    | `{ "$rename": { "oldName": "newName" } }` |
+| `$inc`         | Increments the value of a field.                                    | `{ "$inc": { "score": 5 } }`              |
+| `$mul`         | Multiplies the value of a field.                                    | `{ "$mul": { "price": 1.2 } }`            |
+| `$min`         | Updates the field if the new value is smaller.                      | `{ "$min": { "age": 18 } }`               |
+| `$max`         | Updates the field if the new value is greater.                      | `{ "$max": { "age": 30 } }`               |
+| `$setOnInsert` | Sets a field only if the document is inserted (used with `upsert`). | `{ "$setOnInsert": { "joined": true } }`  |
+
+---
+
+## 2: Array Update Operators
+
+Modify fields that are arrays, allowing for dynamic manipulation of their contents.
+
+| **Operator** | **Description**                                     | **Example**                                                     |
+| ------------ | --------------------------------------------------- | --------------------------------------------------------------- |
+| `$push`      | Adds an item to an array.                           | `{ "$push": { "tags": "mongodb" } }`                            |
+| `$pull`      | Removes items matching a condition from an array.   | `{ "$pull": { "tags": "deprecated" } }`                         |
+| `$addToSet`  | Adds an item to an array only if it does not exist. | `{ "$addToSet": { "tags": "uniqueTag" } }`                      |
+| `$pop`       | Removes the first or last item from an array.       | `{ "$pop": { "comments": -1 } }`                                |
+| `$pullAll`   | Removes all matching values from an array.          | `{ "$pullAll": { "tags": ["oldTag", "unusedTag"] } }`           |
+| `$each`      | Adds multiple values to an array.                   | `{ "$push": { "tags": { "$each": ["tag1", "tag2"] } } }`        |
+| `$slice`     | Limits the size of an array.                        | `{ "$push": { "tags": { "$each": ["newTag"], "$slice": 5 } } }` |
+| `$sort`      | Sorts array elements.                               | `{ "$push": { "scores": { "$each": [], "$sort": -1 } } }`       |
+
+---
+
+## 3: Bitwise Update Operators
+
+Perform bitwise operations on numeric fields.
+
+| **Operator** | **Description**              | **Example**                             |
+| ------------ | ---------------------------- | --------------------------------------- |
+| `$bit`       | Performs bitwise operations. | `{ "$bit": { "flags": { "and": 5 } } }` |
+
+---
+
+## 4: Positional Array Operators
+
+Update specific elements in arrays using positional or filtered criteria.
+
+| **Operator**      | **Description**                             | **Example**                                 |
+| ----------------- | ------------------------------------------- | ------------------------------------------- |
+| `$`               | Updates the first matching array element.   | `{ "$set": { "items.$": "updatedValue" } }` |
+| `$[]`             | Updates all elements in an array.           | `{ "$set": { "scores.$[]": 100 } }`         |
+| `$[<identifier>]` | Updates array elements that match a filter. | `{ "$set": { "scores.$[passing]": 100 } }`  |
+
+**Array Filter Example**: Use with `$[<identifier>]` to target specific elements:
+
+```json
+{
+  "arrayFilters": [{ "passing": { "$gte": 50 } }]
+}
+```
+
+---
+
+## 5: Document Replacement
+
+Replace an entire document with a new one, retaining the `_id` field.
+
+```json
+{
+  "name": "Alice",
+  "age": 30,
+  "status": "active"
+}
+```
+
+---
+
+## 6: Combining Multiple Updates
+
+Use multiple update operators in a single operation for complex modifications.
+
+```json
+{
+  "$set": { "status": "active" },
+  "$inc": { "score": 10 },
+  "$unset": { "oldField": "" }
+}
+```
+
+---
+
+## Usage Notes
+
+- **Atomic Operations**: Updates are applied atomically to a document.
+- **Upsert**: Use the `upsert` option to insert a document if no matching document is found.
+- **Array Filters**: Use `arrayFilters` to target specific elements in arrays when using `$[]` or `$[<identifier>]`.
+- **Document Replacement**: Fields not included in the replacement document will be removed (except `_id`).
+
+### Got questions? [Email us](mailto:hello@capybaradb.co)
