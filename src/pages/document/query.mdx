@@ -6,9 +6,11 @@ import { Callout } from "nextra/components";
 
 <LanguageToggle />
 
-This guide explains how to perform semantic queries on documents in CapybaraDB. The query operation retrieves documents based on semantic matches to the provided query text. Optional parameters like emb_model, top_k, and projection allow you to control the embedding model used, the number of results, and the fields returned. The examples below demonstrate how to leverage EmbJSON for effective semantic searches.
+This guide explains how to perform **semantic queries** on documents in CapybaraDB. Semantic queries retrieve documents by matching the meaning of the provided query text with **EmbJSONs** in the database.
 
-### Example: Code for `query` Operation
+**The query operation returns a list of matched chunks from EmbJSONs in the collection. Only EmbJSONs with the same emb_model as the query text are included in the semantic search.** EmbJSONs with differing `emb_model` are excluded from the semantic search.
+
+### Example Code for `query` Operation
 
 <LanguageContent lang="python">
 
@@ -16,15 +18,23 @@ Below is an example of how to perform a semantic query using Python. This exampl
 
 ```python filename="Python" showLineNumbers
 query_text = "Software engineer with expertise in AI"
-emb_model = "text-embedding-3-small"
-top_k = 3
-include_values = True
+
+response = collection.query(query)
+```
+
+Alternatively, you can use an advanced query with optional parameters like so:
+
+```python filename="Python" showLineNumbers
+query_text = "Software engineer with expertise in AI"
+emb_model = "text-embedding-3-small" # Optional
+top_k = 3 # Optional
+include_values = True # Optional
 projection = {
     "mode": "include",
     "fields": ["name", "bio"]
-}
+} # Optional
 
-response = collection.query(query)
+response = collection.query(query, emb_model, top_k, include_values, projection)
 ```
 
 </LanguageContent>
@@ -35,59 +45,55 @@ Below is an example of how to perform a semantic query using Python. This exampl
 
 ```typescript filename="TypeScript" showLineNumbers
 const queryText = "Software engineer with expertise in AI";
-const embModel = "text-embedding-3-small";
-const topK = 3;
-const includeValues = true;
+
+const response = collection.query(query);
+```
+
+Alternatively, you can use an advanced query with optional parameters like so:
+
+```typescript filename="TypeScript" showLineNumbers
+const query = "Software engineer with expertise in AI";
+const embModel = "text-embedding-3-small"; // Optional
+const topK = 3; // Optional
+const includeValues = true; // Optional
 const projection = {
   mode: "include",
   fields: ["name", "bio"],
-};
+}; // Optional
+
+const response = collection.query(
+  query,
+  embModel,
+  topK,
+  includeValues,
+  projection
+);
 ```
 
 </LanguageContent>
 
-### Query Response
-
-A successful query operation will return a JSON response containing matched **chunks** sorted by semantic similarity. Below is an example response:
+### Default Response
 
 ```json filename="JSON" showLineNumbers
 {
   "matches": [
     {
-      "document": {
-        "name": "John Doe",
-        "bio": {
-          "@embText": {
-            "text": "John is a software engineer with expertise in AI.",
-            "model": "text-embedding-3-small"
-          }
-        }
-      },
-      "path": "bio",
       "chunk": "John is a software engineer with expertise in AI.",
-      "chunk_n": 0,
+      "path": "bio", # the path of this chunk in the document
+      "chunk_n": 0, # the index number of this chunk in the EmbJSON
       "score": 0.95,
-      "values": [
-        0.123, 0.456, 0.789, ...
-      ]
+      "document": {
+        "_id": ObjectId("64d2f8f01234abcd5678ef90"),
+      }
     },
     {
-      "document": {
-        "name": "Alice Smith",
-        "bio": {
-          "@embText": {
-            "text": "Alice is a data scientist with a background in machine learning.",
-            "model": "text-embedding-3-small"
-          }
-        }
-      },
-      "path": "bio",
       "chunk": "Alice is a data scientist with a background in machine learning.",
+      "path": "bio",
       "chunk_n": 1,
       "score": 0.89,
-      "values": [
-        0.234, 0.567, 0.890, ...
-      ]
+      "document": {
+        "_id": ObjectId("64d2f8f01234abcd5678ef91"),
+      }
     }
   ]
 }
@@ -95,36 +101,40 @@ A successful query operation will return a JSON response containing matched **ch
 
 The matches field contains an array of documents that were semantically matched, with additional metadata about the matched chunks, such as path, chunk, score, and values if requested. Note that only documents containing **EmbJSON** fields are returned in the response.
 
-### Example Response When Omitting projection
+### Detailed Response with Additional Parameters
 
-If the projection parameter is omitted, the default behavior is to exclude all fields except the \_id field. Below is an example response:
+If you use additional parameters such as `include_values` or `projection`, the response will include more details.
 
 ```json filename="JSON" showLineNumbers
 {
   "matches": [
     {
-      "document": {
-        "_id": "64d2f8f01234abcd5678ef90"
-      },
       "path": "bio",
       "chunk": "John is a software engineer with expertise in AI.",
       "chunk_n": 0,
       "score": 0.95,
       "values": [
         0.123, 0.456, 0.789, ...
-      ]
+      ], # Vector values of this chunk. (include_values = True)
+      "document": {
+        "_id": ObjectId("64d2f8f01234abcd5678ef90"),
+        "name": "John Doe",
+        "bio": EmbText("John is a software engineer with expertise in AI.")
+      }, # Specified fields in the projection will be returned
     },
     {
-      "document": {
-        "_id": "64d2f8f01234abcd5678ef91"
-      },
       "path": "bio",
       "chunk": "Alice is a data scientist with a background in machine learning.",
       "chunk_n": 1,
       "score": 0.89,
       "values": [
         0.234, 0.567, 0.890, ...
-      ]
+      ],
+      "document": {
+        "_id": ObjectId("64d2f8f01234abcd5678ef91"),
+        "name": "Alice Smith",
+        "bio": EmbText("Alice is a data scientist with a background in machine learning.")
+      },
     }
   ]
 }

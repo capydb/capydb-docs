@@ -108,7 +108,7 @@ doc = {
 }
 
 # Make the POST request to insert the document
-response = collection.insertOne(doc)
+response = collection.insert(doc)
 ```
 
 </LanguageContent>
@@ -128,7 +128,7 @@ async function main() {
     ),
   };
 
-  const result = await collection.insertOne(doc);
+  const result = await collection.insert(doc);
 }
 
 main();

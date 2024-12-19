@@ -1,4 +1,5 @@
 {
   "filter": "Filter Syntax",
-  "update": "Update Syntax"
+  "update": "Update Syntax",
+  "projection": "Projection Syntax"
 }
