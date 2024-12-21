@@ -1,5 +1,6 @@
 import LanguageToggle from "../../components/LanguageToggle";
 import LanguageContent from "../../components/LanguageContent";
+import Feedback from "../../components/Feedback";
 
 # Update
 
@@ -89,4 +90,8 @@ If an upsert was performed, the `upserted_id` will contain the ID of the new doc
 | **update** | The update operations to apply to the matched documents. You can use MongoDB-like update operators such as `$set`, `$inc`, etc. For a full list of update operators, refer to the [update operator syntax](/syntax/update).                  |
 | **upsert** | (Optional) A boolean flag to create a new document if no documents match the filter. If set to `true`, a new document will be created using the `filter` and `update` information.                                                           |
 
-### Got questions? [Email us](mailto:hello@capybaradb.co)
+### How can we improve this documentation?
+
+<Feedback />
+
+### Got question? [Email us](mailto:hello@capybaradb.co)

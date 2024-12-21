@@ -1,3 +1,5 @@
+import Feedback from "../../components/Feedback";
+
 # Filter Syntax
 
 **CapybaraDB** utilizes a filter syntax fully compatible with MongoDB, enabling flexible and intuitive querying of data.
@@ -99,4 +101,8 @@ Query location-based data.
 | `$geoWithin` | Matches points within a geometry | `{ "location": { "$geoWithin": { "$centerSphere": [ [ 50, 50 ], 10 ] } } }`                                          |
 | `$near`      | Matches points near a location   | `{ "location": { "$near": { "$geometry": { "type": "Point", "coordinates": [ 50, 50 ] }, "$maxDistance": 5000 } } }` |
 
-### Got questions? [Email us](mailto:hello@capybaradb.co)
+### How can we improve this documentation?
+
+<Feedback />
+
+### Got question? [Email us](mailto:hello@capybaradb.co)
