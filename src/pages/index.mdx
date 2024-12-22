@@ -94,7 +94,7 @@ const collection = db.collection("your_collection_name");
 
 </LanguageContent>
 
-## Step 5: Save Documents (No Need for Embedding!)
+## Step 5: Save Documents (No Embedding Needed!)
 
 ### Example: Insert a Document
 
@@ -190,11 +190,11 @@ Successful query response:
 {
   "matches": [
     {
-      "document_id": { "$oid": "671bf91580bffb6387b4f3d2" },
-      "path": "background",
       "chunk": "Through the Looking-Glass follows Alice as she steps into a fantastical world...",
+      "path": "background",
       "chunk_n": 0,
       "score": 0.703643203
+      "document": {"_id": ObjectId("671bf91580bffb6387b4f3d2")},
     }
   ]
 }
