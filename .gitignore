@@ -132,3 +132,8 @@ dist
 .vscode
 certificates
 .DS_Store
+
+# Exclude generated sitemap files
+public/sitemap.xml
+public/sitemap-*.xml
+public/robots.txt
