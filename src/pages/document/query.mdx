@@ -62,13 +62,12 @@ const projection = {
   fields: ["name", "bio"],
 }; // Optional
 
-const response = collection.query(
-  query,
+const response = collection.query(query, {
   embModel,
   topK,
   includeValues,
-  projection
-);
+  projection,
+});
 ```
 
 </LanguageContent>
