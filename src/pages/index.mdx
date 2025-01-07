@@ -102,14 +102,18 @@ const collection = db.collection("your_collection_name");
 
 ```python
 # Define the document to be inserted
-doc = {
-    "name": "Alice",
-    "age": "7",
-    "background": EmbText("Through the Looking-Glass follows Alice as she steps into a fantastical world...")
-}
+docs = [
+    {
+        "name": "Alice",
+        "age": "7",
+        "background": EmbText(
+            "Through the Looking-Glass follows Alice as she steps into a fantastical world..."
+        ),
+    }
+]
 
 # Make the POST request to insert the document
-response = collection.insert(doc)
+response = collection.insert(docs)
 ```
 
 </LanguageContent>
@@ -121,15 +125,17 @@ Use TypeScript to insert a doc into the collection:
 ```typescript
 async function main() {
   // Define the document to be inserted
-  const doc = {
-    name: "Alice",
-    age: "7",
-    background: new EmbText(
-      "Through the Looking-Glass follows Alice as she steps into a fantastical world..."
-    ),
-  };
+  const docs = [
+    {
+      name: "Alice",
+      age: "7",
+      background: new EmbText(
+        "Through the Looking-Glass follows Alice as she steps into a fantastical world..."
+      ),
+    },
+  ];
 
-  const result = await collection.insert(doc);
+  const result = await collection.insert(docs);
 }
 
 main();
