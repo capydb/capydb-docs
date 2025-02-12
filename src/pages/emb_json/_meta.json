@@ -1,5 +1,5 @@
 {
-    "index": "Overview",
-    "emb_text": "EmbText"
-  }
-  
+  "index": "Overview",
+  "emb_text": "EmbText",
+  "emb_image": "EmbImage"
+}
