@@ -69,12 +69,15 @@ In production, use environment variables or secure server-side logic for **API K
 <LanguageContent lang="python">
 
 ```python
-import { CapybaraDB, EmbText } from "capybaradb";
-import dotenv from "dotenv";
+from capybaradb import CapybaraDB, EmbText
+from dotenv import load_dotenv
 
-const client = new CapybaraDB();
-const db = client.db("your_db_name");
-const collection = db.collection("your_collection_name");
+# Load environment variables from .env
+load_dotenv()
+
+client = CapybaraDB()
+db = client.db("your_db_name")
+collection = db.collection("your_collection_name")
 ```
 
 </LanguageContent>
