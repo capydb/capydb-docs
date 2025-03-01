@@ -113,7 +113,7 @@ export default function ApiReferencePage() {
               </Link>
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-300">
-              Create, list, and manage collections in your CapybaraDB database.
+              Information about collections in your CapybaraDB database. Note that collection management operations are only available through the CapybaraDB Console.
             </p>
           </div>
           
