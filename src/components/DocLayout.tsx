@@ -65,18 +65,19 @@ interface DocLayoutProps {
 
 export default function DocLayout({ children }: DocLayoutProps) {
   const pathname = usePathname();
+  const capybaradbUrl = process.env.NEXT_PUBLIC_CAPYBARADB_URL || 'https://capybaradb.co';
   
   return (
     <div className="flex min-h-screen bg-gray-50 dark:bg-gray-950">
       {/* Sidebar */}
       <aside className="fixed inset-y-0 left-0 z-10 w-72 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 overflow-y-auto shadow-md">
-        <div className="flex items-center p-5 border-b border-gray-200 dark:border-gray-800 bg-gradient-to-r from-blue-50 to-white dark:from-gray-800 dark:to-gray-900">
+        <div className="flex items-center h-14 px-5 border-b border-gray-200 dark:border-gray-800 bg-gradient-to-r from-blue-50 to-white dark:from-gray-800 dark:to-gray-900">
           <Link href="https://capybaradb.co" className="flex items-center">
             <Image
               src="https://capybaradb.co/images/mainIcon.png"
               alt="CapybaraDB logo"
-              width={32}
-              height={32}
+              width={28}
+              height={28}
               className="mr-3"
             />
             <span className="font-bold text-xl text-gray-900 dark:text-white">CapybaraDB</span>
@@ -119,24 +120,49 @@ export default function DocLayout({ children }: DocLayoutProps) {
       {/* Main content area */}
       <div className="flex-1 ml-72">
         {/* Header bar with external links */}
-        <div className="sticky top-0 z-20 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 px-6 py-3 shadow-sm">
-          <div className="flex items-center justify-between">
-            <div className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              Documentation
+        <div className="sticky top-0 z-20 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 h-14 flex items-center px-6 shadow-sm">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center h-full space-x-4">
+              <Link 
+                href="/"
+                className={`text-sm font-medium transition-colors duration-200 ${
+                  pathname === '/' 
+                    ? 'text-blue-600 dark:text-blue-400' 
+                    : 'text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400'
+                }`}
+              >
+                <span className="flex items-center">
+                  Documentation
+                </span>
+              </Link>
+              <Link 
+                href="/api-reference"
+                className={`text-sm font-medium transition-colors duration-200 ${
+                  pathname === '/api-reference' 
+                    ? 'text-blue-600 dark:text-blue-400' 
+                    : 'text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400'
+                }`}
+              >
+                <span className="flex items-center">
+                  API Reference
+                </span>
+              </Link>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4 h-full">
               {externalLinks.map((link, idx) => (
                 <Link
                   key={idx}
                   href={link.href}
-                  className="flex items-center text-sm text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200"
+                  className="flex items-center h-full text-sm text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {link.title}
-                  <svg className="ml-1 h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
+                  <span className="flex items-center">
+                    {link.title}
+                    <svg className="ml-1 h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </span>
                 </Link>
               ))}
             </div>
