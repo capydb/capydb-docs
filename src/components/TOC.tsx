@@ -1,3 +1,4 @@
+'use client';
 import { useLanguage } from "@/context/LanguageContext";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
@@ -6,7 +7,6 @@ interface Heading {
   id: string;
   text: string;
   level: number;
-  element: HTMLElement;
 }
 
 // Function to calculate the active heading based on the scroll position
@@ -18,50 +18,80 @@ function calculateActiveIndex(
   const headerOffset = 100; // Adjust based on your header height
 
   // Find the current active heading based on scroll position
-  for (const heading of headings) {
+  let activeHeading = null;
+  
+  for (let i = headings.length - 1; i >= 0; i--) {
+    const heading = headings[i];
     const element = document.getElementById(heading.id);
+    
     if (element) {
       const { top } = element.getBoundingClientRect();
       const absoluteTop = top + scrollY;
-
+      
       if (absoluteTop - headerOffset <= scrollY) {
-        setActiveId(heading.id);
+        activeHeading = heading;
+        break;
       }
     }
   }
+  
+  if (activeHeading) {
+    setActiveId(activeHeading.id);
+  } else if (headings.length > 0) {
+    // Default to first heading if none are active
+    setActiveId(headings[0].id);
+  }
+}
+
+// Function to generate a unique ID for headings without IDs
+function generateId(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
 }
 
 const CustomTOC = () => {
   const [headings, setHeadings] = useState<Heading[]>([]);
   const [activeId, setActiveId] = useState("");
-  const tocRef = useRef<HTMLElement | null>(null); // Ref for TOC component
-  const pathname = usePathname()
-  const language = useLanguage()
+  const tocRef = useRef<HTMLElement | null>(null);
+  const pathname = usePathname();
+  const { language } = useLanguage();
 
   useEffect(() => {
-    // Select all heading elements
+    // Add IDs to headings that don't have them
+    const contentContainer = document.querySelector('.nextra-content');
+    if (!contentContainer) return;
+    
     const headingElements = Array.from(
-      document.querySelectorAll("h1,h2,h3,h4,h5,h6")
+      contentContainer.querySelectorAll('h1, h2, h3, h4')
     );
-
-    // Map over the heading elements to extract necessary data
+    
+    // Process headings and add IDs if needed
+    headingElements.forEach((heading) => {
+      const existingId = heading.id;
+      const headingText = heading.textContent?.trim() || '';
+      
+      if (!existingId && headingText) {
+        const newId = generateId(headingText);
+        heading.id = newId;
+      }
+    });
+    
+    // Now extract all headings with IDs
     const extractedHeadings = headingElements
       .map((heading) => {
-        const anchor = heading.querySelector("a[id]");
-        if (!anchor) return null;
-
-        const id = anchor.id;
-        const text = Array.from(heading.childNodes)
-          .filter((node) => node.nodeType === Node.TEXT_NODE)
-          .map((node) => node.textContent)
-          .join("")
-          .trim();
-        const level = Number(heading.tagName.substring(1));
-
-        return { id, text, level, element: heading as HTMLElement };
+        const id = heading.id;
+        const text = heading.textContent?.trim() || '';
+        const level = parseInt(heading.tagName.substring(1), 10);
+        
+        if (id && text) {
+          return { id, text, level };
+        }
+        return null;
       })
       .filter((heading): heading is Heading => heading !== null);
-
+    
     setHeadings(extractedHeadings);
 
     // Enhanced scroll tracking with debouncing
@@ -76,16 +106,19 @@ const CustomTOC = () => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     calculateActiveIndex(extractedHeadings, setActiveId); // Initial calculation
 
-    // Smooth scroll handling specific to this component
+    // Smooth scroll handling
     const handleTOCClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (target.matches(".toc-link")) {
+      const link = target.closest('.toc-link') as HTMLAnchorElement;
+      
+      if (link) {
         e.preventDefault();
-        const id = target.getAttribute("href")?.slice(1);
+        const id = link.getAttribute("href")?.slice(1);
+        
         if (id) {
           const element = document.getElementById(id);
           if (element) {
-            const headerOffset = 80; // Adjust based on your fixed header height
+            const headerOffset = 80;
             const elementPosition = element.getBoundingClientRect().top;
             const offsetPosition =
               elementPosition + window.pageYOffset - headerOffset;
@@ -94,12 +127,15 @@ const CustomTOC = () => {
               top: offsetPosition,
               behavior: "smooth",
             });
+            
+            // Update active ID immediately for better UX
+            setActiveId(id);
           }
         }
       }
     };
 
-    // Add the click event listener only to the TOC container
+    // Add the click event listener to the TOC container
     const tocElement = tocRef.current;
     if (tocElement) {
       tocElement.addEventListener("click", handleTOCClick);
@@ -115,41 +151,57 @@ const CustomTOC = () => {
     };
   }, [pathname, language]);
 
+  // Don't render if no headings
+  if (headings.length === 0) {
+    return null;
+  }
+
   return (
     <nav
-      ref={tocRef} // Attach ref to nav element
+      ref={tocRef}
       aria-label="Table of Contents"
-      className="fixed right-4 top-20 w-64 max-h-[calc(100vh-8rem)] overflow-y-auto scroll-smooth"
+      className="lg:sticky lg:top-20 w-full overflow-hidden"
     >
-      <ul className="space-y-1">
-        {headings.map((heading) => (
-          <li
-            key={heading.id}
-            style={{
-              marginLeft: `${(heading.level - 1) * 1}rem`,
-              transition: "all 0s ease",
-            }}
-          >
-            <a
-              href={`#${heading.id}`}
-              className={`
-                toc-link
-                block py-1.5 px-3 text-sm
-                rounded-md transition-all duration-200
-                ${
-                  heading.id === activeId
-                    ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 font-medium"
-                    : "text-gray-600 dark:text-gray-400 hover:bg-gray-900 dark:hover:bg-gray-400 dark:hover:text-blue-600"
-                }
-              `}
-            >
-              {heading.text}
-            </a>
-          </li>
-        ))}
-      </ul>
+      <div className="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+        <h4 className="text-sm font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wider mb-4 px-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+          On This Page
+        </h4>
+        {headings.length > 0 ? (
+          <ul className="space-y-1.5 max-h-[calc(100vh-12rem)] overflow-y-auto pr-1">
+            {headings.map((heading) => (
+              <li
+                key={heading.id}
+                style={{ 
+                  paddingLeft: `${Math.min((heading.level - 1) * 8, 24)}px`,
+                  transition: "all 0.2s ease"
+                }}
+              >
+                <a
+                  href={`#${heading.id}`}
+                  className={`
+                    toc-link
+                    block py-1.5 px-2 text-sm
+                    rounded-md transition-all duration-200
+                    ${
+                      heading.id === activeId
+                        ? "text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/40 font-medium border-l-2 border-blue-500 dark:border-blue-400"
+                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-100"
+                    }
+                  `}
+                >
+                  <span className="block truncate">{heading.text}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-sm text-gray-700 dark:text-gray-300 px-2">
+            No headings found on this page.
+          </p>
+        )}
+      </div>
     </nav>
   );
 };
 
-export default CustomTOC;
+export default CustomTOC; 

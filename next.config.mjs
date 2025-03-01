@@ -1,11 +1,11 @@
+import createMDX from '@next/mdx';
+import rehypeSlug from 'rehype-slug';
+import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
+
 /** @type {import('next').NextConfig} */
-import nextra from "nextra";
-const withNextra = nextra({
-  theme: "nextra-theme-docs",
-  themeConfig: "./theme.config.jsx",
-  defaultShowCopyCode: true,
-});
-const nextConfig = withNextra({
+const nextConfig = {
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   images: {
     remotePatterns: [
       {
@@ -14,6 +14,14 @@ const nextConfig = withNextra({
       },
     ],
   },
+};
+
+const withMDX = createMDX({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: [rehypeSlug, rehypeHighlight],
+  },
 });
 
-export default nextConfig;
+export default withMDX(nextConfig); 

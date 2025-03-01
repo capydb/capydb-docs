@@ -1,8 +1,29 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# CapybaraDB Documentation
+
+This is a Next.js implementation of the CapybaraDB documentation site, migrated from Nextra.
+
+## Features
+
+- Pure Next.js implementation without Nextra
+- Maintains the same UI/UX as the original Nextra-based site
+- Supports MDX content
+- Language switching between Python and TypeScript
+- Table of contents navigation
+- Responsive design
 
 ## Getting Started
 
-First, run the development server:
+First, install the dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
@@ -10,27 +31,27 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- `src/app`: Next.js App Router pages
+- `src/components`: React components
+- `src/context`: React context providers
+- `src/lib`: Utility functions
+- `src/styles`: Global styles
+- `src/content`: MDX content files
 
-## Learn More
+## MDX Components
 
-To learn more about Next.js, take a look at the following resources:
+The site uses custom MDX components to render the documentation content. These components are defined in `src/components/MDXComponents.tsx`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Language Switching
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+The site supports switching between Python and TypeScript code examples. This is implemented using the `LanguageContext` and `LanguageContent` components.
 
-## Deploy on Vercel
+## Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+The site can be deployed to any platform that supports Next.js, such as Vercel, Netlify, or AWS Amplify. 

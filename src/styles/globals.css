@@ -6,6 +6,8 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --primary-color: 59, 130, 246;
+  --primary-color-dark: 96, 165, 250;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -16,9 +18,140 @@
   }
 }
 
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 }
+
+/* Custom styles for documentation */
+.nextra-content h1 {
+  @apply text-4xl font-bold mt-8 mb-6 text-gray-900 dark:text-white border-b pb-4 border-gray-200 dark:border-gray-800;
+  letter-spacing: -0.025em;
+}
+
+.nextra-content h2 {
+  @apply text-3xl font-semibold mt-10 mb-4 text-gray-800 dark:text-gray-100;
+  letter-spacing: -0.015em;
+}
+
+.nextra-content h3 {
+  @apply text-2xl font-semibold mt-8 mb-3 text-gray-800 dark:text-gray-200;
+}
+
+.nextra-content h4 {
+  @apply text-xl font-semibold mt-6 mb-3 text-gray-700 dark:text-gray-300;
+}
+
+.nextra-content p {
+  @apply my-4 text-gray-800 dark:text-gray-200 leading-relaxed;
+}
+
+.nextra-content ul {
+  @apply list-disc pl-6 my-5 text-gray-800 dark:text-gray-200 space-y-2;
+}
+
+.nextra-content ol {
+  @apply list-decimal pl-6 my-5 text-gray-800 dark:text-gray-200 space-y-2;
+}
+
+.nextra-content a {
+  @apply text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-200 font-medium;
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(var(--primary-color), 0.4);
+}
+
+.nextra-content a:hover {
+  border-bottom: 1px solid rgba(var(--primary-color), 0.8);
+}
+
+.nextra-content code {
+  @apply bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded text-sm font-mono text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700;
+}
+
+.nextra-content pre {
+  @apply bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto my-6 border border-gray-200 dark:border-gray-700 shadow-sm;
+}
+
+.nextra-content pre code {
+  @apply bg-transparent border-0 p-0 text-gray-800 dark:text-gray-200;
+}
+
+.nextra-content blockquote {
+  @apply border-l-4 border-blue-300 dark:border-blue-700 pl-4 italic my-6 text-gray-700 dark:text-gray-300 bg-blue-50 dark:bg-blue-900/20 py-2 pr-4 rounded-r-md;
+}
+
+.nextra-content table {
+  @apply w-full border-collapse my-6 shadow-sm rounded-lg overflow-hidden;
+}
+
+.nextra-content th, .nextra-content td {
+  @apply border border-gray-300 dark:border-gray-700 px-4 py-3 text-left;
+}
+
+.nextra-content th {
+  @apply bg-gray-100 dark:bg-gray-800 font-semibold text-gray-700 dark:text-gray-300;
+}
+
+.nextra-content td {
+  @apply bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200;
+}
+
+.nextra-content hr {
+  @apply my-8 border-t border-gray-200 dark:border-gray-800;
+}
+
+/* Syntax highlighter improvements */
+.nextra-content .syntax-highlighter {
+  @apply rounded-lg shadow-md !important;
+}
+
+/* Custom callout styles */
+.nextra-content .callout {
+  @apply p-4 my-6 border-l-4 rounded-r-md;
+}
+
+.nextra-content .callout.info {
+  @apply bg-blue-50 dark:bg-blue-900/20 border-blue-500 text-gray-800 dark:text-gray-200;
+}
+
+.nextra-content .callout.warning {
+  @apply bg-yellow-50 dark:bg-yellow-900/20 border-yellow-500 text-gray-800 dark:text-gray-200;
+}
+
+.nextra-content .callout.error {
+  @apply bg-red-50 dark:bg-red-900/20 border-red-500 text-gray-800 dark:text-gray-200;
+}
+
+.nextra-content .callout.success {
+  @apply bg-green-50 dark:bg-green-900/20 border-green-500 text-gray-800 dark:text-gray-200;
+}
+
+/* Improve image display */
+.nextra-content img {
+  @apply rounded-lg shadow-sm my-6 max-w-full h-auto;
+}
+
+/* Improve list item spacing */
+.nextra-content li {
+  @apply mb-2 text-gray-800 dark:text-gray-200;
+}
+
+.nextra-content li:last-child {
+  @apply mb-0;
+}
+
+/* Improve code block line numbers */
+.nextra-content pre .line-number {
+  @apply text-gray-500 dark:text-gray-400 mr-4 select-none;
+}
+
+/* Improve TOC styling */
+.toc-link {
+  @apply transition-all duration-200;
+}
+
+/* Improve feedback component */
+.feedback-container {
+  @apply mt-12 pt-6 border-t border-gray-200 dark:border-gray-800;
+} 
