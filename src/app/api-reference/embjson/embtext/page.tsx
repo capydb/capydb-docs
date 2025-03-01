@@ -2,6 +2,7 @@ import DocLayout from '@/components/DocLayout';
 import Link from 'next/link';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import ApiCodeBlock from '@/components/ApiCodeBlock';
 
 export default function EmbTextPage() {
   return (
@@ -157,34 +158,104 @@ export default function EmbTextPage() {
 }`}
         </SyntaxHighlighter>
         
-        <h3>Python SDK Example</h3>
+        <h3>REST API Examples</h3>
         
-        <SyntaxHighlighter language="python" style={atomDark} showLineNumbers>
-          {`from capybaradb import CapybaraDB, EmbText
-
-# Initialize the client
-client = CapybaraDB(api_key="your_api_key")
-db = client.database("your_project_your_database")
-collection = db.collection("articles")
-
-# Create a document with EmbText
-document = {
+        <ApiCodeBlock
+          curl={`curl -X POST \\
+  https://api.capybaradb.co/v0/db/project_id_database_name/collection/articles/document \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
     "title": "Introduction to Machine Learning",
     "author": "Jane Smith",
-    "content": EmbText(
-        text="Machine learning is a field of study that gives computers the ability to learn without being explicitly programmed. It focuses on developing computer programs that can access data and use it to learn for themselves.",
-        emb_model="text-embedding-3-large",
-        max_chunk_size=150,
-        chunk_overlap=15
-    )
+    "content": {
+      "$embText": {
+        "text": "Machine learning is a field of study that gives computers the ability to learn without being explicitly programmed. It focuses on developing computer programs that can access data and use it to learn for themselves.",
+        "emb_model": "text-embedding-3-large",
+        "max_chunk_size": 150,
+        "chunk_overlap": 15
+      }
+    }
+  }'`}
+          python={`import requests
+import json
+
+# API endpoint
+url = "https://api.capybaradb.co/v0/db/project_id_database_name/collection/articles/document"
+
+# Headers
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json"
 }
 
-# Insert the document
-result = collection.insert_one(document)
-print(f"Inserted document with ID: {result.inserted_id}")
-print(f"Task ID for embedding: {result.task_id}")
-`}
-        </SyntaxHighlighter>
+# Request body
+data = {
+    "title": "Introduction to Machine Learning",
+    "author": "Jane Smith",
+    "content": {
+        "$embText": {
+            "text": "Machine learning is a field of study that gives computers the ability to learn without being explicitly programmed. It focuses on developing computer programs that can access data and use it to learn for themselves.",
+            "emb_model": "text-embedding-3-large",
+            "max_chunk_size": 150,
+            "chunk_overlap": 15
+        }
+    }
+}
+
+# Make the request
+response = requests.post(url, headers=headers, json=data)
+
+# Process the response
+if response.status_code == 201:
+    result = response.json()
+    print(f"Inserted document with ID: {result['data']['inserted_ids'][0]}")
+    print(f"Task ID for embedding: {result['data']['task_id']}")
+else:
+    print(f"Error: {response.status_code}")
+    print(response.text)`}
+          javascript={`// API endpoint
+const url = 'https://api.capybaradb.co/v0/db/project_id_database_name/collection/articles/document';
+
+// Headers
+const headers = {
+  'Authorization': 'Bearer YOUR_API_KEY',
+  'Content-Type': 'application/json'
+};
+
+// Request body
+const data = {
+  title: 'Introduction to Machine Learning',
+  author: 'Jane Smith',
+  content: {
+    $embText: {
+      text: 'Machine learning is a field of study that gives computers the ability to learn without being explicitly programmed. It focuses on developing computer programs that can access data and use it to learn for themselves.',
+      emb_model: 'text-embedding-3-large',
+      max_chunk_size: 150,
+      chunk_overlap: 15
+    }
+  }
+};
+
+// Make the request
+fetch(url, {
+  method: 'POST',
+  headers: headers,
+  body: JSON.stringify(data)
+})
+  .then(response => response.json())
+  .then(result => {
+    if (result.status === 'success') {
+      console.log('Inserted document with ID:', result.data.inserted_ids[0]);
+      console.log('Task ID for embedding:', result.data.task_id);
+    } else {
+      console.error('Error:', result);
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });`}
+        />
         
         <h2>Related Resources</h2>
         

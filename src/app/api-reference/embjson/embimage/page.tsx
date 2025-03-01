@@ -2,6 +2,7 @@ import DocLayout from '@/components/DocLayout';
 import Link from 'next/link';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import ApiCodeBlock from '@/components/ApiCodeBlock';
 
 export default function EmbImagePage() {
   return (
@@ -193,39 +194,125 @@ export default function EmbImagePage() {
 }`}
         </SyntaxHighlighter>
         
-        <h3>Python SDK Example</h3>
+        <h3>REST API Examples</h3>
         
-        <SyntaxHighlighter language="python" style={atomDark} showLineNumbers>
-          {`from capybaradb import CapybaraDB, EmbImage
+        <ApiCodeBlock
+          curl={`curl -X POST \\
+  https://api.capybaradb.co/v0/db/project_id_database_name/collection/photos/document \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "title": "Mountain Landscape",
+    "photographer": "John Doe",
+    "image": {
+      "$embImage": {
+        "data": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBwYHBwcGBwcICQsJCAgKCAcHCg0KCgsMDAwMBwkODw0MDgsMDAz/...",
+        "vision_model": "gpt-4o",
+        "emb_model": "text-embedding-3-large",
+        "prompt": "Describe this landscape in detail, including geographical features and weather conditions"
+      }
+    }
+  }'`}
+          python={`import requests
+import json
 import base64
 
-# Initialize the client
-client = CapybaraDB(api_key="your_api_key")
-db = client.database("your_project_your_database")
-collection = db.collection("photos")
+# API endpoint
+url = "https://api.capybaradb.co/v0/db/project_id_database_name/collection/photos/document"
+
+# Headers
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json"
+}
 
 # Load image data
 with open("mountain.jpg", "rb") as image_file:
     image_data = base64.b64encode(image_file.read()).decode('utf-8')
 
-# Create a document with EmbImage
-document = {
+# Request body
+data = {
     "title": "Mountain Landscape",
     "photographer": "John Doe",
-    "image": EmbImage(
-        data=image_data,
-        vision_model="gpt-4o",
-        emb_model="text-embedding-3-large",
-        prompt="Describe this landscape in detail, including geographical features and weather conditions"
-    )
+    "image": {
+        "$embImage": {
+            "data": f"data:image/jpeg;base64,{image_data}",
+            "vision_model": "gpt-4o",
+            "emb_model": "text-embedding-3-large",
+            "prompt": "Describe this landscape in detail, including geographical features and weather conditions"
+        }
+    }
 }
 
-# Insert the document
-result = collection.insert_one(document)
-print(f"Inserted document with ID: {result.inserted_id}")
-print(f"Task ID for image processing: {result.task_id}")
-`}
-        </SyntaxHighlighter>
+# Make the request
+response = requests.post(url, headers=headers, json=data)
+
+# Process the response
+if response.status_code == 201:
+    result = response.json()
+    print(f"Inserted document with ID: {result['data']['inserted_ids'][0]}")
+    print(f"Task ID for image processing: {result['data']['task_id']}")
+else:
+    print(f"Error: {response.status_code}")
+    print(response.text)`}
+          javascript={`// API endpoint
+const url = 'https://api.capybaradb.co/v0/db/project_id_database_name/collection/photos/document';
+
+// Headers
+const headers = {
+  'Authorization': 'Bearer YOUR_API_KEY',
+  'Content-Type': 'application/json'
+};
+
+// Function to load image data (in a real application)
+async function loadImageAsBase64(imagePath) {
+  // This is a placeholder - in a browser you might use FileReader
+  // In Node.js you would use fs.readFile
+  return 'base64_encoded_image_data';
+}
+
+// Async function to make the request
+async function insertDocument() {
+  try {
+    // In a real application, you would load the image
+    const imageData = await loadImageAsBase64('mountain.jpg');
+    
+    // Request body
+    const data = {
+      title: 'Mountain Landscape',
+      photographer: 'John Doe',
+      image: {
+        $embImage: {
+          data: \`data:image/jpeg;base64,\${imageData}\`,
+          vision_model: 'gpt-4o',
+          emb_model: 'text-embedding-3-large',
+          prompt: 'Describe this landscape in detail, including geographical features and weather conditions'
+        }
+      }
+    };
+    
+    // Make the request
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(data)
+    });
+    
+    const result = await response.json();
+    
+    if (response.ok) {
+      console.log('Inserted document with ID:', result.data.inserted_ids[0]);
+      console.log('Task ID for image processing:', result.data.task_id);
+    } else {
+      console.error('Error:', result);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+insertDocument();`}
+        />
         
         <h2>Related Resources</h2>
         

@@ -2,6 +2,7 @@ import DocLayout from '@/components/DocLayout';
 import Link from 'next/link';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import ApiCodeBlock from '@/components/ApiCodeBlock';
 
 export default function DeleteDocumentsPage() {
   return (
@@ -118,8 +119,8 @@ export default function DeleteDocumentsPage() {
         
         <h3>Example Request</h3>
         
-        <SyntaxHighlighter language="bash" style={atomDark} showLineNumbers>
-          {`curl -X DELETE \\
+        <ApiCodeBlock
+          curl={`curl -X DELETE \\
   https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
@@ -128,7 +129,50 @@ export default function DeleteDocumentsPage() {
       "status": "archived"
     }
   }'`}
-        </SyntaxHighlighter>
+          python={`import requests
+import json
+
+# API endpoint
+url = "https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document"
+
+# Headers
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json"
+}
+
+# Request body
+data = {
+    "filter": {
+        "status": "archived"
+    }
+}
+
+# Make the request
+response = requests.delete(url, headers=headers, json=data)`}
+          javascript={`// API endpoint
+const url = 'https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document';
+
+// Headers
+const headers = {
+  'Authorization': 'Bearer YOUR_API_KEY',
+  'Content-Type': 'application/json'
+};
+
+// Request body
+const data = {
+  filter: {
+    status: 'archived'
+  }
+};
+
+// Make the request
+fetch(url, {
+  method: 'DELETE',
+  headers: headers,
+  body: JSON.stringify(data)
+})`}
+        />
         
         <h3>Example Response</h3>
         
@@ -143,10 +187,17 @@ export default function DeleteDocumentsPage() {
         
         <h2>Code Examples</h2>
         
-        <h3>Python Example</h3>
-        
-        <SyntaxHighlighter language="python" style={atomDark} showLineNumbers>
-          {`import requests
+        <ApiCodeBlock
+          curl={`curl -X DELETE \\
+  https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "filter": {
+      "status": "archived"
+    }
+  }'`}
+          python={`import requests
 import json
 
 # API endpoint
@@ -175,12 +226,7 @@ if response.status_code == 200:
 else:
     print(f"Error: {response.status_code}")
     print(response.text)`}
-        </SyntaxHighlighter>
-        
-        <h3>JavaScript Example</h3>
-        
-        <SyntaxHighlighter language="javascript" style={atomDark} showLineNumbers>
-          {`// API endpoint
+          javascript={`// API endpoint
 const url = 'https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document';
 
 // Headers
@@ -209,7 +255,7 @@ fetch(url, {
   .catch(error => {
     console.error('Error:', error);
   });`}
-        </SyntaxHighlighter>
+        />
       </div>
     </DocLayout>
   );

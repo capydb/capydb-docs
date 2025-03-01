@@ -2,6 +2,7 @@ import DocLayout from '@/components/DocLayout';
 import Link from 'next/link';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import ApiCodeBlock from '@/components/ApiCodeBlock';
 
 export default function UpdateDocumentsPage() {
   return (
@@ -197,44 +198,27 @@ export default function UpdateDocumentsPage() {
         
         <h3>Example Request</h3>
         
-        <SyntaxHighlighter language="bash" style={atomDark} showLineNumbers>
-          {`curl -X PUT \\
+        <ApiCodeBlock
+          curl={`curl -X PUT \\
   https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
     "filter": {
-      "category": "books"
+      "category": "technology"
     },
     "update": {
       "$set": {
         "status": "published",
         "updated_at": "2023-06-15T10:30:00Z"
+      },
+      "$inc": {
+        "view_count": 1
       }
     },
     "upsert": false
   }'`}
-        </SyntaxHighlighter>
-        
-        <h3>Example Response</h3>
-        
-        <SyntaxHighlighter language="json" style={atomDark} showLineNumbers>
-          {`{
-  "status": "success",
-  "data": {
-    "matched_count": 2,
-    "modified_count": 2,
-    "upserted_id": null
-  }
-}`}
-        </SyntaxHighlighter>
-        
-        <h2>Code Examples</h2>
-        
-        <h3>Python Example</h3>
-        
-        <SyntaxHighlighter language="python" style={atomDark} showLineNumbers>
-          {`import requests
+          python={`import requests
 import json
 
 # API endpoint
@@ -249,44 +233,23 @@ headers = {
 # Request body
 data = {
     "filter": {
-        "category": "books"
+        "category": "technology"
     },
     "update": {
         "$set": {
             "status": "published",
-            "updated_at": "2023-06-15T10:30:00Z",
-            "content": {
-                "@embText": {
-                    "text": "Updated content with embedded text.",
-                    "emb_model": "text-embedding-3-small",
-                    "max_chunk_size": 200,
-                    "chunk_overlap": 20
-                }
-            }
+            "updated_at": "2023-06-15T10:30:00Z"
+        },
+        "$inc": {
+            "view_count": 1
         }
     },
     "upsert": False
 }
 
 # Make the request
-response = requests.put(url, headers=headers, json=data)
-
-# Process the response
-if response.status_code == 200:
-    result = response.json()
-    print(f"Matched count: {result['data']['matched_count']}")
-    print(f"Modified count: {result['data']['modified_count']}")
-    if result['data']['upserted_id']:
-        print(f"Upserted ID: {result['data']['upserted_id']}")
-else:
-    print(f"Error: {response.status_code}")
-    print(response.text)`}
-        </SyntaxHighlighter>
-        
-        <h3>JavaScript Example</h3>
-        
-        <SyntaxHighlighter language="javascript" style={atomDark} showLineNumbers>
-          {`// API endpoint
+response = requests.put(url, headers=headers, json=data)`}
+          javascript={`// API endpoint
 const url = 'https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document';
 
 // Headers
@@ -298,20 +261,15 @@ const headers = {
 // Request body
 const data = {
   filter: {
-    category: 'books'
+    category: 'technology'
   },
   update: {
     $set: {
       status: 'published',
-      updated_at: '2023-06-15T10:30:00Z',
-      content: {
-        '@embText': {
-          text: 'Updated content with embedded text.',
-          emb_model: 'text-embedding-3-small',
-          max_chunk_size: 200,
-          chunk_overlap: 20
-        }
-      }
+      updated_at: '2023-06-15T10:30:00Z'
+    },
+    $inc: {
+      view_count: 1
     }
   },
   upsert: false
@@ -334,7 +292,129 @@ fetch(url, {
   .catch(error => {
     console.error('Error:', error);
   });`}
+        />
+        
+        <h3>Example Response</h3>
+        
+        <SyntaxHighlighter language="json" style={atomDark} showLineNumbers>
+          {`{
+  "status": "success",
+  "data": {
+    "matched_count": 2,
+    "modified_count": 2,
+    "upserted_id": null
+  }
+}`}
         </SyntaxHighlighter>
+        
+        <h2>Code Examples</h2>
+        
+        <ApiCodeBlock
+          curl={`curl -X PUT \\
+  https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "filter": {
+      "category": "technology"
+    },
+    "update": {
+      "$set": {
+        "status": "published",
+        "updated_at": "2023-06-15T10:30:00Z"
+      },
+      "$inc": {
+        "view_count": 1
+      }
+    },
+    "upsert": true
+  }'`}
+          python={`import requests
+import json
+
+# API endpoint
+url = "https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document"
+
+# Headers
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json"
+}
+
+# Request body
+data = {
+    "filter": {
+        "category": "technology"
+    },
+    "update": {
+        "$set": {
+            "status": "published",
+            "updated_at": "2023-06-15T10:30:00Z"
+        },
+        "$inc": {
+            "view_count": 1
+        }
+    },
+    "upsert": True
+}
+
+# Make the request
+response = requests.put(url, headers=headers, json=data)
+
+# Process the response
+if response.status_code == 200:
+    result = response.json()
+    print(f"Matched count: {result['data']['matched_count']}")
+    print(f"Modified count: {result['data']['modified_count']}")
+    if 'upserted_id' in result['data']:
+        print(f"Upserted ID: {result['data']['upserted_id']}")
+else:
+    print(f"Error: {response.status_code}")
+    print(response.text)`}
+          javascript={`// API endpoint
+const url = 'https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document';
+
+// Headers
+const headers = {
+  'Authorization': 'Bearer YOUR_API_KEY',
+  'Content-Type': 'application/json'
+};
+
+// Request body
+const data = {
+  filter: {
+    category: 'technology'
+  },
+  update: {
+    $set: {
+      status: 'published',
+      updated_at: '2023-06-15T10:30:00Z'
+    },
+    $inc: {
+      view_count: 1
+    }
+  },
+  upsert: true
+};
+
+// Make the request
+fetch(url, {
+  method: 'PUT',
+  headers: headers,
+  body: JSON.stringify(data)
+})
+  .then(response => response.json())
+  .then(result => {
+    console.log('Matched count:', result.data.matched_count);
+    console.log('Modified count:', result.data.modified_count);
+    if (result.data.upserted_id) {
+      console.log('Upserted ID:', result.data.upserted_id);
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });`}
+        />
       </div>
     </DocLayout>
   );

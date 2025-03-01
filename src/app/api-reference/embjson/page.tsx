@@ -2,6 +2,7 @@ import DocLayout from '@/components/DocLayout';
 import Link from 'next/link';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import ApiCodeBlock from '@/components/ApiCodeBlock';
 
 export default function EmbJSONPage() {
   return (
@@ -111,48 +112,150 @@ export default function EmbJSONPage() {
 }`}
         </SyntaxHighlighter>
         
-        <h2>Using EmbJSON with the Python SDK</h2>
+        <h2>Using EmbJSON with REST API</h2>
         
         <p>
-          The CapybaraDB Python SDK provides convenient classes for working with EmbJSON types:
+          You can use EmbJSON types directly with the CapybaraDB REST API:
         </p>
         
-        <SyntaxHighlighter language="python" style={atomDark} showLineNumbers>
-          {`from capybaradb import CapybaraDB, EmbText, EmbImage
+        <ApiCodeBlock
+          curl={`curl -X POST \\
+  https://api.capybaradb.co/v0/db/project_id_database_name/collection/guides/document \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "title": "Mountain Hiking Guide",
+    "author": "Jane Smith",
+    "description": {
+      "$embText": {
+        "text": "A comprehensive guide to hiking in the Rocky Mountains, including trail information, safety tips, and equipment recommendations.",
+        "emb_model": "text-embedding-3-small"
+      }
+    },
+    "cover_image": {
+      "$embImage": {
+        "data": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBwYHBwcGBwcICQsJCAgKCAcHCg0KCgsMDAwMBwkODw0MDgsMDAz/...",
+        "vision_model": "gpt-4o",
+        "prompt": "Describe this mountain landscape in detail"
+      }
+    },
+    "tags": ["hiking", "mountains", "outdoors"],
+    "published_date": "2023-09-15"
+  }'`}
+          python={`import requests
+import json
 import base64
 
-# Initialize the client
-client = CapybaraDB(api_key="your_api_key")
-db = client.database("your_project_your_database")
-collection = db.collection("guides")
+# API endpoint
+url = "https://api.capybaradb.co/v0/db/project_id_database_name/collection/guides/document"
+
+# Headers
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json"
+}
 
 # Load image data
 with open("mountain.jpg", "rb") as image_file:
     image_data = base64.b64encode(image_file.read()).decode('utf-8')
 
-# Create a document with EmbJSON types
-document = {
+# Request body
+data = {
     "title": "Mountain Hiking Guide",
     "author": "Jane Smith",
-    "description": EmbText(
-        text="A comprehensive guide to hiking in the Rocky Mountains, including trail information, safety tips, and equipment recommendations.",
-        emb_model="text-embedding-3-small"
-    ),
-    "cover_image": EmbImage(
-        data=image_data,
-        vision_model="gpt-4o",
-        prompt="Describe this mountain landscape in detail"
-    ),
+    "description": {
+        "$embText": {
+            "text": "A comprehensive guide to hiking in the Rocky Mountains, including trail information, safety tips, and equipment recommendations.",
+            "emb_model": "text-embedding-3-small"
+        }
+    },
+    "cover_image": {
+        "$embImage": {
+            "data": f"data:image/jpeg;base64,{image_data}",
+            "vision_model": "gpt-4o",
+            "prompt": "Describe this mountain landscape in detail"
+        }
+    },
     "tags": ["hiking", "mountains", "outdoors"],
     "published_date": "2023-09-15"
 }
 
-# Insert the document
-result = collection.insert_one(document)
-print(f"Inserted document with ID: {result.inserted_id}")
-print(f"Task ID for embedding: {result.task_id}")
-`}
-        </SyntaxHighlighter>
+# Make the request
+response = requests.post(url, headers=headers, json=data)
+
+# Process the response
+if response.status_code == 201:
+    result = response.json()
+    print(f"Inserted document with ID: {result['data']['inserted_ids'][0]}")
+    print(f"Task ID for embedding: {result['data']['task_id']}")
+else:
+    print(f"Error: {response.status_code}")
+    print(response.text)`}
+          javascript={`// API endpoint
+const url = 'https://api.capybaradb.co/v0/db/project_id_database_name/collection/guides/document';
+
+// Headers
+const headers = {
+  'Authorization': 'Bearer YOUR_API_KEY',
+  'Content-Type': 'application/json'
+};
+
+// Function to load image data (in a real application)
+async function loadImageAsBase64(imagePath) {
+  // This is a placeholder - in a browser you might use FileReader
+  // In Node.js you would use fs.readFile
+  return 'base64_encoded_image_data';
+}
+
+// Async function to make the request
+async function insertDocument() {
+  try {
+    // In a real application, you would load the image
+    const imageData = await loadImageAsBase64('mountain.jpg');
+    
+    // Request body
+    const data = {
+      title: 'Mountain Hiking Guide',
+      author: 'Jane Smith',
+      description: {
+        $embText: {
+          text: 'A comprehensive guide to hiking in the Rocky Mountains, including trail information, safety tips, and equipment recommendations.',
+          emb_model: 'text-embedding-3-small'
+        }
+      },
+      cover_image: {
+        $embImage: {
+          data: \`data:image/jpeg;base64,\${imageData}\`,
+          vision_model: 'gpt-4o',
+          prompt: 'Describe this mountain landscape in detail'
+        }
+      },
+      tags: ['hiking', 'mountains', 'outdoors'],
+      published_date: '2023-09-15'
+    };
+    
+    // Make the request
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(data)
+    });
+    
+    const result = await response.json();
+    
+    if (response.ok) {
+      console.log('Inserted document with ID:', result.data.inserted_ids[0]);
+      console.log('Task ID for embedding:', result.data.task_id);
+    } else {
+      console.error('Error:', result);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+insertDocument();`}
+        />
         
         <h2>Querying Documents with EmbJSON Fields</h2>
         
@@ -160,20 +263,90 @@ print(f"Task ID for embedding: {result.task_id}")
           Once documents with EmbJSON fields have been processed, you can perform semantic searches using natural language queries:
         </p>
         
-        <SyntaxHighlighter language="python" style={atomDark} showLineNumbers>
-          {`# Semantic search using the query endpoint
-results = collection.query(
-    query="hiking trails with beautiful mountain views",
-    embedding_model="text-embedding-3-small",
-    top_k=5
-)
+        <ApiCodeBlock
+          curl={`curl -X POST \\
+  https://api.capybaradb.co/v0/db/project_id_database_name/collection/guides/document/query \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "query": "hiking trails with beautiful mountain views",
+    "embedding_model": "text-embedding-3-small",
+    "top_k": 5
+  }'`}
+          python={`import requests
+import json
 
-for doc in results:
-    print(f"Title: {doc['title']}")
-    print(f"Score: {doc['_score']}")
-    print("---")
-`}
-        </SyntaxHighlighter>
+# API endpoint
+url = "https://api.capybaradb.co/v0/db/project_id_database_name/collection/guides/document/query"
+
+# Headers
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json"
+}
+
+# Request body
+data = {
+    "query": "hiking trails with beautiful mountain views",
+    "embedding_model": "text-embedding-3-small",
+    "top_k": 5
+}
+
+# Make the request
+response = requests.post(url, headers=headers, json=data)
+
+# Process the response
+if response.status_code == 200:
+    result = response.json()
+    matches = result["data"]["matches"]
+    
+    # Process the matches
+    for match in matches:
+        print(f"Score: {match['score']}")
+        print(f"Document Title: {match['document']['title']}")
+        print(f"Matching text: {match['chunk']}")
+        print("---")
+else:
+    print(f"Error: {response.status_code}")
+    print(response.text)`}
+          javascript={`// API endpoint
+const url = 'https://api.capybaradb.co/v0/db/project_id_database_name/collection/guides/document/query';
+
+// Headers
+const headers = {
+  'Authorization': 'Bearer YOUR_API_KEY',
+  'Content-Type': 'application/json'
+};
+
+// Request body
+const data = {
+  query: 'hiking trails with beautiful mountain views',
+  embedding_model: 'text-embedding-3-small',
+  top_k: 5
+};
+
+// Make the request
+fetch(url, {
+  method: 'POST',
+  headers: headers,
+  body: JSON.stringify(data)
+})
+  .then(response => response.json())
+  .then(result => {
+    const matches = result.data.matches;
+    
+    // Process the matches
+    matches.forEach(match => {
+      console.log('Score:', match.score);
+      console.log('Document Title:', match.document.title);
+      console.log('Matching text:', match.chunk);
+      console.log('---');
+    });
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });`}
+        />
         
         <h2>Detailed Documentation</h2>
         

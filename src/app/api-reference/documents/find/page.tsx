@@ -2,6 +2,7 @@ import DocLayout from '@/components/DocLayout';
 import Link from 'next/link';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import ApiCodeBlock from '@/components/ApiCodeBlock';
 
 export default function FindDocumentsPage() {
   return (
@@ -325,10 +326,22 @@ export default function FindDocumentsPage() {
         
         <h2>Code Examples</h2>
         
-        <h3>Python Example</h3>
-        
-        <SyntaxHighlighter language="python" style={atomDark} showLineNumbers>
-          {`import requests
+        <ApiCodeBlock
+          curl={`curl -X POST \\
+  https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document/find \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "filter": {
+      "tags": "example"
+    },
+    "projection": {
+      "title": 1,
+      "tags": 1
+    },
+    "limit": 10
+  }'`}
+          python={`import requests
 import json
 
 # API endpoint
@@ -372,12 +385,7 @@ if response.status_code == 200:
 else:
     print(f"Error: {response.status_code}")
     print(response.text)`}
-        </SyntaxHighlighter>
-        
-        <h3>JavaScript Example</h3>
-        
-        <SyntaxHighlighter language="javascript" style={atomDark} showLineNumbers>
-          {`// API endpoint
+          javascript={`// API endpoint
 const url = 'https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document/find';
 
 // Headers
@@ -422,7 +430,7 @@ fetch(url, {
   .catch(error => {
     console.error('Error:', error);
   });`}
-        </SyntaxHighlighter>
+        />
       </div>
     </DocLayout>
   );
