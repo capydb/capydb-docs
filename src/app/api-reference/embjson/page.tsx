@@ -16,7 +16,7 @@ export default function EmbJSONPage() {
           and find documents based on meaning rather than exact keyword matches.
         </p>
         
-        <div className="bg-blue-100 dark:bg-blue-900 p-4 rounded-md my-4 text-blue-800 dark:text-blue-200">
+        <div className="bg-blue-50/80 dark:bg-blue-950/30 p-4 rounded-md my-4 text-gray-800 dark:text-gray-200 border border-blue-100 dark:border-blue-900">
           <strong>Note:</strong> EmbJSON fields are processed asynchronously. When you insert or update a document 
           with EmbJSON fields, the document is stored immediately, but the embedding process happens in the background.
           You can track the status of this process using the <code>task_id</code> returned in the response.
@@ -27,7 +27,7 @@ export default function EmbJSONPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
           <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-shadow">
             <h3 className="text-lg font-semibold mb-2">
-              <Link href="/api-reference/embjson/embtext" className="text-blue-600 dark:text-blue-400 hover:underline">
+              <Link href="/api-reference/embjson/embtext" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
                 EmbText
               </Link>
             </h3>
@@ -41,7 +41,7 @@ export default function EmbJSONPage() {
           
           <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-shadow">
             <h3 className="text-lg font-semibold mb-2">
-              <Link href="/api-reference/embjson/embimage" className="text-blue-600 dark:text-blue-400 hover:underline">
+              <Link href="/api-reference/embjson/embimage" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
                 EmbImage
               </Link>
             </h3>
@@ -348,20 +348,16 @@ fetch(url, {
   });`}
         />
         
-        <h2>Detailed Documentation</h2>
-        
-        <p>
-          For detailed information about each EmbJSON type, please visit the following pages:
-        </p>
+        <h2>Related Resources</h2>
         
         <ul>
           <li>
-            <Link href="/api-reference/embjson/embtext" className="text-blue-600 dark:text-blue-400 hover:underline">
+            <Link href="/api-reference/embjson/embtext" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
               EmbText
             </Link> - Text embedding for semantic search
           </li>
           <li>
-            <Link href="/api-reference/embjson/embimage" className="text-blue-600 dark:text-blue-400 hover:underline">
+            <Link href="/api-reference/embjson/embimage" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
               EmbImage
             </Link> - Image processing and embedding
           </li>
@@ -375,17 +371,17 @@ fetch(url, {
         
         <ul>
           <li>
-            <Link href="/api-reference/documents/insert" className="text-blue-600 dark:text-blue-400 hover:underline">
+            <Link href="/api-reference/documents/insert" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
               Insert Documents
             </Link> - Add documents with EmbJSON fields
           </li>
           <li>
-            <Link href="/api-reference/documents/query" className="text-blue-600 dark:text-blue-400 hover:underline">
+            <Link href="/api-reference/documents/query" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
               Query Documents
             </Link> - Perform semantic search on embedded fields
           </li>
           <li>
-            <Link href="/api-reference/documents/update" className="text-blue-600 dark:text-blue-400 hover:underline">
+            <Link href="/api-reference/documents/update" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
               Update Documents
             </Link> - Modify documents with EmbJSON fields
           </li>

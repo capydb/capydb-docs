@@ -298,7 +298,7 @@ export default function DocLayout({ children }: DocLayoutProps) {
     <div className="flex min-h-screen bg-gray-50 dark:bg-gray-950">
       {/* Sidebar */}
       <aside className="fixed inset-y-0 left-0 z-10 w-72 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 overflow-y-auto shadow-md">
-        <div className="flex items-center h-16 px-5 border-b border-gray-200 dark:border-gray-800 bg-gradient-to-r from-blue-50 to-white dark:from-gray-800 dark:to-gray-900">
+        <div className="flex items-center h-16 px-5 border-b border-gray-200 dark:border-gray-800 bg-gradient-to-r from-gray-50 to-white dark:from-gray-900 dark:to-gray-900">
           <Link href="https://capybaradb.co" className="flex items-center">
             <Image
               src="https://capybaradb.co/images/mainIcon.png"
@@ -314,8 +314,8 @@ export default function DocLayout({ children }: DocLayoutProps) {
           {sidebarSections.map((section, idx) => (
             <div key={idx} className="mb-10">
               <h3 className="text-sm font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider mb-4 ml-2 flex items-center">
-                <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2"></div>
-                <span className="bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent">{section.title}</span>
+                <div className="w-1.5 h-1.5 bg-amber-500 rounded-full mr-2"></div>
+                <span className="text-gray-700 dark:text-gray-200">{section.title}</span>
               </h3>
               <ul className="space-y-2">
                 {section.items.map((item, itemIdx) => (
@@ -324,8 +324,8 @@ export default function DocLayout({ children }: DocLayoutProps) {
                       href={item.href}
                       className={`flex items-center px-4 py-2.5 rounded-lg text-sm transition-all duration-200 ${
                         pathname === item.href
-                          ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-300 font-medium shadow-sm border-l-4 border-blue-500 pl-3'
-                          : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600 hover:pl-5 dark:text-gray-300 dark:hover:bg-gray-800/50 dark:hover:text-blue-300'
+                          ? 'bg-amber-50 text-amber-700 dark:bg-amber-900/20 dark:text-amber-300 font-medium shadow-sm border-l-2 border-amber-500 pl-3'
+                          : 'text-gray-700 hover:bg-gray-50 hover:text-amber-600 hover:pl-5 dark:text-gray-300 dark:hover:bg-gray-800/50 dark:hover:text-amber-300'
                       }`}
                       target={item.external ? '_blank' : undefined}
                       rel={item.external ? 'noopener noreferrer' : undefined}
@@ -356,8 +356,8 @@ export default function DocLayout({ children }: DocLayoutProps) {
                 href="/"
                 className={`text-sm font-medium transition-colors duration-200 ${
                   !isApiReference 
-                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-500 dark:border-blue-400 h-full flex items-center' 
-                    : 'text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 h-full flex items-center'
+                    ? 'text-amber-600 dark:text-amber-400 border-b-2 border-amber-500 dark:border-amber-400 h-full flex items-center' 
+                    : 'text-gray-700 hover:text-amber-600 dark:text-gray-300 dark:hover:text-amber-400 h-full flex items-center'
                 }`}
               >
                 <span className="flex items-center">
@@ -368,8 +368,8 @@ export default function DocLayout({ children }: DocLayoutProps) {
                 href="/api-reference"
                 className={`text-sm font-medium transition-colors duration-200 ${
                   isApiReference 
-                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-500 dark:border-blue-400 h-full flex items-center' 
-                    : 'text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 h-full flex items-center'
+                    ? 'text-amber-600 dark:text-amber-400 border-b-2 border-amber-500 dark:border-amber-400 h-full flex items-center' 
+                    : 'text-gray-700 hover:text-amber-600 dark:text-gray-300 dark:hover:text-amber-400 h-full flex items-center'
                 }`}
               >
                 <span className="flex items-center">
@@ -382,7 +382,7 @@ export default function DocLayout({ children }: DocLayoutProps) {
                 <Link
                   key={idx}
                   href={link.href}
-                  className="flex items-center h-full text-sm text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200"
+                  className="flex items-center h-full text-sm text-gray-600 hover:text-amber-600 dark:text-gray-300 dark:hover:text-amber-400 transition-colors duration-200"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -403,7 +403,7 @@ export default function DocLayout({ children }: DocLayoutProps) {
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Main content - takes 3/4 of the space on large screens */}
             <div className="lg:col-span-3">
-              <div className="nextra-content bg-white dark:bg-gray-900 p-8 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+              <div className="nextra-content bg-white dark:bg-gray-900 p-8 rounded-xl shadow-md border border-gray-100 dark:border-gray-800">
                 {children}
               </div>
             </div>

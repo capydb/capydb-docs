@@ -16,7 +16,7 @@ export default function EmbTextPage() {
           against your text data.
         </p>
         
-        <div className="bg-blue-100 dark:bg-blue-900 p-4 rounded-md my-4 text-blue-800 dark:text-blue-200">
+        <div className="bg-blue-50/80 dark:bg-blue-950/30 p-4 rounded-md my-4 text-gray-800 dark:text-gray-200 border border-blue-100 dark:border-blue-900">
           <strong>Note:</strong> <code>EmbText</code> fields are processed asynchronously. When you insert or update a document 
           with <code>EmbText</code> fields, the document is stored immediately, but the embedding process happens in the background.
           You can track the status of this process using the <code>task_id</code> returned in the response.
@@ -261,17 +261,17 @@ fetch(url, {
         
         <ul>
           <li>
-            <Link href="/api-reference/embjson" className="text-blue-600 dark:text-blue-400 hover:underline">
+            <Link href="/api-reference/embjson" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
               EmbJSON Overview
             </Link> - Learn about all EmbJSON types
           </li>
           <li>
-            <Link href="/api-reference/embjson/embimage" className="text-blue-600 dark:text-blue-400 hover:underline">
+            <Link href="/api-reference/embjson/embimage" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
               EmbImage
             </Link> - Documentation for the EmbImage type
           </li>
           <li>
-            <Link href="/api-reference/documents/query" className="text-blue-600 dark:text-blue-400 hover:underline">
+            <Link href="/api-reference/documents/query" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
               Query Documents
             </Link> - Learn how to perform semantic search on EmbText fields
           </li>

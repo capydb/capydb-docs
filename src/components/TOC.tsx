@@ -184,7 +184,7 @@ const CustomTOC = () => {
                     rounded-md transition-all duration-200
                     ${
                       heading.id === activeId
-                        ? "text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/40 font-medium border-l-2 border-blue-500 dark:border-blue-400"
+                        ? "text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/40 font-medium border-l-2 border-amber-500 dark:border-amber-400"
                         : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-100"
                     }
                   `}
