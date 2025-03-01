@@ -38,7 +38,7 @@ docs = [{
 
 
 # Sending the request
-response = collection.insert(doc)`}
+response = collection.insert(docs)`}
           </SyntaxHighlighter>
         </LanguageContent>
         
