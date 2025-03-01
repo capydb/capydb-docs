@@ -22,7 +22,8 @@ const externalLinks: NavItem[] = [
   { title: 'Contact', href: 'https://capybaradb.co/home/contact', external: true },
 ];
 
-const sidebarSections: SidebarSection[] = [
+// Documentation sidebar sections
+const docSidebarSections: SidebarSection[] = [
   {
     title: 'Getting Started',
     items: [
@@ -59,6 +60,23 @@ const sidebarSections: SidebarSection[] = [
   },
 ];
 
+// API Reference sidebar sections
+const apiSidebarSections: SidebarSection[] = [
+  {
+    title: 'API Reference',
+    items: [
+      { title: 'Overview', href: '/api-reference' },
+    ],
+  },
+  {
+    title: 'Resources',
+    items: [
+      { title: 'Collections', href: '/api-reference/collections' },
+      { title: 'Documents', href: '/api-reference/documents' },
+    ],
+  },
+];
+
 interface DocLayoutProps {
   children: ReactNode;
 }
@@ -66,6 +84,10 @@ interface DocLayoutProps {
 export default function DocLayout({ children }: DocLayoutProps) {
   const pathname = usePathname();
   const capybaradbUrl = process.env.NEXT_PUBLIC_CAPYBARADB_URL || 'https://capybaradb.co';
+  
+  // Determine which sidebar sections to display based on the URL path
+  const isApiReference = pathname.startsWith('/api-reference');
+  const sidebarSections = isApiReference ? apiSidebarSections : docSidebarSections;
   
   return (
     <div className="flex min-h-screen bg-gray-50 dark:bg-gray-950">
@@ -126,7 +148,7 @@ export default function DocLayout({ children }: DocLayoutProps) {
               <Link 
                 href="/"
                 className={`text-sm font-medium transition-colors duration-200 ${
-                  pathname === '/' 
+                  !isApiReference 
                     ? 'text-blue-600 dark:text-blue-400' 
                     : 'text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400'
                 }`}
@@ -138,7 +160,7 @@ export default function DocLayout({ children }: DocLayoutProps) {
               <Link 
                 href="/api-reference"
                 className={`text-sm font-medium transition-colors duration-200 ${
-                  pathname === '/api-reference' 
+                  isApiReference 
                     ? 'text-blue-600 dark:text-blue-400' 
                     : 'text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400'
                 }`}
