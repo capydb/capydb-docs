@@ -163,6 +163,21 @@ export default function FindDocumentsPage() {
           </tbody>
         </table>
         
+        <h2>Working with EmbJSON Fields</h2>
+        
+        <p>
+          When working with documents that contain EmbJSON fields (EmbText or EmbImage), you can filter and project these fields like any other field.
+        </p>
+        
+        <div className="bg-blue-100 dark:bg-blue-900 p-4 rounded-md my-4 text-blue-800 dark:text-blue-200">
+          <p>
+            <strong>EmbText</strong> and <strong>EmbImage</strong> are special JSON types that enable semantic search capabilities in CapybaraDB. When retrieving documents with these fields, you'll see their structure including metadata about chunking and embedding.
+          </p>
+          <p className="mt-2">
+            For detailed information about EmbJSON types, including parameters, supported models, and examples, please visit the <Link href="/api-reference/embjson" className="text-blue-600 dark:text-blue-400 hover:underline">EmbJSON Types</Link> documentation page.
+          </p>
+        </div>
+        
         <h3>Filter Examples</h3>
         
         <h4>Simple Equality Filter</h4>
@@ -223,6 +238,15 @@ export default function FindDocumentsPage() {
       {
         "_id": "507f1f77bcf86cd799439011",
         "title": "Example Document",
+        "content": {
+          "@embText": {
+            "text": "This is an example document with embedded text.",
+            "emb_model": "text-embedding-3-small",
+            "max_chunk_size": 200,
+            "chunk_overlap": 20,
+            "chunks": ["This is an example document with embedded text."]
+          }
+        },
         "tags": ["example", "documentation"]
       }
     ],
@@ -260,38 +284,6 @@ export default function FindDocumentsPage() {
           </tbody>
         </table>
         
-        <h3>Error Responses</h3>
-        
-        <h4>400 Bad Request</h4>
-        
-        <SyntaxHighlighter language="json" style={atomDark} showLineNumbers>
-          {`{
-  "status": "error",
-  "code": 400,
-  "message": "Invalid filter format"
-}`}
-        </SyntaxHighlighter>
-        
-        <h4>401 Unauthorized</h4>
-        
-        <SyntaxHighlighter language="json" style={atomDark} showLineNumbers>
-          {`{
-  "status": "error",
-  "code": 401,
-  "message": "Invalid API key provided"
-}`}
-        </SyntaxHighlighter>
-        
-        <h4>404 Not Found</h4>
-        
-        <SyntaxHighlighter language="json" style={atomDark} showLineNumbers>
-          {`{
-  "status": "error",
-  "code": 404,
-  "message": "Collection 'my_collection' not found"
-}`}
-        </SyntaxHighlighter>
-        
         <h2>Example</h2>
         
         <h3>Example Request</h3>
@@ -324,42 +316,113 @@ export default function FindDocumentsPage() {
         "_id": "507f1f77bcf86cd799439011",
         "title": "Example Document",
         "tags": ["example", "documentation"]
-      },
-      {
-        "_id": "507f1f77bcf86cd799439013",
-        "title": "Another Example",
-        "tags": ["example", "tutorial"]
       }
     ],
-    "total": 2
+    "total": 1
   }
 }`}
         </SyntaxHighlighter>
         
-        <h2>Related Operations</h2>
+        <h2>Code Examples</h2>
         
-        <ul>
-          <li>
-            <Link href="/api-reference/documents/insert" className="text-blue-600 dark:text-blue-400 hover:underline">
-              Insert Documents
-            </Link> - Insert documents in a collection
-          </li>
-          <li>
-            <Link href="/api-reference/documents/query" className="text-blue-600 dark:text-blue-400 hover:underline">
-              Query Documents
-            </Link> - Perform semantic search on documents
-          </li>
-          <li>
-            <Link href="/api-reference/documents/update" className="text-blue-600 dark:text-blue-400 hover:underline">
-              Update Documents
-            </Link> - Update documents based on filters
-          </li>
-          <li>
-            <Link href="/api-reference/documents/delete" className="text-blue-600 dark:text-blue-400 hover:underline">
-              Delete Documents
-            </Link> - Delete documents based on filters
-          </li>
-        </ul>
+        <h3>Python Example</h3>
+        
+        <SyntaxHighlighter language="python" style={atomDark} showLineNumbers>
+          {`import requests
+import json
+
+# API endpoint
+url = "https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document/find"
+
+# Headers
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json"
+}
+
+# Request body
+data = {
+    "filter": {
+        "tags": "example"
+    },
+    "projection": {
+        "title": 1,
+        "tags": 1
+    },
+    "limit": 10
+}
+
+# Make the request
+response = requests.post(url, headers=headers, json=data)
+
+# Process the response
+if response.status_code == 200:
+    result = response.json()
+    documents = result["data"]["documents"]
+    total = result["data"]["total"]
+    
+    # Process the documents
+    for doc in documents:
+        print(f"Document ID: {doc['_id']}")
+        print(f"Title: {doc['title']}")
+        print(f"Tags: {doc['tags']}")
+        print("---")
+    
+    print(f"Total matching documents: {total}")
+else:
+    print(f"Error: {response.status_code}")
+    print(response.text)`}
+        </SyntaxHighlighter>
+        
+        <h3>JavaScript Example</h3>
+        
+        <SyntaxHighlighter language="javascript" style={atomDark} showLineNumbers>
+          {`// API endpoint
+const url = 'https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document/find';
+
+// Headers
+const headers = {
+  'Authorization': 'Bearer YOUR_API_KEY',
+  'Content-Type': 'application/json'
+};
+
+// Request body
+const data = {
+  filter: {
+    tags: 'example'
+  },
+  projection: {
+    title: 1,
+    tags: 1
+  },
+  limit: 10
+};
+
+// Make the request
+fetch(url, {
+  method: 'POST',
+  headers: headers,
+  body: JSON.stringify(data)
+})
+  .then(response => response.json())
+  .then(result => {
+    const documents = result.data.documents;
+    const total = result.data.total;
+    
+    // Process the documents
+    documents.forEach(doc => {
+      console.log('Document ID:', doc._id);
+      console.log('Title:', doc.title);
+      console.log('Tags:', doc.tags);
+      console.log('---');
+    });
+    
+    console.log('Total matching documents:', total);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });`}
+        </SyntaxHighlighter>
       </div>
     </DocLayout>
   );

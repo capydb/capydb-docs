@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '@/styles/globals.css';
 import { LanguageProvider } from '@/context/LanguageContext';
+import { ApiLanguageProvider } from '@/context/ApiLanguageContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -21,8 +22,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <LanguageProvider>
-          {children}
-          <ToastContainer position="bottom-right" />
+          <ApiLanguageProvider>
+            {children}
+            <ToastContainer position="bottom-right" />
+          </ApiLanguageProvider>
         </LanguageProvider>
       </body>
     </html>

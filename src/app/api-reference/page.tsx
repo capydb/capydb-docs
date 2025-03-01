@@ -86,6 +86,10 @@ export default function ApiReferencePage() {
           <li><strong>EmbText</strong>: For text that should be embedded and indexed for semantic search</li>
           <li><strong>EmbImage</strong>: For images that should be embedded and indexed for visual search</li>
         </ul>
+
+        <p>
+          For detailed information about EmbJSON types, please visit the <Link href="/api-reference/embjson" className="text-blue-600 dark:text-blue-400 hover:underline">EmbJSON Types</Link> documentation page.
+        </p>
         
         <p>
           In JSON requests, these are represented as:
@@ -125,6 +129,17 @@ export default function ApiReferencePage() {
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-300">
               Insert, find, query, update, and delete documents in your collections.
+            </p>
+          </div>
+
+          <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-shadow">
+            <h3 className="text-lg font-semibold mb-2">
+              <Link href="/api-reference/embjson" className="text-blue-600 dark:text-blue-400 hover:underline">
+                EmbJSON Types
+              </Link>
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-300">
+              Detailed information about EmbText and EmbImage types for embedding and vector operations.
             </p>
           </div>
         </div>

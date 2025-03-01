@@ -33,7 +33,7 @@ export default function DocumentsApiPage() {
         <h2>EmbJSON Types</h2>
         
         <p>
-          CapybaraDB extends standard JSON with special types for embedding and vector operations:
+          CapybaraDB extends standard JSON with special types for embedding and vector operations. For detailed information about EmbJSON types, please visit the <Link href="/api-reference/embjson" className="text-blue-600 dark:text-blue-400 hover:underline">EmbJSON Types</Link> documentation page.
         </p>
         
         <table className="min-w-full border-collapse border border-gray-300 dark:border-gray-700">
@@ -47,16 +47,37 @@ export default function DocumentsApiPage() {
           <tbody>
             <tr>
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">EmbText</td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><code>{`{"$embText": "text content"}`}</code></td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">Text that will be embedded for semantic search</td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><code>{`{"@embText": {"text": "content", "emb_model": "text-embedding-3-small", "max_chunk_size": 200, "chunk_overlap": 20, ...}}`}</code></td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">Text that will be automatically chunked, embedded, and indexed for semantic search. Supports configuration of embedding model, chunk size, and other parameters.</td>
             </tr>
             <tr>
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">EmbImage</td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><code>{`{"$embImage": "https://example.com/image.jpg"}`}</code></td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">Image URL that will be embedded for visual search</td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><code>{`{"@embImage": {"data": "base64_encoded_image", "vision_model": "gpt-4o", "emb_model": "text-embedding-3-small", ...}}`}</code></td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">Base64-encoded image that can be processed by vision models to extract textual descriptions and optionally embedded for semantic search.</td>
             </tr>
           </tbody>
         </table>
+        
+        <h3>Supported Embedding Models</h3>
+        
+        <p>The following embedding models are supported for text embedding:</p>
+        
+        <ul>
+          <li><code>text-embedding-3-small</code> - Default model, 1536 dimensions, good balance of quality and performance</li>
+          <li><code>text-embedding-3-large</code> - 3072 dimensions, higher quality embeddings for more nuanced search</li>
+          <li><code>text-embedding-ada-002</code> - Legacy model, 1536 dimensions, included for backward compatibility</li>
+        </ul>
+        
+        <h3>Supported Vision Models</h3>
+        
+        <p>The following vision models are supported for image processing:</p>
+        
+        <ul>
+          <li><code>gpt-4o</code> - High-quality image understanding with detailed descriptions</li>
+          <li><code>gpt-4o-mini</code> - Smaller, faster version with reduced capabilities</li>
+          <li><code>gpt-4-turbo</code> - Optimized version balancing performance and quality</li>
+          <li><code>o1</code> - Advanced vision model with enhanced capabilities for complex visual reasoning</li>
+        </ul>
         
         <h2>API Operations</h2>
         
@@ -149,6 +170,11 @@ export default function DocumentsApiPage() {
             <Link href="/api-reference/collections" className="text-blue-600 dark:text-blue-400 hover:underline">
               Collections API
             </Link> - Manage collections in your database
+          </li>
+          <li>
+            <Link href="/api-reference/embjson" className="text-blue-600 dark:text-blue-400 hover:underline">
+              EmbJSON Types
+            </Link> - Detailed information about EmbText and EmbImage types
           </li>
         </ul>
       </div>

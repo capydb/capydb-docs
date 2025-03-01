@@ -5,6 +5,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import LanguageContent from './LanguageContent';
 import LanguageToggle from './LanguageToggle';
+import ApiCodeBlock from './ApiCodeBlock';
 import Feedback from './Feedback';
 
 interface CalloutProps {
@@ -92,6 +93,7 @@ const MDXComponents = {
   Callout,
   LanguageContent,
   LanguageToggle,
+  ApiCodeBlock,
   Feedback,
 };
 
