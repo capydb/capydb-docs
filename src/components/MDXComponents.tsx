@@ -52,6 +52,7 @@ const CustomCode = ({ className, children, ...props }: React.HTMLAttributes<HTML
   return match ? (
     <SyntaxHighlighter
       language={match[1]}
+      // @ts-expect-error - The type definitions for react-syntax-highlighter are incorrect
       style={atomDark}
       PreTag="div"
       {...props}
@@ -81,15 +82,21 @@ const MDXComponents = {
   table: (props: React.TableHTMLAttributes<HTMLTableElement>) => <table className="w-full border-collapse my-4" {...props} />,
   th: (props: React.ThHTMLAttributes<HTMLTableCellElement>) => <th className="border border-gray-300 dark:border-gray-700 px-4 py-2 bg-gray-100 dark:bg-gray-800" {...props} />,
   td: (props: React.TdHTMLAttributes<HTMLTableCellElement>) => <td className="border border-gray-300 dark:border-gray-700 px-4 py-2" {...props} />,
-  img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
-    <Image
-      alt={props.alt || ''}
-      width={700}
-      height={350}
-      style={{ objectFit: 'contain' }}
-      {...props}
-    />
-  ),
+  img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => {
+    // Extract only the props we need for the Image component
+    const { src, alt, className } = props;
+    
+    return (
+      <Image
+        src={src || ''}
+        alt={alt || ''}
+        width={700}
+        height={350}
+        className={className}
+        style={{ objectFit: 'contain' }}
+      />
+    );
+  },
   Callout,
   LanguageContent,
   LanguageToggle,

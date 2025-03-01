@@ -51,7 +51,7 @@ projection = {
     "fields": ["name", "bio"]
 } # Optional
 
-response = collection.query(query, emb_model, top_k, include_values, projection)`}
+response = collection.query(query, emb_model=emb_model, top_k=top_k, include_values=include_values, projection=projection)`}
           </SyntaxHighlighter>
         </LanguageContent>
         

@@ -52,7 +52,7 @@ update = {
 # Optional upsert (set to true if you want to insert a new document if no match is found)
 upsert = False
 
-response = collection.update(update, filter_criteria, upsert)`}
+response = collection.update(filter_criteria, update, upsert)`}
           </SyntaxHighlighter>
         </LanguageContent>
         
@@ -75,7 +75,7 @@ const update = {
 // Optional upsert (set to true if you want to insert a new document if no match is found)
 const upsert = false;
 
-response = collection.update(update, filter_criteria, upsert);`}
+response = collection.update(filter_criteria, update, upsert);`}
           </SyntaxHighlighter>
         </LanguageContent>
         
