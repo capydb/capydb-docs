@@ -21,7 +21,7 @@ const ApiCodeBlock: React.FC<ApiCodeBlockProps> = ({
 }) => {
   const { language } = useApiLanguage();
 
-  // Custom syntax highlighter theme
+  // Custom syntax highlighter theme with only layout customizations
   const customStyle = {
     ...vscDarkPlus,
     'pre[class*="language-"]': {
@@ -39,31 +39,7 @@ const ApiCodeBlock: React.FC<ApiCodeBlockProps> = ({
       background: 'none',
       textShadow: 'none',
       fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
-    },
-    comment: {
-      ...vscDarkPlus.comment,
-      color: '#6b7280',
-    },
-    string: {
-      ...vscDarkPlus.string,
-      color: '#f59e0b', // amber-500
-    },
-    keyword: {
-      ...vscDarkPlus.keyword,
-      color: '#d97706', // amber-600
-    },
-    function: {
-      ...vscDarkPlus.function,
-      color: '#fbbf24', // amber-400
-    },
-    punctuation: {
-      ...vscDarkPlus.punctuation,
-      color: '#94a3b8', // slate-400
-    },
-    operator: {
-      ...vscDarkPlus.operator,
-      color: '#cbd5e1', // slate-300
-    },
+    }
   };
 
   return (

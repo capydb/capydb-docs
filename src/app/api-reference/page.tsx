@@ -1,7 +1,7 @@
 import DocLayout from '@/components/DocLayout';
 import Link from 'next/link';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { vs } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 export default function ApiReferencePage() {
   return (
@@ -95,7 +95,7 @@ export default function ApiReferencePage() {
           In JSON requests, these are represented as:
         </p>
         
-        <SyntaxHighlighter language="json" style={atomDark} showLineNumbers>
+        <SyntaxHighlighter language="json" style={vs} showLineNumbers>
           {`{
   "title": "Regular text field",
   "description": {
@@ -110,17 +110,6 @@ export default function ApiReferencePage() {
         <h2>API Endpoints</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
-          <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-shadow">
-            <h3 className="text-lg font-semibold mb-2">
-              <Link href="/api-reference/collections" className="text-blue-600 dark:text-blue-400 hover:underline">
-                Collections
-              </Link>
-            </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-300">
-              Information about collections in your CapybaraDB database. Note that collection management operations are only available through the CapybaraDB Console.
-            </p>
-          </div>
-          
           <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-shadow">
             <h3 className="text-lg font-semibold mb-2">
               <Link href="/api-reference/documents" className="text-blue-600 dark:text-blue-400 hover:underline">
@@ -144,13 +133,6 @@ export default function ApiReferencePage() {
           </div>
         </div>
         
-        <h2>Rate Limits</h2>
-        
-        <p>
-          The CapybaraDB API implements rate limiting to ensure the stability and performance of the service. 
-          Rate limits vary based on your subscription plan.
-        </p>
-        
         <h2>Error Handling</h2>
         
         <p>
@@ -162,50 +144,13 @@ export default function ApiReferencePage() {
         
         <p>Error responses follow this format:</p>
         
-        <SyntaxHighlighter language="json" style={atomDark} showLineNumbers>
+        <SyntaxHighlighter language="json" style={vs} showLineNumbers>
           {`{
   "status": "error",
   "code": 400,
   "message": "Detailed error message"
 }`}
         </SyntaxHighlighter>
-        
-        <h3>Common Error Codes</h3>
-        
-        <table className="min-w-full border-collapse border border-gray-300 dark:border-gray-700">
-          <thead>
-            <tr className="bg-gray-100 dark:bg-gray-800">
-              <th className="border border-gray-300 dark:border-gray-700 px-4 py-2 text-left">Status Code</th>
-              <th className="border border-gray-300 dark:border-gray-700 px-4 py-2 text-left">Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">400</td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">Bad Request - The request was invalid or cannot be served</td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">401</td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">Unauthorized - Authentication failed or user doesn't have permissions</td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">404</td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">Not Found - The specified resource could not be found</td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">405</td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">Method Not Allowed - The HTTP method is not supported for this resource</td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">429</td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">Too Many Requests - Rate limit exceeded</td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">500</td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">Internal Server Error - Something went wrong on the server</td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </DocLayout>
   );
