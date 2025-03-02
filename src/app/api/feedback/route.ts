@@ -12,18 +12,41 @@ export async function POST(request: Request) {
       }, { status: 400 });
     }
     
-    // Log the feedback (in a real app, you might save this to a database)
-    console.log('Received feedback:', body.message);
+    // Get the API base URL from environment
+    const apiBaseUrl = process.env.NEXT_PUBLIC_CAPYBARADB_URL;
     
-    // Simulate a slight delay to make the loading state visible
-    await new Promise(resolve => setTimeout(resolve, 500));
+    if (!apiBaseUrl) {
+      console.error('NEXT_PUBLIC_CAPYBARADB_URL environment variable is not set');
+      return NextResponse.json({ 
+        status: 'error', 
+        message: 'API configuration error' 
+      }, { status: 500 });
+    }
     
-    // Return a success response
+    // Forward the feedback to the actual endpoint
+    const response = await fetch(`${apiBaseUrl}/private/docs-feedback`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Admin-API-Key': process.env.CAPYBARADB_ADMIN_API_KEY || '',
+      },
+      body: JSON.stringify({ message: body.message }),
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || `Failed to send feedback: ${response.status}`);
+    }
+    
+    const responseData = await response.json();
+    
+    // Return the response from the actual endpoint
     return NextResponse.json({ 
       status: 'success', 
       message: 'Feedback received successfully',
       timestamp: new Date().toISOString(),
-      feedbackId: `feedback_${Date.now()}`
+      feedbackId: responseData.feedbackId || `feedback_${Date.now()}`,
+      apiResponse: responseData
     }, { status: 200 });
   } catch (error) {
     console.error('Error processing feedback:', error);

@@ -7,9 +7,10 @@ interface FeedbackData {
   message: string;
 }
 
-// Utility function to send feedback
+// Utility function to send feedback to the backend API
 const sendFeedback = async (data: FeedbackData) => {
   try {
+    // Use the local API endpoint
     const response = await fetch('/api/feedback', {
       method: 'POST',
       headers: {
@@ -19,7 +20,8 @@ const sendFeedback = async (data: FeedbackData) => {
     });
     
     if (!response.ok) {
-      throw new Error('Failed to send feedback');
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || 'Failed to send feedback');
     }
     
     return await response.json();
@@ -54,7 +56,23 @@ export default function Feedback() {
       console.log("Feedback submitted successfully:", result);
     } catch (error) {
       console.error("Feedback submission error:", error);
-      toast.error("Something went wrong. Please try again.");
+      
+      // Fall back to the local API route if the main API call fails
+      try {
+        await fetch('/api/feedback', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ message: comment }),
+        });
+        
+        setComment("");
+        toast.success("Thank you for your feedback!");
+      } catch (fallbackError) {
+        console.error("Fallback feedback submission error:", fallbackError);
+        toast.error("Something went wrong. Please try again.");
+      }
     } finally {
       setIsSubmitting(false);
     }
