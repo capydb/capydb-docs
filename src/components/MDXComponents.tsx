@@ -7,6 +7,7 @@ import LanguageContent from './LanguageContent';
 import LanguageToggle from './LanguageToggle';
 import ApiCodeBlock from './ApiCodeBlock';
 import Feedback from './Feedback';
+import CodeBlock from './CodeBlock';
 
 interface CalloutProps {
   children: React.ReactNode;
@@ -50,15 +51,11 @@ const CustomCode = ({ className, children, ...props }: React.HTMLAttributes<HTML
   const match = /language-(\w+)/.exec(className || '');
   
   return match ? (
-    <SyntaxHighlighter
-      language={match[1]}
-      // @ts-expect-error - The type definitions for react-syntax-highlighter are incorrect
-      style={atomDark}
-      PreTag="div"
-      {...props}
-    >
-      {String(children).replace(/\n$/, '')}
-    </SyntaxHighlighter>
+    <div className="my-4">
+      <CodeBlock className={className} {...props}>
+        {String(children).replace(/\n$/, '')}
+      </CodeBlock>
+    </div>
   ) : (
     <code className={className} {...props}>
       {children}
@@ -74,7 +71,7 @@ const MDXComponents = {
   p: (props: React.HTMLAttributes<HTMLParagraphElement>) => <p className="my-4" {...props} />,
   a: CustomLink,
   code: CustomCode,
-  pre: (props: React.HTMLAttributes<HTMLPreElement>) => <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto my-4" {...props} />,
+  pre: (props: React.HTMLAttributes<HTMLPreElement>) => <pre {...props} />,
   ul: (props: React.HTMLAttributes<HTMLUListElement>) => <ul className="list-disc pl-6 my-4" {...props} />,
   ol: (props: React.HTMLAttributes<HTMLOListElement>) => <ol className="list-decimal pl-6 my-4" {...props} />,
   li: (props: React.HTMLAttributes<HTMLLIElement>) => <li className="my-1" {...props} />,
