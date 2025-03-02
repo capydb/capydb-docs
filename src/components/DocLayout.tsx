@@ -4,6 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import TOC from './TOC';
+import { MDXProvider } from '@mdx-js/react';
+import MDXComponents from './MDXComponents';
 
 interface NavItem {
   title: string;
@@ -299,41 +301,59 @@ export default function DocLayout({ children }: DocLayoutProps) {
       {/* Sidebar */}
       <aside className="fixed inset-y-0 left-0 z-10 w-72 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 overflow-y-auto shadow-md">
         <div className="flex items-center h-16 px-5 border-b border-gray-200 dark:border-gray-800 bg-gradient-to-r from-gray-50 to-white dark:from-gray-900 dark:to-gray-900">
-          <Link href="https://capybaradb.co" className="flex items-center">
-            <Image
-              src="https://capybaradb.co/images/mainIcon.png"
-              alt="CapybaraDB logo"
-              width={32}
-              height={32}
-              className="mr-3"
-            />
-            <span className="font-bold text-xl text-gray-900 dark:text-white">CapybaraDB</span>
+          <Link href="https://capybaradb.co" className="flex items-center group">
+            <div className="relative">
+              <div className="absolute -inset-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg blur-lg opacity-0 group-hover:opacity-75 transition duration-200"></div>
+              <Image
+                src="https://capybaradb.co/images/mainIcon.png"
+                alt="CapybaraDB logo"
+                width={32}
+                height={32}
+                className="relative"
+              />
+            </div>
+            <span className="ml-3 font-bold text-xl bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400">CapybaraDB</span>
           </Link>
         </div>
-        <nav className="p-6">
+        <nav className="p-4">
           {sidebarSections.map((section, idx) => (
-            <div key={idx} className="mb-10">
-              <h3 className="text-sm font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider mb-4 ml-2 flex items-center">
-                <div className="w-1.5 h-1.5 bg-amber-500 rounded-full mr-2"></div>
-                <span className="text-gray-700 dark:text-gray-200">{section.title}</span>
-              </h3>
-              <ul className="space-y-2">
+            <div key={idx} className="mb-8">
+              <div className="flex items-center px-4 mb-3">
+                <div className="h-px flex-1 bg-gradient-to-r from-amber-500/20 to-transparent dark:from-amber-400/20"></div>
+                <h3 className="mx-3 text-sm font-bold text-gray-900 dark:text-gray-200 tracking-wider">
+                  {section.title}
+                </h3>
+                <div className="h-px flex-1 bg-gradient-to-l from-amber-500/20 to-transparent dark:from-amber-400/20"></div>
+              </div>
+              <ul className="space-y-1">
                 {section.items.map((item, itemIdx) => (
                   <li key={itemIdx}>
                     <Link
                       href={item.href}
-                      className={`flex items-center px-4 py-2.5 rounded-lg text-sm transition-all duration-200 ${
-                        pathname === item.href
-                          ? 'bg-amber-50 text-amber-700 dark:bg-amber-900/20 dark:text-amber-300 font-medium shadow-sm border-l-2 border-amber-500 pl-3'
-                          : 'text-gray-700 hover:bg-gray-50 hover:text-amber-600 hover:pl-5 dark:text-gray-300 dark:hover:bg-gray-800/50 dark:hover:text-amber-300'
-                      }`}
+                      className={`group flex items-center px-4 py-2.5 rounded-lg text-sm transition-all duration-200 
+                        ${pathname === item.href
+                          ? 'bg-gradient-to-r from-amber-50 to-transparent dark:from-amber-900/20 text-amber-700 dark:text-amber-300 font-medium shadow-sm'
+                          : 'text-gray-700 hover:bg-gray-50 hover:text-amber-600 dark:text-gray-300 dark:hover:bg-gray-800/50 dark:hover:text-amber-300'
+                        }
+                      `}
                       target={item.external ? '_blank' : undefined}
                       rel={item.external ? 'noopener noreferrer' : undefined}
                     >
-                      {item.icon}
-                      {item.title}
+                      <span className={`mr-3 transition-colors duration-200 
+                        ${pathname === item.href 
+                          ? 'text-amber-500 dark:text-amber-400' 
+                          : 'text-gray-400 group-hover:text-amber-500 dark:text-gray-500 dark:group-hover:text-amber-400'
+                        }`}>
+                        {item.icon}
+                      </span>
+                      <span className="flex-1">{item.title}</span>
                       {item.external && (
-                        <svg className="ml-1 h-3 w-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg 
+                          className="ml-2 h-3.5 w-3.5 text-gray-400 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" 
+                          fill="none" 
+                          viewBox="0 0 24 24" 
+                          stroke="currentColor"
+                        >
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                         </svg>
                       )}
@@ -349,30 +369,36 @@ export default function DocLayout({ children }: DocLayoutProps) {
       {/* Main content area */}
       <div className="flex-1 ml-72">
         {/* Header bar with external links */}
-        <div className="sticky top-0 z-20 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 h-16 flex items-center px-6 shadow-sm">
+        <div className="sticky top-0 z-20 backdrop-blur-lg bg-white/80 dark:bg-gray-900/80 border-b border-gray-200 dark:border-gray-800 h-16 flex items-center px-6">
           <div className="flex items-center justify-between w-full">
-            <div className="flex items-center h-full space-x-6">
+            <div className="flex items-center h-full space-x-8">
               <Link 
                 href="/"
-                className={`text-sm font-medium transition-colors duration-200 ${
+                className={`text-sm font-medium px-4 py-1.5 rounded-full transition-all duration-200 relative ${
                   !isApiReference 
-                    ? 'text-amber-600 dark:text-amber-400 border-b-2 border-amber-500 dark:border-amber-400 h-full flex items-center' 
-                    : 'text-gray-700 hover:text-amber-600 dark:text-gray-300 dark:hover:text-amber-400 h-full flex items-center'
+                    ? 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 shadow-sm' 
+                    : 'text-gray-700 hover:text-amber-600 hover:bg-amber-50/50 dark:text-gray-300 dark:hover:text-amber-400 dark:hover:bg-amber-900/10'
                 }`}
               >
                 <span className="flex items-center">
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                  </svg>
                   Documentation
                 </span>
               </Link>
               <Link 
                 href="/api-reference"
-                className={`text-sm font-medium transition-colors duration-200 ${
+                className={`text-sm font-medium px-4 py-1.5 rounded-full transition-all duration-200 relative ${
                   isApiReference 
-                    ? 'text-amber-600 dark:text-amber-400 border-b-2 border-amber-500 dark:border-amber-400 h-full flex items-center' 
-                    : 'text-gray-700 hover:text-amber-600 dark:text-gray-300 dark:hover:text-amber-400 h-full flex items-center'
+                    ? 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 shadow-sm' 
+                    : 'text-gray-700 hover:text-amber-600 hover:bg-amber-50/50 dark:text-gray-300 dark:hover:text-amber-400 dark:hover:bg-amber-900/10'
                 }`}
               >
                 <span className="flex items-center">
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                  </svg>
                   API Reference
                 </span>
               </Link>
@@ -382,13 +408,33 @@ export default function DocLayout({ children }: DocLayoutProps) {
                 <Link
                   key={idx}
                   href={link.href}
-                  className="flex items-center h-full text-sm text-gray-600 hover:text-amber-600 dark:text-gray-300 dark:hover:text-amber-400 transition-colors duration-200"
+                  className={`group flex items-center px-4 py-1.5 rounded-lg border transition-all duration-200 
+                    ${link.title === 'Dashboard' 
+                      ? 'text-black bg-amber-500 hover:bg-amber-600 text-white border-transparent shadow-sm hover:shadow-md' 
+                      : 'text-white border-gray-200 dark:border-gray-700 hover:border-amber-200 dark:hover:border-amber-700 hover:bg-amber-50 dark:hover:bg-amber-900/10'
+                    }`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <span className="flex items-center">
+                  <span className="flex items-center text-sm font-medium">
+                    {link.title === 'Dashboard' && (
+                      <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                      </svg>
+                    )}
+                    {link.title === 'Contact' && (
+                      <svg className="w-4 h-4 mr-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                    )}
                     {link.title}
-                    <svg className="ml-1 h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg 
+                      className={`ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5
+                        ${link.title === 'Dashboard' ? 'text-white' : 'text-white'}`}
+                      fill="none" 
+                      viewBox="0 0 24 24" 
+                      stroke="currentColor"
+                    >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                   </span>
@@ -399,17 +445,19 @@ export default function DocLayout({ children }: DocLayoutProps) {
         </div>
         
         {/* Two-column layout with fixed widths */}
-        <div className="max-w-[1200px] mx-auto px-6 py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="max-w-[1350px] mx-auto py-7">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-1">
             {/* Main content - takes 3/4 of the space on large screens */}
             <div className="lg:col-span-3">
               <div className="nextra-content bg-white dark:bg-gray-900 p-8 rounded-xl shadow-md border border-gray-100 dark:border-gray-800">
-                {children}
+                <MDXProvider components={MDXComponents}>
+                  {children}
+                </MDXProvider>
               </div>
             </div>
             
             {/* TOC - takes 1/4 of the space on large screens */}
-            <div className="lg:col-span-1">
+            <div className="ml-9 lg:col-span-1">
               <TOC />
             </div>
           </div>

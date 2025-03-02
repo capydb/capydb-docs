@@ -1,3 +1,4 @@
+'use client';
 import DocLayout from '@/components/DocLayout';
 import LanguageToggle from '@/components/LanguageToggle';
 import LanguageContent from '@/components/LanguageContent';
@@ -5,8 +6,65 @@ import Feedback from '@/components/Feedback';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import Link from 'next/link';
+import CopyButton from '@/components/CopyButton';
 
 export default function FindPage() {
+  const pythonCode = `# Filter to match the document(s)
+filter_criteria = {
+    "age": {"$gt": 25}
+}
+
+# Optional projection, sort, limit, and skip parameters
+projection = {
+    "name": 1,
+    "age": 1,
+    "_id": 0  # Exclude _id
+}
+
+sort = {
+    "age": -1  # Sort by age in descending order
+}
+
+limit = 5
+skip = 0
+
+# Sending the request
+response = collection.find(filter_criteria, projection, sort, limit, skip)`;
+
+  const typescriptCode = `// Filter to match the document(s)
+const filter = {
+  age: { $gt: 25 },
+};
+
+// Optional projection, sort, limit, and skip parameters
+const projection = {
+  name: 1,
+  age: 1,
+  _id: 0, // Exclude _id
+};
+
+const sort = {
+  age: -1, // Sort by age in descending order
+};
+
+const limit = 5;
+const skip = 0;
+
+const response = collection.find(filter, projection, sort, limit, skip);`;
+
+  const jsonResponse = `{
+  "docs": [
+    {
+      "name": "Alice Smith",
+      "age": 29
+    },
+    {
+      "name": "Bob Johnson",
+      "age": 40
+    }
+  ]
+}`;
+
   return (
     <DocLayout>
       <div className="prose dark:prose-invert max-w-none">
@@ -31,54 +89,41 @@ export default function FindPage() {
         <p>Here's how you can query documents using Python, by applying a filter, projection, and sort operation:</p>
         
         <LanguageContent language="python">
-          <SyntaxHighlighter language="python" style={atomDark} showLineNumbers>
-            {`# Filter to match the document(s)
-filter_criteria = {
-    "age": {"$gt": 25}
-}
-
-# Optional projection, sort, limit, and skip parameters
-projection = {
-    "name": 1,
-    "age": 1,
-    "_id": 0  # Exclude _id
-}
-
-sort = {
-    "age": -1  # Sort by age in descending order
-}
-
-limit = 5
-skip = 0
-
-# Sending the request
-response = collection.find(filter_criteria, projection, sort, limit, skip)`}
-          </SyntaxHighlighter>
+          <div className="relative">
+            <CopyButton code={pythonCode} />
+            <SyntaxHighlighter 
+              language="python" 
+              style={atomDark}
+              showLineNumbers={false}
+              customStyle={{
+                margin: 0,
+                borderRadius: '0.75rem',
+                background: '#1a1a1a',
+                padding: '2rem',
+              }}
+            >
+              {pythonCode}
+            </SyntaxHighlighter>
+          </div>
         </LanguageContent>
         
         <LanguageContent language="typescript">
-          <SyntaxHighlighter language="typescript" style={atomDark} showLineNumbers>
-            {`// Filter to match the document(s)
-const filter = {
-  age: { $gt: 25 },
-};
-
-// Optional projection, sort, limit, and skip parameters
-const projection = {
-  name: 1,
-  age: 1,
-  _id: 0, // Exclude _id
-};
-
-const sort = {
-  age: -1, // Sort by age in descending order
-};
-
-const limit = 5;
-const skip = 0;
-
-const response = collection.find(filter, projection, sort, limit, skip);`}
-          </SyntaxHighlighter>
+          <div className="relative">
+            <CopyButton code={typescriptCode} />
+            <SyntaxHighlighter 
+              language="typescript" 
+              style={atomDark}
+              showLineNumbers={false}
+              customStyle={{
+                margin: 0,
+                borderRadius: '0.75rem',
+                background: '#1a1a1a',
+                padding: '2rem',
+              }}
+            >
+              {typescriptCode}
+            </SyntaxHighlighter>
+          </div>
         </LanguageContent>
         
         <h3>Find Response</h3>
@@ -88,20 +133,22 @@ const response = collection.find(filter, projection, sort, limit, skip);`}
           Here's an example response:
         </p>
         
-        <SyntaxHighlighter language="json" style={atomDark} showLineNumbers>
-          {`{
-  "docs": [
-    {
-      "name": "Alice Smith",
-      "age": 29
-    },
-    {
-      "name": "Bob Johnson",
-      "age": 40
-    }
-  ]
-}`}
-        </SyntaxHighlighter>
+        <div className="relative">
+          <CopyButton code={jsonResponse} />
+          <SyntaxHighlighter 
+            language="json" 
+            style={atomDark}
+            showLineNumbers={false}
+            customStyle={{
+              margin: 0,
+              borderRadius: '0.75rem',
+              background: '#1a1a1a',
+              padding: '2rem',
+            }}
+          >
+            {jsonResponse}
+          </SyntaxHighlighter>
+        </div>
         
         <h2>Parameters for Find Operations</h2>
         

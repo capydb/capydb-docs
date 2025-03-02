@@ -7,6 +7,43 @@ import LanguageContent from './LanguageContent';
 import LanguageToggle from './LanguageToggle';
 import ApiCodeBlock from './ApiCodeBlock';
 import Feedback from './Feedback';
+import { useState } from 'react';
+
+const CopyButton = ({ code }: { code: string }) => {
+  const [isCopied, setIsCopied] = useState(false);
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
+  return (
+    <button
+      onClick={copyToClipboard}
+      className={`
+        absolute right-2 top-2
+        px-2 py-1
+        rounded
+        text-sm
+        font-medium
+        transition-all
+        duration-200
+        ${isCopied 
+          ? 'bg-green-500 text-white' 
+          : 'bg-gray-700 hover:bg-gray-600 text-white'
+        }
+        z-10
+      `}
+    >
+      {isCopied ? 'Copied!' : 'Copy'}
+    </button>
+  );
+};
 
 interface CalloutProps {
   children: React.ReactNode;
@@ -48,17 +85,28 @@ const CustomLink = (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
 
 const CustomCode = ({ className, children, ...props }: React.HTMLAttributes<HTMLElement>) => {
   const match = /language-(\w+)/.exec(className || '');
-  
+  const code = String(children).replace(/\n$/, '');
   return match ? (
-    <SyntaxHighlighter
-      language={match[1]}
-      // @ts-expect-error - The type definitions for react-syntax-highlighter are incorrect
-      style={atomDark}
-      PreTag="div"
-      {...props}
-    >
-      {String(children).replace(/\n$/, '')}
-    </SyntaxHighlighter>
+    <div className="my-4">
+      <div className="relative">
+        <CopyButton code={code} />
+        <SyntaxHighlighter 
+          language={match[1]}
+          style={atomDark as any}
+          showLineNumbers={false}
+          PreTag="div"
+          customStyle={{
+            margin: 0,
+            borderRadius: '0.75rem',
+            backgroundColor: '#1a1a1a',
+            padding: '2rem',
+          }}
+          {...props}
+        >
+          {code}
+        </SyntaxHighlighter>
+      </div>
+    </div>
   ) : (
     <code className={className} {...props}>
       {children}
@@ -74,7 +122,7 @@ const MDXComponents = {
   p: (props: React.HTMLAttributes<HTMLParagraphElement>) => <p className="my-4" {...props} />,
   a: CustomLink,
   code: CustomCode,
-  pre: (props: React.HTMLAttributes<HTMLPreElement>) => <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto my-4" {...props} />,
+  pre: (props: React.HTMLAttributes<HTMLPreElement>) => <pre {...props} />,
   ul: (props: React.HTMLAttributes<HTMLUListElement>) => <ul className="list-disc pl-6 my-4" {...props} />,
   ol: (props: React.HTMLAttributes<HTMLOListElement>) => <ol className="list-decimal pl-6 my-4" {...props} />,
   li: (props: React.HTMLAttributes<HTMLLIElement>) => <li className="my-1" {...props} />,
