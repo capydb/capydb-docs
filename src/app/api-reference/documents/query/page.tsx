@@ -42,13 +42,14 @@ export default function QueryDocumentsPage() {
         <SyntaxHighlighter language="json" style={atomDark} showLineNumbers>
           {`{
   "query": "How to implement vector search?",
-  "embedding_model": "text-embedding-3-small",
-  "top_k": 5,
-  "include_values": true,
+  "filter": {"category": "AI", "published": true},
   "projection": {
     "title": 1,
     "content": 1
-  }
+  },
+  "embedding_model": "text-embedding-3-small",
+  "top_k": 5,
+  "include_values": true
 }`}
         </SyntaxHighlighter>
         
@@ -71,6 +72,18 @@ export default function QueryDocumentsPage() {
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">The text query to search for semantically similar content</td>
             </tr>
             <tr>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">filter</td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">object</td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">No</td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">MongoDB-style query filter to apply to documents before semantic search</td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">projection</td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">object</td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">No</td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">Fields to include (1) or exclude (0) in the returned documents</td>
+            </tr>
+            <tr>
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">embedding_model</td>
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">string</td>
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">No</td>
@@ -87,12 +100,6 @@ export default function QueryDocumentsPage() {
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">boolean</td>
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">No</td>
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">Whether to include the matching text chunks in the response (default: true)</td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">projection</td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">object</td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">No</td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">Fields to include (1) or exclude (0) in the returned documents</td>
             </tr>
           </tbody>
         </table>

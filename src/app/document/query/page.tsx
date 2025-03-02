@@ -36,22 +36,23 @@ export default function QueryPage() {
           <SyntaxHighlighter language="python" style={atomDark} showLineNumbers>
             {`query_text = "Software engineer with expertise in AI"
 
-response = collection.query(query)`}
+response = collection.query(query_text)`}
           </SyntaxHighlighter>
           
           <p>Alternatively, you can use an advanced query with optional parameters like so:</p>
           
           <SyntaxHighlighter language="python" style={atomDark} showLineNumbers>
             {`query_text = "Software engineer with expertise in AI"
-emb_model = "text-embedding-3-small" # Optional
-top_k = 3 # Optional
-include_values = True # Optional
+filter_dict = {"experience": {"$gte": 5}, "skills": {"$in": ["Python", "Machine Learning"]}} # Optional
 projection = {
     "mode": "include",
     "fields": ["name", "bio"]
 } # Optional
+emb_model = "text-embedding-3-small" # Optional
+top_k = 3 # Optional
+include_values = True # Optional
 
-response = collection.query(query, emb_model=emb_model, top_k=top_k, include_values=include_values, projection=projection)`}
+response = collection.query(query_text, filter_dict, projection, emb_model=emb_model, top_k=top_k, include_values=include_values)`}
           </SyntaxHighlighter>
         </LanguageContent>
         
@@ -64,26 +65,26 @@ response = collection.query(query, emb_model=emb_model, top_k=top_k, include_val
           <SyntaxHighlighter language="typescript" style={atomDark} showLineNumbers>
             {`const queryText = "Software engineer with expertise in AI";
 
-const response = collection.query(query);`}
+const response = collection.query(queryText);`}
           </SyntaxHighlighter>
           
           <p>Alternatively, you can use an advanced query with optional parameters like so:</p>
           
           <SyntaxHighlighter language="typescript" style={atomDark} showLineNumbers>
             {`const query = "Software engineer with expertise in AI";
-const embModel = "text-embedding-3-small"; // Optional
-const topK = 3; // Optional
-const includeValues = true; // Optional
+const filter = {experience: {$gte: 5}, skills: {$in: ["Python", "Machine Learning"]}}; // Optional
 const projection = {
   mode: "include",
   fields: ["name", "bio"],
 }; // Optional
+const embModel = "text-embedding-3-small"; // Optional
+const topK = 3; // Optional
+const includeValues = true; // Optional
 
-const response = collection.query(query, {
+const response = collection.query(query, filter, projection, {
   embModel,
   topK,
   includeValues,
-  projection,
 });`}
           </SyntaxHighlighter>
         </LanguageContent>
@@ -186,6 +187,22 @@ const response = collection.query(query, {
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">string</td>
             </tr>
             <tr>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><strong>filter</strong> (optional)</td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">
+                MongoDB-style query filter to apply to documents before semantic search. This allows you to narrow down the documents that will be considered for semantic matching.
+              </td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">JSON object</td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><strong>projection</strong> (optional)</td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">
+                Defines which fields to return in the response. The default value is <code>{`{ "mode": "exclude" }`}</code>. 
+                Accepts a required <code>mode</code> (include or exclude) and an optional <code>fields</code> list. 
+                See the table below for how different values of <code>projection</code> affect the response.
+              </td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">JSON object</td>
+            </tr>
+            <tr>
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><strong>emb_model</strong> (optional)</td>
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">
                 The embedding model used for the query. Defaults to OpenAI's text-embedding-3-small. 
@@ -212,15 +229,6 @@ const response = collection.query(query, {
                 of each matched chunk in the response.
               </td>
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">boolean</td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><strong>projection</strong> (optional)</td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">
-                Defines which fields to return in the response. The default value is <code>{`{ "mode": "exclude" }`}</code>. 
-                Accepts a required <code>mode</code> (include or exclude) and an optional <code>fields</code> list. 
-                See the table below for how different values of <code>projection</code> affect the response.
-              </td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">JSON object</td>
             </tr>
           </tbody>
         </table>

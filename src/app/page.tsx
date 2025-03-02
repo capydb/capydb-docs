@@ -170,8 +170,10 @@ main();`}
           
           <SyntaxHighlighter language="python" style={atomDark}>
             {`query = "Alice in a fantastical world"
+filter_dict = {"category": "fiction"} # Optional
+projection = {"mode": "include", "fields": ["title", "content"]} # Optional
 
-response = collection.query(query)`}
+response = collection.query(query, filter_dict, projection)`}
           </SyntaxHighlighter>
         </LanguageContent>
         
@@ -182,9 +184,11 @@ response = collection.query(query)`}
             {`async function main() {
   // Define the query
   const query = "Alice in a fantastical world";
+  const filter = {category: "fiction"}; // Optional
+  const projection = {mode: "include", fields: ["title", "content"]}; // Optional
 
   // Execute the query
-  const response = await collection.query(query);
+  const response = await collection.query(query, filter, projection);
 }
 
 main();`}
