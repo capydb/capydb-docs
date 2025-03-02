@@ -54,7 +54,7 @@ export default function AuthenticationPage() {
   -d '{
     "title": "Example Document",
     "content": {
-      "$embText": "This is an example document with embedded text."
+      "@embText": "This is an example document with embedded text."
     }
   }'`}
         </SyntaxHighlighter>

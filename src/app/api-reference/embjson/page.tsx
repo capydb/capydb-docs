@@ -35,7 +35,7 @@ export default function EmbJSONPage() {
               Text that is automatically chunked, embedded, and indexed for semantic search
             </p>
             <div className="mt-2 text-xs bg-gray-100 dark:bg-gray-800 p-2 rounded">
-              <code className="break-all">{`{"$embText": "Text content to be embedded"}`}</code>
+              <code className="break-all">{`{"@embText": "Text content to be embedded"}`}</code>
             </div>
           </div>
           
@@ -49,7 +49,7 @@ export default function EmbJSONPage() {
               Images processed by vision models to extract textual descriptions and optionally embedded for semantic search
             </p>
             <div className="mt-2 text-xs bg-gray-100 dark:bg-gray-800 p-2 rounded">
-              <code className="break-all">{`{"$embImage": "https://example.com/image.jpg"}`}</code>
+              <code className="break-all">{`{"@embImage": "https://example.com/image.jpg"}`}</code>
             </div>
           </div>
           
@@ -112,10 +112,10 @@ export default function EmbJSONPage() {
   "title": "Mountain Hiking Guide",
   "author": "Jane Smith",
   "description": {
-    "$embText": "A comprehensive guide to hiking in the Rocky Mountains, including trail information, safety tips, and equipment recommendations."
+    "@embText": "A comprehensive guide to hiking in the Rocky Mountains, including trail information, safety tips, and equipment recommendations."
   },
   "cover_image": {
-    "$embImage": {
+    "@embImage": {
       "data": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBwYHBwcGBwcICQsJCAgKCAcHCg0KCgsMDAwMBwkODw0MDgsMDAz/...",
       "vision_model": "gpt-4o",
       "prompt": "Describe this mountain landscape in detail"
@@ -141,13 +141,13 @@ export default function EmbJSONPage() {
     "title": "Mountain Hiking Guide",
     "author": "Jane Smith",
     "description": {
-      "$embText": {
+      "@embText": {
         "text": "A comprehensive guide to hiking in the Rocky Mountains, including trail information, safety tips, and equipment recommendations.",
         "emb_model": "text-embedding-3-small"
       }
     },
     "cover_image": {
-      "$embImage": {
+      "@embImage": {
         "data": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBwYHBwcGBwcICQsJCAgKCAcHCg0KCgsMDAwMBwkODw0MDgsMDAz/...",
         "vision_model": "gpt-4o",
         "prompt": "Describe this mountain landscape in detail"
@@ -178,13 +178,13 @@ data = {
     "title": "Mountain Hiking Guide",
     "author": "Jane Smith",
     "description": {
-        "$embText": {
+        "@embText": {
             "text": "A comprehensive guide to hiking in the Rocky Mountains, including trail information, safety tips, and equipment recommendations.",
             "emb_model": "text-embedding-3-small"
         }
     },
     "cover_image": {
-        "$embImage": {
+        "@embImage": {
             "data": f"data:image/jpeg;base64,{image_data}",
             "vision_model": "gpt-4o",
             "prompt": "Describe this mountain landscape in detail"
@@ -232,13 +232,13 @@ async function insertDocument() {
       title: 'Mountain Hiking Guide',
       author: 'Jane Smith',
       description: {
-        $embText: {
+        "@embText": {
           text: 'A comprehensive guide to hiking in the Rocky Mountains, including trail information, safety tips, and equipment recommendations.',
           emb_model: 'text-embedding-3-small'
         }
       },
       cover_image: {
-        $embImage: {
+        "@embImage": {
           data: \`data:image/jpeg;base64,\${imageData}\`,
           vision_model: 'gpt-4o',
           prompt: 'Describe this mountain landscape in detail'

@@ -170,70 +170,6 @@ export default function InsertDocumentsPage() {
           </tbody>
         </table>
         
-        <h2>Example</h2>
-        
-        <h3>Example Request</h3>
-        
-        <SyntaxHighlighter language="bash" style={atomDark} showLineNumbers>
-          {`curl -X POST \\
-  https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document \\
-  -H "Authorization: Bearer YOUR_API_KEY" \\
-  -H "Content-Type: application/json" \\
-  -d '{
-    "documents": [
-      {
-        "title": "Example Document",
-        "content": {
-          "@embText": {
-            "text": "This is an example document with embedded text that will be vectorized.",
-            "emb_model": "text-embedding-3-small",
-            "max_chunk_size": 200,
-            "chunk_overlap": 20
-          }
-        },
-        "tags": ["example", "documentation"]
-      }
-    ]
-  }'`}
-        </SyntaxHighlighter>
-        
-        <h3>Example Response</h3>
-        
-        <SyntaxHighlighter language="json" style={atomDark} showLineNumbers>
-          {`{
-  "status": "success",
-  "data": {
-    "inserted_ids": ["507f1f77bcf86cd799439011"],
-    "task_id": "task_123456789"
-  }
-}`}
-        </SyntaxHighlighter>
-        
-        <h2>Related Operations</h2>
-        
-        <ul>
-          <li>
-            <Link href="/api-reference/documents/find" className="text-blue-600 dark:text-blue-400 hover:underline">
-              Find Documents
-            </Link> - Find documents based on filters
-          </li>
-          <li>
-            <Link href="/api-reference/documents/query" className="text-blue-600 dark:text-blue-400 hover:underline">
-              Query Documents
-            </Link> - Perform semantic search on documents
-          </li>
-          <li>
-            <Link href="/api-reference/documents/update" className="text-blue-600 dark:text-blue-400 hover:underline">
-              Update Documents
-            </Link> - Update documents based on filters
-          </li>
-          <li>
-            <Link href="/api-reference/documents/delete" className="text-blue-600 dark:text-blue-400 hover:underline">
-              Delete Documents
-            </Link> - Delete documents based on filters
-          </li>
-        </ul>
-        
         <h2>Code Examples</h2>
         
         <ApiCodeBlock
@@ -343,6 +279,31 @@ fetch(url, {
     console.error('Error:', error);
   });`}
         />
+        
+        <h2>Related Operations</h2>
+        
+        <ul>
+          <li>
+            <Link href="/api-reference/documents/find" className="text-blue-600 dark:text-blue-400 hover:underline">
+              Find Documents
+            </Link> - Find documents based on filters
+          </li>
+          <li>
+            <Link href="/api-reference/documents/query" className="text-blue-600 dark:text-blue-400 hover:underline">
+              Query Documents
+            </Link> - Perform semantic search on documents
+          </li>
+          <li>
+            <Link href="/api-reference/documents/update" className="text-blue-600 dark:text-blue-400 hover:underline">
+              Update Documents
+            </Link> - Update documents based on filters
+          </li>
+          <li>
+            <Link href="/api-reference/documents/delete" className="text-blue-600 dark:text-blue-400 hover:underline">
+              Delete Documents
+            </Link> - Delete documents based on filters
+          </li>
+        </ul>
       </div>
     </DocLayout>
   );

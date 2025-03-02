@@ -285,45 +285,6 @@ export default function FindDocumentsPage() {
           </tbody>
         </table>
         
-        <h2>Example</h2>
-        
-        <h3>Example Request</h3>
-        
-        <SyntaxHighlighter language="bash" style={atomDark} showLineNumbers>
-          {`curl -X POST \\
-  https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document/find \\
-  -H "Authorization: Bearer YOUR_API_KEY" \\
-  -H "Content-Type: application/json" \\
-  -d '{
-    "filter": {
-      "tags": "example"
-    },
-    "projection": {
-      "title": 1,
-      "tags": 1
-    },
-    "limit": 10
-  }'`}
-        </SyntaxHighlighter>
-        
-        <h3>Example Response</h3>
-        
-        <SyntaxHighlighter language="json" style={atomDark} showLineNumbers>
-          {`{
-  "status": "success",
-  "data": {
-    "documents": [
-      {
-        "_id": "507f1f77bcf86cd799439011",
-        "title": "Example Document",
-        "tags": ["example", "documentation"]
-      }
-    ],
-    "total": 1
-  }
-}`}
-        </SyntaxHighlighter>
-        
         <h2>Code Examples</h2>
         
         <ApiCodeBlock

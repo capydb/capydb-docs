@@ -25,12 +25,12 @@ export default function EmbTextPage() {
         <h2>Format</h2>
         
         <p>
-          The <code>EmbText</code> type is represented in JSON as an object with the <code>$embText</code> key:
+          The <code>EmbText</code> type is represented in JSON as an object with the <code>@embText</code> key:
         </p>
         
         <SyntaxHighlighter language="json" style={atomDark} showLineNumbers>
           {`{
-  "$embText": {
+  "@embText": {
     "text": "This is the text content that will be embedded",
     "emb_model": "text-embedding-3-small",
     "max_chunk_size": 200,
@@ -45,7 +45,7 @@ export default function EmbTextPage() {
         
         <SyntaxHighlighter language="json" style={atomDark} showLineNumbers>
           {`{
-  "$embText": "This is the text content that will be embedded"
+  "@embText": "This is the text content that will be embedded"
 }`}
         </SyntaxHighlighter>
         
@@ -134,7 +134,7 @@ export default function EmbTextPage() {
   "title": "Introduction to Machine Learning",
   "author": "Jane Smith",
   "content": {
-    "$embText": {
+    "@embText": {
       "text": "Machine learning is a field of study that gives computers the ability to learn without being explicitly programmed. It focuses on developing computer programs that can access data and use it to learn for themselves.",
       "emb_model": "text-embedding-3-large",
       "max_chunk_size": 150,
@@ -155,7 +155,7 @@ export default function EmbTextPage() {
     "title": "Introduction to Machine Learning",
     "author": "Jane Smith",
     "content": {
-      "$embText": {
+      "@embText": {
         "text": "Machine learning is a field of study that gives computers the ability to learn without being explicitly programmed. It focuses on developing computer programs that can access data and use it to learn for themselves.",
         "emb_model": "text-embedding-3-large",
         "max_chunk_size": 150,
@@ -180,7 +180,7 @@ data = {
     "title": "Introduction to Machine Learning",
     "author": "Jane Smith",
     "content": {
-        "$embText": {
+        "@embText": {
             "text": "Machine learning is a field of study that gives computers the ability to learn without being explicitly programmed. It focuses on developing computer programs that can access data and use it to learn for themselves.",
             "emb_model": "text-embedding-3-large",
             "max_chunk_size": 150,
@@ -200,47 +200,22 @@ if response.status_code == 201:
 else:
     print(f"Error: {response.status_code}")
     print(response.text)`}
-          javascript={`// API endpoint
-const url = 'https://api.capybaradb.co/v0/db/project_id_database_name/collection/articles/document';
-
-// Headers
-const headers = {
-  'Authorization': 'Bearer YOUR_API_KEY',
-  'Content-Type': 'application/json'
-};
-
-// Request body
-const data = {
-  title: 'Introduction to Machine Learning',
-  author: 'Jane Smith',
+          javascript={`// JavaScript example
+const document = {
+  title: "Introduction to Machine Learning",
+  author: "Jane Smith",
   content: {
-    $embText: {
-      text: 'Machine learning is a field of study that gives computers the ability to learn without being explicitly programmed. It focuses on developing computer programs that can access data and use it to learn for themselves.',
-      emb_model: 'text-embedding-3-large',
+    "@embText": {
+      text: "Machine learning is a field of study that gives computers the ability to learn without being explicitly programmed. It focuses on developing computer programs that can access data and use it to learn for themselves.",
+      emb_model: "text-embedding-3-large",
       max_chunk_size: 150,
       chunk_overlap: 15
     }
   }
 };
 
-// Make the request
-fetch(url, {
-  method: 'POST',
-  headers: headers,
-  body: JSON.stringify(data)
-})
-  .then(response => response.json())
-  .then(result => {
-    if (result.status === 'success') {
-      console.log('Inserted document with ID:', result.data.inserted_ids[0]);
-      console.log('Task ID for embedding:', result.data.task_id);
-    } else {
-      console.error('Error:', result);
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });`}
+// Insert the document
+await collection.insertOne(document);`}
         />
         
         <h2>Related Resources</h2>

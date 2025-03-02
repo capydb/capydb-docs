@@ -1,7 +1,8 @@
 import DocLayout from '@/components/DocLayout';
 import Link from 'next/link';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vs } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import ApiCodeBlock from '@/components/ApiCodeBlock';
 
 export default function ApiReferencePage() {
   return (
@@ -24,7 +25,7 @@ export default function ApiReferencePage() {
         
         <h2>Base URL</h2>
         
-        <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-md my-4">
+        <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg my-4 font-mono text-sm">
           <code>https://api.capybaradb.co/v0</code>
         </div>
         
@@ -35,10 +36,8 @@ export default function ApiReferencePage() {
           in the CapybaraDB Dashboard. API keys must be included in the Authorization header of all requests.
         </p>
         
-        <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-md my-4">
-          <code>
-            Authorization: Bearer YOUR_API_KEY
-          </code>
+        <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg my-4 font-mono text-sm">
+          <code>Authorization: Bearer YOUR_API_KEY</code>
         </div>
         
         <p>
@@ -96,14 +95,14 @@ export default function ApiReferencePage() {
           In JSON requests, these are represented as:
         </p>
         
-        <SyntaxHighlighter language="json" style={vs} showLineNumbers>
+        <SyntaxHighlighter language="json" style={atomDark} showLineNumbers>
           {`{
   "title": "Regular text field",
   "description": {
-    "$embText": "This text will be embedded for semantic search"
+    "@embText": "This text will be embedded for semantic search"
   },
   "image": {
-    "$embImage": "https://example.com/image.jpg"
+    "@embImage": "https://example.com/image.jpg"
   }
 }`}
         </SyntaxHighlighter>
@@ -145,7 +144,7 @@ export default function ApiReferencePage() {
         
         <p>Error responses follow this format:</p>
         
-        <SyntaxHighlighter language="json" style={vs} showLineNumbers>
+        <SyntaxHighlighter language="json" style={atomDark} showLineNumbers>
           {`{
   "status": "error",
   "code": 400,
