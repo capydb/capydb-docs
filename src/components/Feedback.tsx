@@ -48,34 +48,13 @@ export default function Feedback() {
       });
       setComment("");
       
-      // Show success toast with custom styling
-      toast.success("Thank you for your feedback!", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: {
-          background: "#4ade80",
-          color: "#fff",
-          fontWeight: "bold",
-        },
-      });
+      // Show a simple, elegant success toast
+      toast.success("Thank you for your feedback!");
       
       console.log("Feedback submitted successfully:", result);
     } catch (error) {
       console.error("Feedback submission error:", error);
-      toast.error("Oops! Something went wrong. Please try again later.", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
