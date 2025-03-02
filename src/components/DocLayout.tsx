@@ -448,7 +448,7 @@ export default function DocLayout({ children }: DocLayoutProps) {
         <div className="max-w-[1350px] mx-auto py-7">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-1">
             {/* Main content - takes 3/4 of the space on large screens */}
-            <div className="lg:col-span-3">
+            <div className="ml-6 lg:col-span-3">
               <div className="nextra-content bg-white dark:bg-gray-900 p-8 rounded-xl shadow-md border border-gray-100 dark:border-gray-800">
                 <MDXProvider components={MDXComponents}>
                   {children}
