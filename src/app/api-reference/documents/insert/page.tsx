@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import ApiCodeBlock from '@/components/ApiCodeBlock';
+import Feedback from '@/components/Feedback';
 
 export default function InsertDocumentsPage() {
   return (
@@ -286,7 +287,7 @@ fetch(url, {
           <li>
             <Link href="/api-reference/documents/find" className="text-blue-600 dark:text-blue-400 hover:underline">
               Find Documents
-            </Link> - Find documents based on filters
+            </Link> - Retrieve documents based on filters
           </li>
           <li>
             <Link href="/api-reference/documents/query" className="text-blue-600 dark:text-blue-400 hover:underline">
@@ -304,6 +305,8 @@ fetch(url, {
             </Link> - Delete documents based on filters
           </li>
         </ul>
+        
+        <Feedback />
       </div>
     </DocLayout>
   );

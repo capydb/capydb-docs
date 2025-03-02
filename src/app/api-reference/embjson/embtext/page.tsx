@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import ApiCodeBlock from '@/components/ApiCodeBlock';
+import Feedback from '@/components/Feedback';
 
 export default function EmbTextPage() {
   return (
@@ -222,21 +223,23 @@ await collection.insertOne(document);`}
         
         <ul>
           <li>
-            <Link href="/api-reference/embjson" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+            <Link href="/api-reference/embjson" className="text-blue-600 dark:text-blue-400 hover:underline">
               EmbJSON Overview
             </Link> - Learn about all EmbJSON types
           </li>
           <li>
-            <Link href="/api-reference/embjson/embimage" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+            <Link href="/api-reference/embjson/embimage" className="text-blue-600 dark:text-blue-400 hover:underline">
               EmbImage
-            </Link> - Documentation for the EmbImage type
+            </Link> - Embed and search images
           </li>
           <li>
-            <Link href="/api-reference/documents/query" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+            <Link href="/api-reference/documents/query" className="text-blue-600 dark:text-blue-400 hover:underline">
               Query Documents
-            </Link> - Learn how to perform semantic search on EmbText fields
+            </Link> - Perform semantic search on embedded text
           </li>
         </ul>
+        
+        <Feedback />
       </div>
     </DocLayout>
   );

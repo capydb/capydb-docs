@@ -4,6 +4,7 @@ import React from 'react';
 import DocLayout from '@/components/DocLayout';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import Feedback from '@/components/Feedback';
 
 export default function SupportedLLMModesPage() {
   return (
@@ -213,6 +214,8 @@ const embImageBase64 = new EmbImage({
           </p>
         </div>
       </div>
+      
+      <Feedback />
     </DocLayout>
   );
 } 

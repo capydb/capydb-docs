@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import ApiCodeBlock from '@/components/ApiCodeBlock';
+import Feedback from '@/components/Feedback';
 
 export default function FindDocumentsPage() {
   return (
@@ -392,6 +393,21 @@ fetch(url, {
     console.error('Error:', error);
   });`}
         />
+        
+        <ul>
+          <li>
+            <Link href="/api-reference/documents/insert" className="text-blue-600 dark:text-blue-400 hover:underline">
+              Insert Documents
+            </Link> - Add new documents to a collection
+          </li>
+          <li>
+            <Link href="/api-reference/documents/query" className="text-blue-600 dark:text-blue-400 hover:underline">
+              Query Documents
+            </Link> - Perform semantic search on documents
+          </li>
+        </ul>
+        
+        <Feedback />
       </div>
     </DocLayout>
   );

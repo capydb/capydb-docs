@@ -1,5 +1,6 @@
 import DocLayout from '@/components/DocLayout';
 import Link from 'next/link';
+import Feedback from '@/components/Feedback';
 
 export default function DocumentsApiPage() {
   return (
@@ -166,6 +167,8 @@ export default function DocumentsApiPage() {
             </Link> - Detailed information about EmbText and EmbImage types
           </li>
         </ul>
+        
+        <Feedback />
       </div>
     </DocLayout>
   );

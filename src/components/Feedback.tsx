@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface FeedbackData {
   message: string;
@@ -28,27 +29,55 @@ const sendFeedback = async (data: FeedbackData) => {
   }
 };
 
-// Utility function to show error toast
-const toastOops = () => {
-  toast.error("Oops! Something went wrong. Please try again later.");
-};
-
 export default function Feedback() {
   // Local state to track the input values
   const [comment, setComment] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Function to handle the form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevent the default form submission behavior
     
+    if (!comment.trim()) return;
+    
+    setIsSubmitting(true);
+    
     try {
-      await sendFeedback({
+      const result = await sendFeedback({
         message: comment,
       });
       setComment("");
-      toast.success("Thank you for your feedback!");
-    } catch {
-      toastOops();
+      
+      // Show success toast with custom styling
+      toast.success("Thank you for your feedback!", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: {
+          background: "#4ade80",
+          color: "#fff",
+          fontWeight: "bold",
+        },
+      });
+      
+      console.log("Feedback submitted successfully:", result);
+    } catch (error) {
+      console.error("Feedback submission error:", error);
+      toast.error("Oops! Something went wrong. Please try again later.", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -75,22 +104,35 @@ export default function Feedback() {
               className="block w-full resize-none border-0 bg-white dark:bg-gray-900 p-3 text-gray-900 dark:text-gray-100 focus:ring-0 sm:leading-6"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
+              disabled={isSubmitting}
             />
           </div>
           <div className="flex justify-end">
             <button
               type="submit"
-              disabled={!comment.trim()}
+              disabled={!comment.trim() || isSubmitting}
               className={`inline-flex items-center rounded-lg px-4 py-2 text-sm font-medium shadow-sm transition-all duration-200 ${
-                comment.trim() 
+                comment.trim() && !isSubmitting
                   ? "bg-blue-600 text-white hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600" 
                   : "bg-gray-200 text-gray-500 dark:bg-gray-700 dark:text-gray-400 cursor-not-allowed"
               }`}
             >
-              <svg className="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              Submit Feedback
+              {isSubmitting ? (
+                <>
+                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Submitting...
+                </>
+              ) : (
+                <>
+                  <svg className="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Submit Feedback
+                </>
+              )}
             </button>
           </div>
         </form>

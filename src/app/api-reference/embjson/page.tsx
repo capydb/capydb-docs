@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import ApiCodeBlock from '@/components/ApiCodeBlock';
+import Feedback from '@/components/Feedback';
 
 export default function EmbJSONPage() {
   return (
@@ -385,21 +386,23 @@ fetch(url, {
         
         <ul>
           <li>
-            <Link href="/api-reference/documents/insert" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+            <Link href="/api-reference/documents/insert" className="text-blue-600 dark:text-blue-400 hover:underline">
               Insert Documents
             </Link> - Add documents with EmbJSON fields
           </li>
           <li>
-            <Link href="/api-reference/documents/query" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+            <Link href="/api-reference/documents/query" className="text-blue-600 dark:text-blue-400 hover:underline">
               Query Documents
-            </Link> - Perform semantic search on embedded fields
+            </Link> - Perform semantic search on documents
           </li>
           <li>
-            <Link href="/api-reference/documents/update" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+            <Link href="/api-reference/documents/update" className="text-blue-600 dark:text-blue-400 hover:underline">
               Update Documents
             </Link> - Modify documents with EmbJSON fields
           </li>
         </ul>
+        
+        <Feedback />
       </div>
     </DocLayout>
   );

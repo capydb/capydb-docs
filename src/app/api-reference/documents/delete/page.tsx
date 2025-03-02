@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import ApiCodeBlock from '@/components/ApiCodeBlock';
+import Feedback from '@/components/Feedback';
 
 export default function DeleteDocumentsPage() {
   return (
@@ -186,6 +187,8 @@ fetch(url, {
     console.error('Error:', error);
   });`}
         />
+        
+        <Feedback />
       </div>
     </DocLayout>
   );

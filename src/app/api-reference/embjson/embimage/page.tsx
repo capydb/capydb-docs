@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import ApiCodeBlock from '@/components/ApiCodeBlock';
+import Feedback from '@/components/Feedback';
 
 export default function EmbImagePage() {
   return (
@@ -310,6 +311,8 @@ async function generateImageEmbedding() {
             </li>
           </ul>
         </div>
+
+        <Feedback />
       </div>
     </DocLayout>
   );

@@ -192,10 +192,10 @@ const apiSidebarSections: SidebarSection[] = [
     ],
   },
   {
-    title: 'Documents API',
+    title: 'Main operations',
     items: [
       { 
-        title: 'Documents Overview', 
+        title: 'Overview', 
         href: '/api-reference/documents',
         icon: (
           <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

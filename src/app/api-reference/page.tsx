@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import ApiCodeBlock from '@/components/ApiCodeBlock';
+import Feedback from '@/components/Feedback';
 
 export default function ApiReferencePage() {
   return (
@@ -151,6 +152,14 @@ export default function ApiReferencePage() {
   "message": "Detailed error message"
 }`}
         </SyntaxHighlighter>
+        
+        <h2>Need Help?</h2>
+        
+        <p>
+          If you have any questions or need assistance with the CapybaraDB API, please don't hesitate to reach out to our support team at <a href="mailto:support@capybaradb.co" className="text-blue-600 dark:text-blue-400 hover:underline">support@capybaradb.co</a>.
+        </p>
+        
+        <Feedback />
       </div>
     </DocLayout>
   );

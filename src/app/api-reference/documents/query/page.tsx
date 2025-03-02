@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import ApiCodeBlock from '@/components/ApiCodeBlock';
+import Feedback from '@/components/Feedback';
 
 export default function QueryDocumentsPage() {
   return (
@@ -299,6 +300,21 @@ fetch(url, {
     console.error('Error:', error);
   });`}
         />
+        
+        <ul>
+          <li>
+            <Link href="/api-reference/documents/find" className="text-blue-600 dark:text-blue-400 hover:underline">
+              Find Documents
+            </Link> - Find documents based on filters
+          </li>
+          <li>
+            <Link href="/api-reference/embjson" className="text-blue-600 dark:text-blue-400 hover:underline">
+              EmbJSON Types
+            </Link> - Learn about EmbText and EmbImage types
+          </li>
+        </ul>
+        
+        <Feedback />
       </div>
     </DocLayout>
   );

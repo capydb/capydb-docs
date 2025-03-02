@@ -1,6 +1,9 @@
 import DocLayout from '@/components/DocLayout';
+import Link from 'next/link';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import ApiCodeBlock from '@/components/ApiCodeBlock';
+import Feedback from '@/components/Feedback';
 
 export default function AuthenticationPage() {
   return (
@@ -141,6 +144,23 @@ export default function AuthenticationPage() {
             </tr>
           </tbody>
         </table>
+        
+        <h2>Related Resources</h2>
+        
+        <ul>
+          <li>
+            <Link href="/api-reference/documents" className="text-blue-600 dark:text-blue-400 hover:underline">
+              Documents API
+            </Link> - Work with documents in your collections
+          </li>
+          <li>
+            <Link href="/api-reference/collections" className="text-blue-600 dark:text-blue-400 hover:underline">
+              Collections API
+            </Link> - Manage collections in your database
+          </li>
+        </ul>
+        
+        <Feedback />
       </div>
     </DocLayout>
   );
