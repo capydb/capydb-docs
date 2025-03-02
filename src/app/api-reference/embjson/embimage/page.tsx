@@ -175,6 +175,26 @@ export default function EmbImagePage() {
         </div>
 
         <div className="mb-8">
+          <h2 className="text-2xl font-bold mb-4">Supported Vision Models</h2>
+          
+          <p className="mb-4">
+            CapybaraDB supports various vision models for image embedding, including <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-amber-600 dark:text-amber-400 font-mono text-sm">clip-vit-base-patch32</code> (default), 
+            <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-amber-600 dark:text-amber-400 font-mono text-sm">clip-vit-large-patch14</code>, and 
+            <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-amber-600 dark:text-amber-400 font-mono text-sm">openai-vision</code>.
+          </p>
+          
+          <div className="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-lg border border-amber-200 dark:border-amber-800 mb-6">
+            <p className="text-amber-700 dark:text-amber-400 text-sm">
+              For a complete list of supported vision models, their dimensions, and usage guidelines, see the{' '}
+              <Link href="/api-reference/embjson/supported-llm-modes" className="text-amber-600 dark:text-amber-400 font-medium hover:underline">
+                Supported LLM Modes
+              </Link>{' '}
+              documentation.
+            </p>
+          </div>
+        </div>
+
+        <div className="mb-8">
           <h2 className="text-2xl font-bold mb-4">Example Usage</h2>
           
           <h3 className="text-xl font-semibold mb-2">Request Body Example</h3>

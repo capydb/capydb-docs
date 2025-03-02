@@ -58,26 +58,15 @@ export default function DocumentsApiPage() {
           </tbody>
         </table>
         
-        <h3>Supported Embedding Models</h3>
+        <h3>Supported Models</h3>
         
-        <p>The following embedding models are supported for text embedding:</p>
-        
-        <ul>
-          <li><code>text-embedding-3-small</code> - Default model, 1536 dimensions, good balance of quality and performance</li>
-          <li><code>text-embedding-3-large</code> - 3072 dimensions, higher quality embeddings for more nuanced search</li>
-          <li><code>text-embedding-ada-002</code> - Legacy model, 1536 dimensions, included for backward compatibility</li>
-        </ul>
-        
-        <h3>Supported Vision Models</h3>
-        
-        <p>The following vision models are supported for image processing:</p>
-        
-        <ul>
-          <li><code>gpt-4o</code> - High-quality image understanding with detailed descriptions</li>
-          <li><code>gpt-4o-mini</code> - Smaller, faster version with reduced capabilities</li>
-          <li><code>gpt-4-turbo</code> - Optimized version balancing performance and quality</li>
-          <li><code>o1</code> - Advanced vision model with enhanced capabilities for complex visual reasoning</li>
-        </ul>
+        <p>
+          CapybaraDB supports various embedding models for text and vision models for image processing. 
+          For a comprehensive list and detailed information about all supported models, please visit the 
+          <Link href="/api-reference/embjson/supported-llm-modes" className="text-blue-600 dark:text-blue-400 hover:underline ml-1">
+            Supported LLM Modes
+          </Link> documentation page.
+        </p>
         
         <h2>API Operations</h2>
         

@@ -94,34 +94,20 @@ export default function EmbTextPage() {
         
         <h2>Supported Embedding Models</h2>
         
-        <p>The following embedding models are supported for <code>EmbText</code>:</p>
+        <p>
+          CapybaraDB supports various text embedding models including <code>text-embedding-3-small</code> (default), 
+          <code>text-embedding-3-large</code>, and <code>text-embedding-ada-002</code>.
+        </p>
         
-        <table className="min-w-full border-collapse border border-gray-300 dark:border-gray-700">
-          <thead>
-            <tr className="bg-gray-100 dark:bg-gray-800">
-              <th className="border border-gray-300 dark:border-gray-700 px-4 py-2 text-left">Model</th>
-              <th className="border border-gray-300 dark:border-gray-700 px-4 py-2 text-left">Dimensions</th>
-              <th className="border border-gray-300 dark:border-gray-700 px-4 py-2 text-left">Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><code>text-embedding-3-small</code></td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">1536</td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">Default model, good balance of quality and performance</td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><code>text-embedding-3-large</code></td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">3072</td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">Higher quality embeddings for more nuanced search</td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><code>text-embedding-ada-002</code></td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">1536</td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">Legacy model, included for backward compatibility</td>
-            </tr>
-          </tbody>
-        </table>
+        <div className="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-lg border border-amber-200 dark:border-amber-800 mb-6">
+          <p className="text-amber-700 dark:text-amber-400 text-sm">
+            For a complete list of supported models, their dimensions, and usage guidelines, see the{' '}
+            <Link href="/api-reference/embjson/supported-llm-modes" className="text-amber-600 dark:text-amber-400 font-medium hover:underline">
+              Supported LLM Modes
+            </Link>{' '}
+            documentation.
+          </p>
+        </div>
         
         <h2>Chunking</h2>
         

@@ -52,6 +52,20 @@ export default function EmbJSONPage() {
               <code className="break-all">{`{"$embImage": "https://example.com/image.jpg"}`}</code>
             </div>
           </div>
+          
+          <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-shadow">
+            <h3 className="text-lg font-semibold mb-2">
+              <Link href="/api-reference/embjson/supported-llm-modes" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+                Supported LLM Modes
+              </Link>
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-300">
+              Comprehensive guide to all supported embedding models for text and images
+            </p>
+            <div className="mt-2 text-xs bg-gray-100 dark:bg-gray-800 p-2 rounded">
+              <code className="break-all">{`{"model": "text-embedding-3-small"}`}</code>
+            </div>
+          </div>
         </div>
         
         <h2>How EmbJSON Works</h2>

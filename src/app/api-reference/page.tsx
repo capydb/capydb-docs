@@ -89,6 +89,7 @@ export default function ApiReferencePage() {
 
         <p>
           For detailed information about EmbJSON types, please visit the <Link href="/api-reference/embjson" className="text-blue-600 dark:text-blue-400 hover:underline">EmbJSON Types</Link> documentation page.
+          To learn about the supported embedding models for text and images, see the <Link href="/api-reference/embjson/supported-llm-modes" className="text-blue-600 dark:text-blue-400 hover:underline">Supported LLM Modes</Link> page.
         </p>
         
         <p>
