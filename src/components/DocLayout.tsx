@@ -290,12 +290,11 @@ interface DocLayoutProps {
 
 export default function DocLayout({ children }: DocLayoutProps) {
   const pathname = usePathname();
-  const capybaradbUrl = process.env.NEXT_PUBLIC_CAPYBARADB_URL || 'https://capybaradb.co';
+  const isApiReference = pathname?.startsWith('/api-reference') || false;
   
-  // Determine which sidebar sections to display based on the URL path
-  const isApiReference = pathname.startsWith('/api-reference');
+  // Choose the appropriate sidebar sections based on the current path
   const sidebarSections = isApiReference ? apiSidebarSections : docSidebarSections;
-  
+
   return (
     <div className="flex min-h-screen bg-gray-50 dark:bg-gray-950">
       {/* Sidebar */}
@@ -315,45 +314,30 @@ export default function DocLayout({ children }: DocLayoutProps) {
             <span className="ml-3 font-bold text-xl bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400">CapybaraDB</span>
           </Link>
         </div>
-        <nav className="p-4">
+        <nav className="p-6">
           {sidebarSections.map((section, idx) => (
-            <div key={idx} className="mb-8">
-              <div className="flex items-center px-4 mb-3">
-                <div className="h-px flex-1 bg-gradient-to-r from-amber-500/20 to-transparent dark:from-amber-400/20"></div>
-                <h3 className="mx-3 text-sm font-bold text-gray-900 dark:text-gray-200 tracking-wider">
-                  {section.title}
-                </h3>
-                <div className="h-px flex-1 bg-gradient-to-l from-amber-500/20 to-transparent dark:from-amber-400/20"></div>
-              </div>
-              <ul className="space-y-1">
+            <div key={idx} className="mb-10">
+              <h3 className="text-sm font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider mb-4 ml-2 flex items-center">
+                <div className="w-1.5 h-1.5 bg-amber-500 rounded-full mr-2"></div>
+                <span className="text-gray-700 dark:text-gray-200">{section.title}</span>
+              </h3>
+              <ul className="space-y-2">
                 {section.items.map((item, itemIdx) => (
                   <li key={itemIdx}>
                     <Link
                       href={item.href}
-                      className={`group flex items-center px-4 py-2.5 rounded-lg text-sm transition-all duration-200 
-                        ${pathname === item.href
-                          ? 'bg-gradient-to-r from-amber-50 to-transparent dark:from-amber-900/20 text-amber-700 dark:text-amber-300 font-medium shadow-sm'
-                          : 'text-gray-700 hover:bg-gray-50 hover:text-amber-600 dark:text-gray-300 dark:hover:bg-gray-800/50 dark:hover:text-amber-300'
-                        }
-                      `}
+                      className={`flex items-center px-4 py-2.5 rounded-lg text-sm transition-all duration-200 ${
+                        pathname === item.href
+                          ? 'bg-amber-50 text-amber-700 dark:bg-amber-900/20 dark:text-amber-300 font-medium shadow-sm border-l-2 border-amber-500 pl-3'
+                          : 'text-gray-700 hover:bg-gray-50 hover:text-amber-600 hover:pl-5 dark:text-gray-300 dark:hover:bg-gray-800/50 dark:hover:text-amber-300'
+                      }`}
                       target={item.external ? '_blank' : undefined}
                       rel={item.external ? 'noopener noreferrer' : undefined}
                     >
-                      <span className={`mr-3 transition-colors duration-200 
-                        ${pathname === item.href 
-                          ? 'text-amber-500 dark:text-amber-400' 
-                          : 'text-gray-400 group-hover:text-amber-500 dark:text-gray-500 dark:group-hover:text-amber-400'
-                        }`}>
-                        {item.icon}
-                      </span>
-                      <span className="flex-1">{item.title}</span>
+                      {item.icon}
+                      {item.title}
                       {item.external && (
-                        <svg 
-                          className="ml-2 h-3.5 w-3.5 text-gray-400 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" 
-                          fill="none" 
-                          viewBox="0 0 24 24" 
-                          stroke="currentColor"
-                        >
+                        <svg className="ml-1 h-3 w-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                         </svg>
                       )}
@@ -368,7 +352,7 @@ export default function DocLayout({ children }: DocLayoutProps) {
 
       {/* Main content area */}
       <div className="flex-1 ml-72">
-        {/* Header bar with external links */}
+        {/* Header bar with external links - keeping the modern design */}
         <div className="sticky top-0 z-20 backdrop-blur-lg bg-white/80 dark:bg-gray-900/80 border-b border-gray-200 dark:border-gray-800 h-16 flex items-center px-6">
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center h-full space-x-8">
@@ -408,7 +392,7 @@ export default function DocLayout({ children }: DocLayoutProps) {
                 <Link
                   key={idx}
                   href={link.href}
-                  className={`group flex items-center px-4 py-1.5 rounded-lg border transition-all duration-200 
+                  className={`group flex items-center px-4 py-1.5 rounded-lg border transition-all duration-200
                     ${link.title === 'Dashboard' 
                       ? 'text-black bg-amber-500 hover:bg-amber-600 text-white border-transparent shadow-sm hover:shadow-md' 
                       : 'text-white border-gray-200 dark:border-gray-700 hover:border-amber-200 dark:hover:border-amber-700 hover:bg-amber-50 dark:hover:bg-amber-900/10'
@@ -445,19 +429,17 @@ export default function DocLayout({ children }: DocLayoutProps) {
         </div>
         
         {/* Two-column layout with fixed widths */}
-        <div className="max-w-[1350px] mx-auto py-7">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-1">
+        <div className="max-w-[1200px] mx-auto px-6 py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Main content - takes 3/4 of the space on large screens */}
-            <div className="ml-6 lg:col-span-3">
+            <div className="lg:col-span-3">
               <div className="nextra-content bg-white dark:bg-gray-900 p-8 rounded-xl shadow-md border border-gray-100 dark:border-gray-800">
-                <MDXProvider components={MDXComponents}>
-                  {children}
-                </MDXProvider>
+                {children}
               </div>
             </div>
             
             {/* TOC - takes 1/4 of the space on large screens */}
-            <div className="ml-9 lg:col-span-1">
+            <div className="lg:col-span-1">
               <TOC />
             </div>
           </div>
