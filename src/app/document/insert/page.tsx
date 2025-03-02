@@ -1,11 +1,49 @@
+'use client';
+
 import DocLayout from '@/components/DocLayout';
 import LanguageToggle from '@/components/LanguageToggle';
 import LanguageContent from '@/components/LanguageContent';
 import Feedback from '@/components/Feedback';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import CopyButton from '@/components/CopyButton';
 
 export default function InsertPage() {
+  const pythonCode = `from capybaradb import EmbText
+
+docs = [{
+    "name": "John Doe",
+    "email": "johndoe@example.com",
+    "age": 30,
+    "bio": EmbText("John is a software engineer with expertise in AI.")
+}]
+
+
+# Sending the request
+response = collection.insert(docs)`;
+
+  const typescriptCode = `import { EmbText } from "capybaradb";
+
+const docs = [
+  {
+    name: "John Doe",
+    email: "johndoe@example.com",
+    age: 30,
+    bio: new EmbText("John is a software engineer with expertise in AI."),
+  },
+];
+
+response = collection.insert(docs);`;
+
+  const jsonResponse = `{
+  "inserted_ids": [
+    "64d2f8f01234abcd5678ef90",
+    "64d2f8f01234abcd5678ef91",
+    "64d2f8f01234abcd5678ef92"
+  ],
+  "task_id": "abc123xyz" // or \`null\` if all processes were synchronously completed
+}`;
+
   return (
     <DocLayout>
       <div className="prose dark:prose-invert max-w-none">
@@ -26,20 +64,22 @@ export default function InsertPage() {
             documents using the same endpoint. This example includes documents with Object IDs and <strong>EmbJSON</strong> fields:
           </p>
           
-          <SyntaxHighlighter language="python" style={atomDark} showLineNumbers>
-            {`from capybaradb import EmbText
-
-docs = [{
-    "name": "John Doe",
-    "email": "johndoe@example.com",
-    "age": 30,
-    "bio": EmbText("John is a software engineer with expertise in AI.")
-}]
-
-
-# Sending the request
-response = collection.insert(docs)`}
-          </SyntaxHighlighter>
+          <div className="relative">
+            <CopyButton code={pythonCode} />
+            <SyntaxHighlighter 
+              language="python" 
+              style={atomDark}
+              showLineNumbers={false}
+              customStyle={{
+                margin: 0,
+                borderRadius: '0.75rem',
+                background: '#1a1a1a',
+                padding: '2rem',
+              }}
+            >
+              {pythonCode}
+            </SyntaxHighlighter>
+          </div>
         </LanguageContent>
         
         <LanguageContent language="typescript">
@@ -49,36 +89,44 @@ response = collection.insert(docs)`}
             This example includes documents with Object IDs and <strong>EmbJSON</strong> fields:
           </p>
           
-          <SyntaxHighlighter language="typescript" style={atomDark} showLineNumbers>
-            {`import { EmbText } from "capybaradb";
-
-const docs = [
-  {
-    name: "John Doe",
-    email: "johndoe@example.com",
-    age: 30,
-    bio: new EmbText("John is a software engineer with expertise in AI."),
-  },
-];
-
-response = collection.insert(docs);`}
-          </SyntaxHighlighter>
+          <div className="relative">
+            <CopyButton code={typescriptCode} />
+            <SyntaxHighlighter 
+              language="typescript" 
+              style={atomDark}
+              showLineNumbers={false}
+              customStyle={{
+                margin: 0,
+                borderRadius: '0.75rem',
+                background: '#1a1a1a',
+                padding: '2rem',
+              }}
+            >
+              {typescriptCode}
+            </SyntaxHighlighter>
+          </div>
         </LanguageContent>
         
         <h3>Insert Response</h3>
         
         <p>A successful insert operation will return the following JSON response:</p>
         
-        <SyntaxHighlighter language="json" style={atomDark} showLineNumbers>
-          {`{
-  "inserted_ids": [
-    "64d2f8f01234abcd5678ef90",
-    "64d2f8f01234abcd5678ef91",
-    "64d2f8f01234abcd5678ef92"
-  ],
-  "task_id": "abc123xyz" // or \`null\` if all processes were synchronously completed
-}`}
-        </SyntaxHighlighter>
+        <div className="relative">
+          <CopyButton code={jsonResponse} />
+          <SyntaxHighlighter 
+            language="json" 
+            style={atomDark}
+            showLineNumbers={false}
+            customStyle={{
+              margin: 0,
+              borderRadius: '0.75rem',
+              background: '#1a1a1a',
+              padding: '2rem',
+            }}
+          >
+            {jsonResponse}
+          </SyntaxHighlighter>
+        </div>
         
         <p>
           The <code>inserted_ids</code> field contains the IDs of the successfully inserted documents. 

@@ -13,10 +13,8 @@ interface CodeBlockProps {
 const CodeBlock = ({ children, className, showLineNumbers = true, ...props }: CodeBlockProps) => {
   const [isCopied, setIsCopied] = useState(false);
   
-  // Extract language from className (format: "language-{lang}")
   const language = className?.replace(/language-/, '') || '';
   
-  // Clean up the code string
   const code = children.trim();
 
   useEffect(() => {
