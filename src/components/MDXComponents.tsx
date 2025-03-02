@@ -7,7 +7,43 @@ import LanguageContent from './LanguageContent';
 import LanguageToggle from './LanguageToggle';
 import ApiCodeBlock from './ApiCodeBlock';
 import Feedback from './Feedback';
-import CodeBlock from './CodeBlock';
+import { useState } from 'react';
+
+const CopyButton = ({ code }: { code: string }) => {
+  const [isCopied, setIsCopied] = useState(false);
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
+  return (
+    <button
+      onClick={copyToClipboard}
+      className={`
+        absolute right-2 top-2
+        px-2 py-1
+        rounded
+        text-sm
+        font-medium
+        transition-all
+        duration-200
+        ${isCopied 
+          ? 'bg-green-500 text-white' 
+          : 'bg-gray-700 hover:bg-gray-600 text-white'
+        }
+        z-10
+      `}
+    >
+      {isCopied ? 'Copied!' : 'Copy'}
+    </button>
+  );
+};
 
 interface CalloutProps {
   children: React.ReactNode;
@@ -49,12 +85,27 @@ const CustomLink = (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
 
 const CustomCode = ({ className, children, ...props }: React.HTMLAttributes<HTMLElement>) => {
   const match = /language-(\w+)/.exec(className || '');
-  
+  const code = String(children).replace(/\n$/, '');
   return match ? (
     <div className="my-4">
-      <CodeBlock className={className} {...props}>
-        {String(children).replace(/\n$/, '')}
-      </CodeBlock>
+      <div className="relative">
+        <CopyButton code={code} />
+        <SyntaxHighlighter 
+          language={match[1]}
+          style={atomDark as any}
+          showLineNumbers={false}
+          PreTag="div"
+          customStyle={{
+            margin: 0,
+            borderRadius: '0.75rem',
+            backgroundColor: '#1a1a1a',
+            padding: '2rem',
+          }}
+          {...props}
+        >
+          {code}
+        </SyntaxHighlighter>
+      </div>
     </div>
   ) : (
     <code className={className} {...props}>

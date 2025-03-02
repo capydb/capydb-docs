@@ -429,8 +429,8 @@ export default function DocLayout({ children }: DocLayoutProps) {
                     )}
                     {link.title}
                     <svg 
-                      className={`ml-2 h-3 w-3 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5
-                        ${link.title === 'Dashboard' ? 'text-black' : 'text-white'}`}
+                      className={`ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5
+                        ${link.title === 'Dashboard' ? 'text-white' : 'text-white'}`}
                       fill="none" 
                       viewBox="0 0 24 24" 
                       stroke="currentColor"
