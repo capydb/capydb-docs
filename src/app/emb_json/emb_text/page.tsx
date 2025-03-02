@@ -2,6 +2,7 @@ import DocLayout from '@/components/DocLayout';
 import Feedback from '@/components/Feedback';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import CopyButton from '@/components/CopyButton';
 
 export default function EmbTextPage() {
   return (
@@ -29,20 +30,29 @@ export default function EmbTextPage() {
         
         <p>Below is the simplest way to use <code>EmbText</code>:</p>
         
-        <SyntaxHighlighter language="python" style={atomDark} showLineNumbers={true} wrapLines={true} lineProps={lineNumber => {
-          const style: React.CSSProperties = { display: 'block' };
-          if (lineNumber === 5) {
-            style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-          }
-          return { style };
-        }}>
-          {`from capybaradb import EmbText
+        <div className="relative">
+          <CopyButton code={`from capybaradb import EmbText
+
+# Storing a single text field that you want to embed.
+{
+  "field_name": EmbText("Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing.")
+}`} />
+          <SyntaxHighlighter 
+            language="python" 
+            style={atomDark} 
+            customStyle={{
+              borderRadius: '0.75rem',
+              padding: '2rem'
+            }}
+          >
+            {`from capybaradb import EmbText
 
 # Storing a single text field that you want to embed.
 {
   "field_name": EmbText("Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing.")
 }`}
-        </SyntaxHighlighter>
+          </SyntaxHighlighter>
+        </div>
         
         <p>
           This snippet creates an <code>EmbText</code> object containing <code>"text_to_embed"</code>. 
@@ -58,14 +68,32 @@ export default function EmbTextPage() {
           customize <code>EmbText</code> by specifying additional parameters:
         </p>
         
-        <SyntaxHighlighter language="python" style={atomDark} showLineNumbers={true} wrapLines={true} lineProps={lineNumber => {
-          const style: React.CSSProperties = { display: 'block' };
-          if (lineNumber >= 6 && lineNumber <= 14) {
-            style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-          }
-          return { style };
-        }}>
-          {`from capybaradb import EmbText, EmbModels
+        <div className="relative">
+          <CopyButton code={`from capybaradb import EmbText, EmbModels
+
+{
+    "field_name": EmbText(
+        text="Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing.",
+        emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,  # Change the default model
+        max_chunk_size=200,                          # Configure chunk sizes
+        chunk_overlap=20,                            # Overlap between chunks
+        is_separator_regex=False,                    # Are separators plain strings or regex?
+        separators=[
+            "\\n\\n",
+            "\\n",
+        ],
+        keep_separator=False,                        # Keep or remove the separator in chunks
+    )
+}`} />
+          <SyntaxHighlighter 
+            language="python" 
+            style={atomDark}
+            customStyle={{
+              borderRadius: '0.75rem',
+              padding: '2rem'
+            }}
+          >
+            {`from capybaradb import EmbText, EmbModels
 
 {
     "field_name": EmbText(
@@ -81,7 +109,8 @@ export default function EmbTextPage() {
         keep_separator=False,                        # Keep or remove the separator in chunks
     )
 }`}
-        </SyntaxHighlighter>
+          </SyntaxHighlighter>
+        </div>
         
         <h2>After Saving</h2>
         
@@ -90,14 +119,31 @@ export default function EmbTextPage() {
           their relationships with vector data. It also automatically adds a 'chunks' field to each EmbText for seamless access.
         </p>
         
-        <SyntaxHighlighter language="python" style={atomDark} showLineNumbers={true} wrapLines={true} lineProps={lineNumber => {
-          const style: React.CSSProperties = { display: 'block' };
-          if (lineNumber === 4) {
-            style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-          }
-          return { style };
-        }}>
-          {`{
+        <div className="relative">
+          <CopyButton code={`{
+    "field_name": EmbText(
+        text="Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing.",
+        chunks=["Alice is a data scientist", "with expertise in AI", "and machine learning.", "She has led several projects", "in natural language processing."],
+        emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,  # Change the default model
+        max_chunk_size=200,                          # Configure chunk sizes
+        chunk_overlap=20,                            # Overlap between chunks
+        is_separator_regex=False,                    # Are separators plain strings or regex?
+        separators=[
+            "\\n\\n",
+            "\\n",
+        ],
+        keep_separator=False,                        # Keep or remove the separator in chunks
+    )
+}`} />
+          <SyntaxHighlighter 
+            language="python" 
+            style={atomDark}
+            customStyle={{
+              borderRadius: '0.75rem',
+              padding: '2rem'
+            }}
+          >
+            {`{
     "field_name": EmbText(
         text="Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing.",
         chunks=["Alice is a data scientist", "with expertise in AI", "and machine learning.", "She has led several projects", "in natural language processing."],
@@ -112,7 +158,8 @@ export default function EmbTextPage() {
         keep_separator=False,                        # Keep or remove the separator in chunks
     )
 }`}
-        </SyntaxHighlighter>
+          </SyntaxHighlighter>
+        </div>
         
         <h3>Parameter Reference</h3>
         
@@ -199,8 +246,29 @@ export default function EmbTextPage() {
           The <code>chunks</code> attribute is <strong>auto-added</strong> by the database after the text finishes embedding and indexing. For instance:
         </p>
         
-        <SyntaxHighlighter language="python" style={atomDark} showLineNumbers={true}>
-          {`emb_text: EmbText  # Assume this EmbText has been inserted and processed
+        <div className="relative">
+          <CopyButton code={`emb_text: EmbText  # Assume this EmbText has been inserted and processed
+
+print(emb_text.text)
+# "Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing."
+
+print(emb_text.chunks)
+# [
+#   "Alice is a data scientist",
+#   "with expertise in AI",
+#   "and machine learning.",
+#   "She has led several projects",
+#   "in natural language processing."
+# ]`} />
+          <SyntaxHighlighter 
+            language="python" 
+            style={atomDark}
+            customStyle={{
+              borderRadius: '0.75rem',
+              padding: '2rem'
+            }}
+          >
+            {`emb_text: EmbText  # Assume this EmbText has been inserted and processed
 
 print(emb_text.text)
 # "Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing."
@@ -213,14 +281,31 @@ print(emb_text.chunks)
 #   "She has led several projects",
 #   "in natural language processing."
 # ]`}
-        </SyntaxHighlighter>
+          </SyntaxHighlighter>
+        </div>
         
         <h3>Usage in Nested Fields</h3>
         
         <p><code>EmbText</code> can be embedded anywhere in your document, including nested objects:</p>
         
-        <SyntaxHighlighter language="python" style={atomDark} showLineNumbers={true}>
-          {`{
+        <div className="relative">
+          <CopyButton code={`{
+  "profile": {
+    "name": "Bob",
+    "bio": EmbText(
+      "Bob has over a decade of experience in AI, focusing on neural networks and deep learning."
+    )
+  }
+}`} />
+          <SyntaxHighlighter 
+            language="python" 
+            style={atomDark}
+            customStyle={{
+              borderRadius: '0.75rem',
+              padding: '2rem'
+            }}
+          >
+            {`{
   "profile": {
     "name": "Bob",
     "bio": EmbText(
@@ -228,7 +313,8 @@ print(emb_text.chunks)
     )
   }
 }`}
-        </SyntaxHighlighter>
+          </SyntaxHighlighter>
+        </div>
         
         <h3>How can we improve this documentation?</h3>
         

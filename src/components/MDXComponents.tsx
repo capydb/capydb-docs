@@ -7,10 +7,9 @@ import LanguageContent from './LanguageContent';
 import LanguageToggle from './LanguageToggle';
 import ApiCodeBlock from './ApiCodeBlock';
 import Feedback from './Feedback';
-import { useState } from 'react';
 
 const CopyButton = ({ code }: { code: string }) => {
-  const [isCopied, setIsCopied] = useState(false);
+  const [isCopied, setIsCopied] = React.useState(false);
 
   const copyToClipboard = async () => {
     try {
@@ -65,9 +64,7 @@ const Callout = ({ children, type = 'default' }: CalloutProps) => {
   );
 };
 
-const CustomLink = (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
-  const href = props.href;
-  
+const CustomLink = ({ href, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
   if (href?.startsWith('/') || href?.startsWith('#')) {
     return (
       <Link href={href} {...props}>
@@ -77,15 +74,16 @@ const CustomLink = (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
   }
   
   if (href?.startsWith('http')) {
-    return <a target="_blank" rel="noopener noreferrer" {...props} />;
+    return <a target="_blank" rel="noopener noreferrer" href={href} {...props} />;
   }
   
-  return <a {...props} />;
+  return <a href={href} {...props} />;
 };
 
 const CustomCode = ({ className, children, ...props }: React.HTMLAttributes<HTMLElement>) => {
   const match = /language-(\w+)/.exec(className || '');
   const code = String(children).replace(/\n$/, '');
+  
   return match ? (
     <div className="my-4">
       <div className="relative">
@@ -115,36 +113,58 @@ const CustomCode = ({ className, children, ...props }: React.HTMLAttributes<HTML
 };
 
 const MDXComponents = {
-  h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => <h1 className="text-4xl font-bold mt-8 mb-4" {...props} />,
-  h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => <h2 className="text-3xl font-semibold mt-6 mb-3" {...props} />,
-  h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => <h3 className="text-2xl font-semibold mt-5 mb-2" {...props} />,
-  h4: (props: React.HTMLAttributes<HTMLHeadingElement>) => <h4 className="text-xl font-semibold mt-4 mb-2" {...props} />,
-  p: (props: React.HTMLAttributes<HTMLParagraphElement>) => <p className="my-4" {...props} />,
+  wrapper: ({ children }: { children: React.ReactNode }) => <div className="mdx-wrapper">{children}</div>,
+  h1: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h1 className="text-4xl font-bold mt-8 mb-4" {...props}>{children}</h1>
+  ),
+  h2: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h2 className="text-3xl font-semibold mt-6 mb-3" {...props}>{children}</h2>
+  ),
+  h3: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h3 className="text-2xl font-semibold mt-5 mb-2" {...props}>{children}</h3>
+  ),
+  h4: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h4 className="text-xl font-semibold mt-4 mb-2" {...props}>{children}</h4>
+  ),
+  p: ({ children, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
+    <p className="my-4" {...props}>{children}</p>
+  ),
   a: CustomLink,
   code: CustomCode,
-  pre: (props: React.HTMLAttributes<HTMLPreElement>) => <pre {...props} />,
-  ul: (props: React.HTMLAttributes<HTMLUListElement>) => <ul className="list-disc pl-6 my-4" {...props} />,
-  ol: (props: React.HTMLAttributes<HTMLOListElement>) => <ol className="list-decimal pl-6 my-4" {...props} />,
-  li: (props: React.HTMLAttributes<HTMLLIElement>) => <li className="my-1" {...props} />,
-  blockquote: (props: React.HTMLAttributes<HTMLQuoteElement>) => <blockquote className="border-l-4 border-gray-300 dark:border-gray-700 pl-4 italic my-4" {...props} />,
-  table: (props: React.TableHTMLAttributes<HTMLTableElement>) => <table className="w-full border-collapse my-4" {...props} />,
-  th: (props: React.ThHTMLAttributes<HTMLTableCellElement>) => <th className="border border-gray-300 dark:border-gray-700 px-4 py-2 bg-gray-100 dark:bg-gray-800" {...props} />,
-  td: (props: React.TdHTMLAttributes<HTMLTableCellElement>) => <td className="border border-gray-300 dark:border-gray-700 px-4 py-2" {...props} />,
-  img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => {
-    // Extract only the props we need for the Image component
-    const { src, alt, className } = props;
-    
-    return (
-      <Image
-        src={src || ''}
-        alt={alt || ''}
-        width={700}
-        height={350}
-        className={className}
-        style={{ objectFit: 'contain' }}
-      />
-    );
-  },
+  pre: ({ children, ...props }: React.HTMLAttributes<HTMLPreElement>) => (
+    <pre {...props}>{children}</pre>
+  ),
+  ul: ({ children, ...props }: React.HTMLAttributes<HTMLUListElement>) => (
+    <ul className="list-disc pl-6 my-4" {...props}>{children}</ul>
+  ),
+  ol: ({ children, ...props }: React.HTMLAttributes<HTMLOListElement>) => (
+    <ol className="list-decimal pl-6 my-4" {...props}>{children}</ol>
+  ),
+  li: ({ children, ...props }: React.HTMLAttributes<HTMLLIElement>) => (
+    <li className="my-1" {...props}>{children}</li>
+  ),
+  blockquote: ({ children, ...props }: React.HTMLAttributes<HTMLQuoteElement>) => (
+    <blockquote className="border-l-4 border-gray-300 dark:border-gray-700 pl-4 italic my-4" {...props}>{children}</blockquote>
+  ),
+  table: ({ children, ...props }: React.TableHTMLAttributes<HTMLTableElement>) => (
+    <table className="w-full border-collapse my-4" {...props}>{children}</table>
+  ),
+  th: ({ children, ...props }: React.ThHTMLAttributes<HTMLTableCellElement>) => (
+    <th className="border border-gray-300 dark:border-gray-700 px-4 py-2 bg-gray-100 dark:bg-gray-800" {...props}>{children}</th>
+  ),
+  td: ({ children, ...props }: React.TdHTMLAttributes<HTMLTableCellElement>) => (
+    <td className="border border-gray-300 dark:border-gray-700 px-4 py-2" {...props}>{children}</td>
+  ),
+  img: ({ src, alt, className }: React.ImgHTMLAttributes<HTMLImageElement>) => (
+    <Image
+      src={src || ''}
+      alt={alt || ''}
+      width={700}
+      height={350}
+      className={className}
+      style={{ objectFit: 'contain' }}
+    />
+  ),
   Callout,
   LanguageContent,
   LanguageToggle,

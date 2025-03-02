@@ -2,6 +2,7 @@ import DocLayout from '@/components/DocLayout';
 import Feedback from '@/components/Feedback';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import CopyButton from '@/components/CopyButton';
 
 export default function EmbImagePage() {
   return (
@@ -30,20 +31,29 @@ export default function EmbImagePage() {
         
         <p>Below is the simplest way to use <code>EmbImage</code>:</p>
         
-        <SyntaxHighlighter language="python" style={atomDark} showLineNumbers={true} wrapLines={true} lineProps={lineNumber => {
-          const style: React.CSSProperties = { display: 'block' };
-          if (lineNumber === 5) {
-            style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-          }
-          return { style };
-        }}>
-          {`from capybaradb import EmbImage
+        <div className="relative">
+          <CopyButton code={`from capybaradb import EmbImage
+
+# Storing a single image field to embed.
+{
+  "field_name": EmbImage("iVBORw0KGgoAAAANSUhEUgAA...")
+}`} />
+          <SyntaxHighlighter 
+            language="python" 
+            style={atomDark}
+            customStyle={{
+              borderRadius: '0.75rem',
+              padding: '2rem'
+            }}
+          >
+            {`from capybaradb import EmbImage
 
 # Storing a single image field to embed.
 {
   "field_name": EmbImage("iVBORw0KGgoAAAANSUhEUgAA...")
 }`}
-        </SyntaxHighlighter>
+          </SyntaxHighlighter>
+        </div>
         
         <p>
           This snippet creates an <code>EmbImage</code> object containing your base64 image data. 
@@ -59,14 +69,33 @@ export default function EmbImagePage() {
           customize <code>EmbImage</code> by specifying additional parameters:
         </p>
         
-        <SyntaxHighlighter language="python" style={atomDark} showLineNumbers={true} wrapLines={true} lineProps={lineNumber => {
-          const style: React.CSSProperties = { display: 'block' };
-          if (lineNumber >= 6 && lineNumber <= 14) {
-            style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-          }
-          return { style };
-        }}>
-          {`from capybaradb import EmbImage, EmbModels, VisionModels
+        <div className="relative">
+          <CopyButton code={`from capybaradb import EmbImage, EmbModels, VisionModels
+
+{
+    "field_name": EmbImage(
+        data="iVBORw0KGgoAAAANSUhEUgAA...",  # Base64 encoded image data
+        emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,  # Optionally specify an embedding model
+        vision_model=VisionModels.GPT_4O,             # Optionally specify a vision model
+        max_chunk_size=200,                           # Configure chunk sizes
+        chunk_overlap=20,                             # Overlap between chunks
+        is_separator_regex=False,                     # Are separators plain strings or regex?
+        separators=[
+            "\\n\\n",
+            "\\n",
+        ],
+        keep_separator=False                          # Keep or remove the separator in chunks
+    )
+}`} />
+          <SyntaxHighlighter 
+            language="python" 
+            style={atomDark}
+            customStyle={{
+              borderRadius: '0.75rem',
+              padding: '2rem'
+            }}
+          >
+            {`from capybaradb import EmbImage, EmbModels, VisionModels
 
 {
     "field_name": EmbImage(
@@ -83,7 +112,8 @@ export default function EmbImagePage() {
         keep_separator=False                          # Keep or remove the separator in chunks
     )
 }`}
-        </SyntaxHighlighter>
+          </SyntaxHighlighter>
+        </div>
         
         <h2>After Saving</h2>
         
@@ -92,14 +122,29 @@ export default function EmbImagePage() {
           to each <code>EmbImage</code> for easy access to the internal representations.
         </p>
         
-        <SyntaxHighlighter language="python" style={atomDark} showLineNumbers={true} wrapLines={true} lineProps={lineNumber => {
-          const style: React.CSSProperties = { display: 'block' };
-          if (lineNumber === 4) {
-            style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-          }
-          return { style };
-        }}>
-          {`{
+        <div className="relative">
+          <CopyButton code={`{
+    "field_name": EmbImage(
+        data="iVBORw0KGgoAAAANSUhEUgAA...",
+        chunks=["chunk1", "chunk2", "chunk3"],
+        emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,
+        vision_model=VisionModels.GPT_4O,
+        max_chunk_size=200,
+        chunk_overlap=20,
+        is_separator_regex=False,
+        separators=["\\n\\n", "\\n"],
+        keep_separator=False
+    )
+}`} />
+          <SyntaxHighlighter 
+            language="python" 
+            style={atomDark}
+            customStyle={{
+              borderRadius: '0.75rem',
+              padding: '2rem'
+            }}
+          >
+            {`{
     "field_name": EmbImage(
         data="iVBORw0KGgoAAAANSUhEUgAA...",
         chunks=["chunk1", "chunk2", "chunk3"],
@@ -112,7 +157,8 @@ export default function EmbImagePage() {
         keep_separator=False
     )
 }`}
-        </SyntaxHighlighter>
+          </SyntaxHighlighter>
+        </div>
         
         <h3>Parameter Reference</h3>
         
