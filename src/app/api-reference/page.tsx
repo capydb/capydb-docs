@@ -156,7 +156,7 @@ export default function ApiReferencePage() {
         <h2>Need Help?</h2>
         
         <p>
-          If you have any questions or need assistance with the CapybaraDB API, please don't hesitate to reach out to our support team at <a href="mailto:support@capybaradb.co" className="text-blue-600 dark:text-blue-400 hover:underline">support@capybaradb.co</a>.
+          If you have any questions or need assistance with the CapybaraDB API, please don't hesitate to reach out to our support team at <a href="mailto:hello@capybaradb.co" className="text-blue-600 dark:text-blue-400 hover:underline">hello@capybaradb.co</a>.
         </p>
         
         <Feedback />
