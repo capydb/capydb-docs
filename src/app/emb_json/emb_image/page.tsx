@@ -36,7 +36,7 @@ export default function EmbImagePage() {
 
 # Storing a single image field to embed.
 {
-  "field_name": EmbImage("iVBORw0KGgoAAAANSUhEUgAA...")
+  "field_name": EmbImage("iVBORw0KGgoAAAANSUhEUgAA...", mime_type="image/png")
 }`} />
           <SyntaxHighlighter 
             language="python" 
@@ -50,13 +50,14 @@ export default function EmbImagePage() {
 
 # Storing a single image field to embed.
 {
-  "field_name": EmbImage("iVBORw0KGgoAAAANSUhEUgAA...")
+  "field_name": EmbImage("iVBORw0KGgoAAAANSUhEUgAA...", mime_type="image/png")
 }`}
           </SyntaxHighlighter>
         </div>
         
         <p>
           This snippet creates an <code>EmbImage</code> object containing your base64 image data. 
+          The <code>mime_type</code> parameter is required to specify the image format.
           By default, no specific models are set and all other parameters remain optional.
         </p>
         
@@ -75,6 +76,7 @@ export default function EmbImagePage() {
 {
     "field_name": EmbImage(
         data="iVBORw0KGgoAAAANSUhEUgAA...",  # Base64 encoded image data
+        mime_type="image/jpeg",                # Required: specify the image format
         emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,  # Optionally specify an embedding model
         vision_model=VisionModels.GPT_4O,             # Optionally specify a vision model
         max_chunk_size=200,                           # Configure chunk sizes
@@ -100,6 +102,7 @@ export default function EmbImagePage() {
 {
     "field_name": EmbImage(
         data="iVBORw0KGgoAAAANSUhEUgAA...",  # Base64 encoded image data
+        mime_type="image/jpeg",                # Required: specify the image format
         emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,  # Optionally specify an embedding model
         vision_model=VisionModels.GPT_4O,             # Optionally specify a vision model
         max_chunk_size=200,                           # Configure chunk sizes
@@ -126,6 +129,7 @@ export default function EmbImagePage() {
           <CopyButton code={`{
     "field_name": EmbImage(
         data="iVBORw0KGgoAAAANSUhEUgAA...",
+        mime_type="image/jpeg",
         chunks=["chunk1", "chunk2", "chunk3"],
         emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,
         vision_model=VisionModels.GPT_4O,
@@ -147,6 +151,7 @@ export default function EmbImagePage() {
             {`{
     "field_name": EmbImage(
         data="iVBORw0KGgoAAAANSUhEUgAA...",
+        mime_type="image/jpeg",
         chunks=["chunk1", "chunk2", "chunk3"],
         emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,
         vision_model=VisionModels.GPT_4O,
@@ -173,6 +178,10 @@ export default function EmbImagePage() {
             <tr>
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><strong>data</strong></td>
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">The base64 encoded image data. This image is processed and embedded for semantic search.</td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><strong>mime_type</strong></td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">The MIME type of the image (e.g., "image/jpeg", "image/png"). This parameter is required. Supported types include <code>image/jpeg</code>, <code>image/jpg</code>, <code>image/png</code>, <code>image/gif</code>, and <code>image/webp</code>.</td>
             </tr>
             <tr>
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><strong>emb_model</strong></td>

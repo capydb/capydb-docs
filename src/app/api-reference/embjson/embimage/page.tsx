@@ -110,6 +110,20 @@ export default function EmbImagePage() {
                 </tr>
                 <tr>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-amber-600 dark:text-amber-400">
+                    mime_type
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
+                    string
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">
+                    The MIME type of the image. Supported types include <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-amber-600 dark:text-amber-400 font-mono text-sm">image/jpeg</code>, <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-amber-600 dark:text-amber-400 font-mono text-sm">image/jpg</code>, <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-amber-600 dark:text-amber-400 font-mono text-sm">image/png</code>, <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-amber-600 dark:text-amber-400 font-mono text-sm">image/gif</code>, and <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-amber-600 dark:text-amber-400 font-mono text-sm">image/webp</code>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
+                    Yes
+                  </td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-amber-600 dark:text-amber-400">
                     model
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
@@ -202,6 +216,7 @@ export default function EmbImagePage() {
           <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg mb-6 font-mono text-sm overflow-x-auto">
             <pre>{JSON.stringify({
               "image": "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34...",
+              "mime_type": "image/png",
               "model": "clip"
             }, null, 2)}</pre>
           </div>
@@ -213,6 +228,7 @@ export default function EmbImagePage() {
   -H "Content-Type: application/json" \\
   -d '{
     "image": "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34...",
+    "mime_type": "image/png",
     "model": "clip"
   }'`}
             python={`import requests
@@ -234,6 +250,7 @@ response = requests.post(
     },
     json={
         "image": image_data,
+        "mime_type": "image/jpeg",
         "model": "clip"
     }
 )
@@ -272,6 +289,7 @@ async function generateImageEmbedding() {
       },
       body: JSON.stringify({
         image: imageBase64,
+        mime_type: 'image/jpeg',
         model: 'clip'
       })
     });
