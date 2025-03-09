@@ -27,7 +27,7 @@ export default function EmbJsonPage() {
         
         <ul>
           <li><strong>EmbText</strong>: Designed for storing and embedding text data. EmbText can handle everything from single words to lengthy documents, embedding and indexing content automatically for semantic search.</li>
-          <li><strong>EmbImage</strong> (Coming 2025): Will support image data, enabling semantic text search capabilities for images.</li>
+          <li><strong>EmbImage</strong>: Supports image URLs, enabling semantic text search capabilities for images.</li>
           <li><strong>EmbVideo</strong> (Future Release): Will handle video data, enabling semantic embedding and search within video content.</li>
           <li><strong>EmbFile</strong> (Future Release): A generic type for managing a variety of file formats, including PDFs, Word documents, and more, allowing for semantic embedding and search across different types of content.</li>
           <li><strong>Other Data Types</strong>: Additional data types like <strong>EmbAudio</strong> and <strong>Emb3D</strong> are also planned for future releases, aimed at enabling semantic embeddings for audio files and 3D models.</li>

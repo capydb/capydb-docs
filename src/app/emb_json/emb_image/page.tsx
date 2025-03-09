@@ -36,7 +36,7 @@ export default function EmbImagePage() {
 
 # Storing a single image field to embed.
 {
-  "field_name": EmbImage("iVBORw0KGgoAAAANSUhEUgAA...", mime_type="image/png")
+  "field_name": EmbImage("https://example.com/image.jpg", mime_type="image/jpeg")
 }`} />
           <SyntaxHighlighter 
             language="python" 
@@ -50,13 +50,13 @@ export default function EmbImagePage() {
 
 # Storing a single image field to embed.
 {
-  "field_name": EmbImage("iVBORw0KGgoAAAANSUhEUgAA...", mime_type="image/png")
+  "field_name": EmbImage("https://example.com/image.jpg", mime_type="image/jpeg")
 }`}
           </SyntaxHighlighter>
         </div>
         
         <p>
-          This snippet creates an <code>EmbImage</code> object containing your base64 image data. 
+          This snippet creates an <code>EmbImage</code> object containing your image URL. 
           The <code>mime_type</code> parameter is required to specify the image format.
           By default, no specific models are set and all other parameters remain optional.
         </p>
@@ -75,7 +75,7 @@ export default function EmbImagePage() {
 
 {
     "field_name": EmbImage(
-        data="iVBORw0KGgoAAAANSUhEUgAA...",  # Base64 encoded image data
+        url="https://example.com/image.jpg",  # URL to the image
         mime_type="image/jpeg",                # Required: specify the image format
         emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,  # Optionally specify an embedding model
         vision_model=VisionModels.GPT_4O,             # Optionally specify a vision model
@@ -101,7 +101,7 @@ export default function EmbImagePage() {
 
 {
     "field_name": EmbImage(
-        data="iVBORw0KGgoAAAANSUhEUgAA...",  # Base64 encoded image data
+        url="https://example.com/image.jpg",  # URL to the image
         mime_type="image/jpeg",                # Required: specify the image format
         emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,  # Optionally specify an embedding model
         vision_model=VisionModels.GPT_4O,             # Optionally specify a vision model
@@ -128,7 +128,7 @@ export default function EmbImagePage() {
         <div className="relative">
           <CopyButton code={`{
     "field_name": EmbImage(
-        data="iVBORw0KGgoAAAANSUhEUgAA...",
+        url="https://example.com/image.jpg",
         mime_type="image/jpeg",
         chunks=["chunk1", "chunk2", "chunk3"],
         emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,
@@ -150,7 +150,7 @@ export default function EmbImagePage() {
           >
             {`{
     "field_name": EmbImage(
-        data="iVBORw0KGgoAAAANSUhEUgAA...",
+        url="https://example.com/image.jpg",
         mime_type="image/jpeg",
         chunks=["chunk1", "chunk2", "chunk3"],
         emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,
@@ -176,8 +176,8 @@ export default function EmbImagePage() {
           </thead>
           <tbody>
             <tr>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><strong>data</strong></td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">The base64 encoded image data. This image is processed and embedded for semantic search.</td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><strong>url</strong></td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">The URL to the image. This image is processed and embedded for semantic search.</td>
             </tr>
             <tr>
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><strong>mime_type</strong></td>
@@ -228,12 +228,12 @@ export default function EmbImagePage() {
         
         <ol>
           <li>
-            <p><strong>Data Validation and Decoding</strong></p>
-            <p>The base64 image data is validated (ensuring it's properly encoded) and decoded as needed.</p>
+            <p><strong>Image Retrieval</strong></p>
+            <p>The image is retrieved from the provided URL.</p>
           </li>
           <li>
             <p><strong>Chunking (if applicable)</strong></p>
-            <p>Depending on your configuration, the image data may be internally segmented into chunks for finer-grained processing.</p>
+            <p>Depending on your configuration, the image may be internally segmented into chunks for finer-grained processing.</p>
           </li>
           <li>
             <p><strong>Embedding</strong></p>

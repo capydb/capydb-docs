@@ -166,8 +166,8 @@ const embImageDefault = new EmbImage({
 });
 
 // Using base64 encoded image with a specific model
-const embImageBase64 = new EmbImage({
-  base64: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD...",
+const embImageWithModel = new EmbImage({
+  url: "https://example.com/third-image.jpg",
   model: "openai-vision"
 });`}
           </SyntaxHighlighter>

@@ -96,13 +96,13 @@ export default function EmbImagePage() {
               <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
                 <tr>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-amber-600 dark:text-amber-400">
-                    image
+                    url
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
                     string
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">
-                    Base64-encoded image data
+                    URL to the image to be processed
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
                     Yes
@@ -215,8 +215,8 @@ export default function EmbImagePage() {
           <h3 className="text-xl font-semibold mb-2">Request Body Example</h3>
           <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg mb-6 font-mono text-sm overflow-x-auto">
             <pre>{JSON.stringify({
-              "image": "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34...",
-              "mime_type": "image/png",
+              "url": "https://example.com/image.jpg",
+              "mime_type": "image/jpeg",
               "model": "clip"
             }, null, 2)}</pre>
           </div>
@@ -227,19 +227,14 @@ export default function EmbImagePage() {
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
-    "image": "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34...",
-    "mime_type": "image/png",
+    "url": "https://example.com/image.jpg",
+    "mime_type": "image/jpeg",
     "model": "clip"
   }'`}
             python={`import requests
-import base64
-from PIL import Image
-import io
 
-# Load and encode the image
-image_path = "path/to/your/image.jpg"
-with open(image_path, "rb") as image_file:
-    image_data = base64.b64encode(image_file.read()).decode('utf-8')
+# Load the image URL
+image_url = "https://example.com/image.jpg"
 
 # Make the API request
 response = requests.post(
@@ -249,7 +244,7 @@ response = requests.post(
         "Content-Type": "application/json"
     },
     json={
-        "image": image_data,
+        "url": image_url,
         "mime_type": "image/jpeg",
         "model": "clip"
     }
@@ -264,22 +259,10 @@ if response.status_code == 200:
 else:
     print(f"Error: {response.status_code}")
     print(response.text)`}
-            javascript={`// Load and encode the image
-async function getImageBase64(imagePath) {
-  const response = await fetch(imagePath);
-  const blob = await response.blob();
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result.split(',')[1]);
-    reader.onerror = reject;
-    reader.readAsDataURL(blob);
-  });
-}
-
-// Make the API request
+            javascript={`// Make the API request
 async function generateImageEmbedding() {
   try {
-    const imageBase64 = await getImageBase64('path/to/your/image.jpg');
+    const imageUrl = 'https://example.com/image.jpg';
     
     const response = await fetch('https://api.capybaradb.co/v1/embjson/embimage', {
       method: 'POST',
@@ -288,7 +271,7 @@ async function generateImageEmbedding() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        image: imageBase64,
+        url: imageUrl,
         mime_type: 'image/jpeg',
         model: 'clip'
       })

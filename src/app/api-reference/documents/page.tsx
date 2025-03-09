@@ -53,8 +53,8 @@ export default function DocumentsApiPage() {
             </tr>
             <tr>
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">EmbImage</td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><code>{`{"@embImage": {"data": "base64_encoded_image", "vision_model": "gpt-4o", "emb_model": "text-embedding-3-small", ...}}`}</code></td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">Base64-encoded image that can be processed by vision models to extract textual descriptions and optionally embedded for semantic search.</td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><code>{`{"@embImage": {"url": "https://example.com/image.jpg", "vision_model": "gpt-4o", "emb_model": "text-embedding-3-small", ...}}`}</code></td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">Image URL that can be processed by vision models to extract textual descriptions and optionally embedded for semantic search.</td>
             </tr>
           </tbody>
         </table>

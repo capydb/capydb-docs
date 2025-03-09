@@ -117,7 +117,7 @@ export default function EmbJSONPage() {
   },
   "cover_image": {
     "@embImage": {
-      "data": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBwYHBwcGBwcICQsJCAgKCAcHCg0KCgsMDAwMBwkODw0MDgsMDAz/...",
+      "url": "https://example.com/mountain.jpg",
       "vision_model": "gpt-4o",
       "prompt": "Describe this mountain landscape in detail"
     }
@@ -149,7 +149,7 @@ export default function EmbJSONPage() {
     },
     "cover_image": {
       "@embImage": {
-        "data": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBwYHBwcGBwcICQsJCAgKCAcHCg0KCgsMDAwMBwkODw0MDgsMDAz/...",
+        "url": "https://example.com/mountain.jpg",
         "vision_model": "gpt-4o",
         "prompt": "Describe this mountain landscape in detail"
       }
@@ -186,7 +186,7 @@ data = {
     },
     "cover_image": {
         "@embImage": {
-            "data": f"data:image/jpeg;base64,{image_data}",
+            "url": "https://example.com/mountain.jpg",
             "vision_model": "gpt-4o",
             "prompt": "Describe this mountain landscape in detail"
         }
@@ -240,7 +240,7 @@ async function insertDocument() {
       },
       cover_image: {
         "@embImage": {
-          data: \`data:image/jpeg;base64,\${imageData}\`,
+          url: "https://example.com/mountain.jpg",
           vision_model: 'gpt-4o',
           prompt: 'Describe this mountain landscape in detail'
         }
