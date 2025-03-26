@@ -106,7 +106,7 @@ export default function UpdateDocumentsPage() {
         <h3>Update Operators</h3>
         
         <p>
-          CapybaraDB supports a subset of MongoDB update operators:
+          CapyDB supports a subset of MongoDB update operators:
         </p>
         
         <table className="min-w-full border-collapse border border-gray-300 dark:border-gray-700">
@@ -199,7 +199,7 @@ export default function UpdateDocumentsPage() {
         
         <ApiCodeBlock
           curl={`curl -X PUT \\
-  https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document \\
+  https://api.capydb.com/v0/db/project_id_database_name/collection/my_collection/document \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -221,7 +221,7 @@ export default function UpdateDocumentsPage() {
 import json
 
 # API endpoint
-url = "https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document"
+url = "https://api.capydb.com/v0/db/project_id_database_name/collection/my_collection/document"
 
 # Headers
 headers = {
@@ -260,7 +260,7 @@ else:
     print(f"Error: {response.status_code}")
     print(response.text)`}
           javascript={`// API endpoint
-const url = 'https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document';
+const url = 'https://api.capydb.com/v0/db/project_id_database_name/collection/my_collection/document';
 
 // Headers
 const headers = {

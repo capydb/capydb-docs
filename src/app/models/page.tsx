@@ -8,13 +8,13 @@ export default function ModelsPage() {
         <h1>Supported LLM Models for EmbJSON</h1>
         
         <p>
-          CapybaraDB supports a variety of <strong>embedding models</strong> for use with <strong>EmbJSON</strong> data types. 
+          CapyDB supports a variety of <strong>embedding models</strong> for use with <strong>EmbJSON</strong> data types. 
           These models help convert text data into embeddings, enabling powerful semantic search capabilities with just a few configurations.
         </p>
         
         <p>
           To specify an embedding model in your <strong>EmbJSON</strong> fields, use the <strong>emb_model</strong> parameter for text embeddings. 
-          CapybaraDB provides seamless integration with leading LLM providers, making it easy to get started.
+          CapyDB provides seamless integration with leading LLM providers, making it easy to get started.
         </p>
         
         <h2>Embedding Models</h2>
@@ -46,13 +46,13 @@ export default function ModelsPage() {
         
         <div className="bg-blue-50 dark:bg-blue-900 border-l-4 border-blue-500 p-4 my-4">
           <p className="text-blue-700 dark:text-blue-300">
-            More options will be added in the future. CapybaraDB is continuously evolving, and we are working to expand our list of supported embedding models to provide even more flexibility and performance for your applications.
+            More options will be added in the future. CapyDB is continuously evolving, and we are working to expand our list of supported embedding models to provide even more flexibility and performance for your applications.
           </p>
         </div>
         
         <div className="bg-blue-50 dark:bg-blue-900 border-l-4 border-blue-500 p-4 my-4">
           <p className="text-blue-700 dark:text-blue-300">
-            <strong>CapybaraDB does not charge for LLM usage directly</strong>. Instead, users pay the LLM providers via CapybaraDB, which facilitates the payment process for convenience. This allows you to leverage the best available models without worrying about hidden costs or extra fees from CapybaraDB.
+            <strong>CapyDB does not charge for LLM usage directly</strong>. Instead, users pay the LLM providers via CapyDB, which facilitates the payment process for convenience. This allows you to leverage the best available models without worrying about hidden costs or extra fees from CapyDB.
           </p>
         </div>
         
@@ -60,7 +60,7 @@ export default function ModelsPage() {
         
         <Feedback />
         
-        <h3>Got question? <a href="mailto:hello@capybaradb.co" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
+        <h3>Got question? <a href="mailto:hello@capydb.com" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
       </div>
     </DocLayout>
   );

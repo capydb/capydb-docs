@@ -31,7 +31,7 @@ export default function EmbImagePage() {
         <div className="mb-8">
           <h2 className="text-2xl font-bold mb-4">Endpoint</h2>
           <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg mb-4 font-mono">
-            <p className="text-amber-600 dark:text-amber-400">POST https://api.capybaradb.co/v1/embjson/embimage</p>
+            <p className="text-amber-600 dark:text-amber-400">POST https://api.capydb.com/v1/embjson/embimage</p>
           </div>
         </div>
 
@@ -193,7 +193,7 @@ export default function EmbImagePage() {
           <h2 className="text-2xl font-bold mb-4">Supported Vision Models</h2>
           
           <p className="mb-4">
-            CapybaraDB supports various vision models for image embedding, including <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-amber-600 dark:text-amber-400 font-mono text-sm">clip-vit-base-patch32</code> (default), 
+            CapyDB supports various vision models for image embedding, including <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-amber-600 dark:text-amber-400 font-mono text-sm">clip-vit-base-patch32</code> (default), 
             <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-amber-600 dark:text-amber-400 font-mono text-sm">clip-vit-large-patch14</code>, and 
             <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-amber-600 dark:text-amber-400 font-mono text-sm">openai-vision</code>.
           </p>
@@ -223,7 +223,7 @@ export default function EmbImagePage() {
           
           <h3 className="text-xl font-semibold mb-4">REST API Examples</h3>
           <ApiCodeBlock
-            curl={`curl -X POST https://api.capybaradb.co/v1/embjson/embimage \\
+            curl={`curl -X POST https://api.capydb.com/v1/embjson/embimage \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -238,7 +238,7 @@ image_url = "https://example.com/image.jpg"
 
 # Make the API request
 response = requests.post(
-    "https://api.capybaradb.co/v1/embjson/embimage",
+    "https://api.capydb.com/v1/embjson/embimage",
     headers={
         "Authorization": "Bearer YOUR_API_KEY",
         "Content-Type": "application/json"
@@ -264,7 +264,7 @@ async function generateImageEmbedding() {
   try {
     const imageUrl = 'https://example.com/image.jpg';
     
-    const response = await fetch('https://api.capybaradb.co/v1/embjson/embimage', {
+    const response = await fetch('https://api.capydb.com/v1/embjson/embimage', {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer YOUR_API_KEY',

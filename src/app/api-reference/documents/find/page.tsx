@@ -105,7 +105,7 @@ export default function FindDocumentsPage() {
         <h2>MongoDB-Style Query Operators</h2>
         
         <p>
-          CapybaraDB supports a subset of MongoDB query operators for filtering documents:
+          CapyDB supports a subset of MongoDB query operators for filtering documents:
         </p>
         
         <table className="min-w-full border-collapse border border-gray-300 dark:border-gray-700">
@@ -173,7 +173,7 @@ export default function FindDocumentsPage() {
         
         <div className="bg-blue-100 dark:bg-blue-900 p-4 rounded-md my-4 text-blue-800 dark:text-blue-200">
           <p>
-            <strong>EmbText</strong> and <strong>EmbImage</strong> are special JSON types that enable semantic search capabilities in CapybaraDB. When retrieving documents with these fields, you'll see their structure including metadata about chunking and embedding.
+            <strong>EmbText</strong> and <strong>EmbImage</strong> are special JSON types that enable semantic search capabilities in CapyDB. When retrieving documents with these fields, you'll see their structure including metadata about chunking and embedding.
           </p>
           <p className="mt-2">
             For detailed information about EmbJSON types, including parameters, supported models, and examples, please visit the <Link href="/api-reference/embjson" className="text-blue-600 dark:text-blue-400 hover:underline">EmbJSON Types</Link> documentation page.
@@ -290,7 +290,7 @@ export default function FindDocumentsPage() {
         
         <ApiCodeBlock
           curl={`curl -X POST \\
-  https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document/find \\
+  https://api.capydb.com/v0/db/project_id_database_name/collection/my_collection/document/find \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -307,7 +307,7 @@ export default function FindDocumentsPage() {
 import json
 
 # API endpoint
-url = "https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document/find"
+url = "https://api.capydb.com/v0/db/project_id_database_name/collection/my_collection/document/find"
 
 # Headers
 headers = {
@@ -348,7 +348,7 @@ else:
     print(f"Error: {response.status_code}")
     print(response.text)`}
           javascript={`// API endpoint
-const url = 'https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document/find';
+const url = 'https://api.capydb.com/v0/db/project_id_database_name/collection/my_collection/document/find';
 
 // Headers
 const headers = {

@@ -2,7 +2,6 @@ import DocLayout from '@/components/DocLayout';
 import Link from 'next/link';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import ApiCodeBlock from '@/components/ApiCodeBlock';
 import Feedback from '@/components/Feedback';
 
 export default function AuthenticationPage() {
@@ -12,15 +11,15 @@ export default function AuthenticationPage() {
         <h1>Authentication</h1>
         
         <p>
-          The CapybaraDB API uses API keys to authenticate requests. API keys provide full access to your 
-          CapybaraDB account, so be sure to keep them secure. Do not share your API keys in publicly 
+          The CapyDB API uses API keys to authenticate requests. API keys provide full access to your 
+          CapyDB account, so be sure to keep them secure. Do not share your API keys in publicly 
           accessible areas such as GitHub, client-side code, or in your application's source code.
         </p>
         
         <h2>Obtaining API Keys</h2>
         
         <p>
-          You can obtain an API key from the CapybaraDB Dashboard. After signing in:
+          You can obtain an API key from the CapyDB Dashboard. After signing in:
         </p>
         
         <ol>
@@ -51,7 +50,7 @@ export default function AuthenticationPage() {
         
         <SyntaxHighlighter language="bash" style={atomDark} showLineNumbers>
           {`curl -X POST \\
-  https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document \\
+  https://api.capydb.com/v0/db/project_id_database_name/collection/my_collection/document \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -98,7 +97,7 @@ export default function AuthenticationPage() {
           <li><strong>Use environment variables</strong> - Store API keys in environment variables rather than hardcoding them</li>
           <li><strong>Implement key rotation</strong> - Regularly rotate your API keys to minimize the impact of potential exposure</li>
           <li><strong>Use the principle of least privilege</strong> - Create API keys with only the permissions they need</li>
-          <li><strong>Monitor API key usage</strong> - Regularly review API key usage in the CapybaraDB Dashboard</li>
+          <li><strong>Monitor API key usage</strong> - Regularly review API key usage in the CapyDB Dashboard</li>
           <li><strong>Revoke compromised keys immediately</strong> - If you suspect an API key has been compromised, revoke it immediately</li>
         </ul>
         

@@ -12,14 +12,14 @@ export default function SupportedLLMModesPage() {
       <h1 className="text-3xl font-bold mb-6">Supported LLM Modes</h1>
       
       <p className="mb-6">
-        CapybaraDB supports various embedding models for both text and image data. This page provides an overview of the supported LLM modes for both EmbModels (text) and Vision Models (images).
+        CapyDB supports various embedding models for both text and image data. This page provides an overview of the supported LLM modes for both EmbModels (text) and Vision Models (images).
       </p>
 
       <div className="mb-10">
         <h2 className="text-2xl font-semibold mb-4" id="text-embedding-models">Text Embedding Models</h2>
         
         <p className="mb-4">
-          CapybaraDB supports the following text embedding models:
+          CapyDB supports the following text embedding models:
         </p>
 
         <div className="overflow-x-auto mb-6">
@@ -99,7 +99,7 @@ const embTextDefault = new EmbText({
         <h2 className="text-2xl font-semibold mb-4" id="vision-models">Vision Models</h2>
         
         <p className="mb-4">
-          For image embeddings, CapybaraDB supports the following vision models:
+          For image embeddings, CapyDB supports the following vision models:
         </p>
 
         <div className="overflow-x-auto mb-6">
@@ -204,7 +204,7 @@ const embImageWithModel = new EmbImage({
         <h2 className="text-2xl font-semibold mb-4" id="custom-models">Using Custom Models</h2>
         
         <p className="mb-4">
-          CapybaraDB also supports custom embedding models through our API. If you have specific requirements or want to use your own models, please contact our support team for integration options.
+          CapyDB also supports custom embedding models through our API. If you have specific requirements or want to use your own models, please contact our support team for integration options.
         </p>
 
         <div className="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-lg border border-amber-200 dark:border-amber-800">

@@ -13,10 +13,10 @@ export async function POST(request: Request) {
     }
     
     // Get the API base URL from environment
-    const apiBaseUrl = process.env.NEXT_PUBLIC_CAPYBARADB_URL;
+    const apiBaseUrl = process.env.NEXT_PUBLIC_CAPYDB_URL;
     
     if (!apiBaseUrl) {
-      console.error('NEXT_PUBLIC_CAPYBARADB_URL environment variable is not set');
+      console.error('NEXT_PUBLIC_CAPYDB_URL environment variable is not set');
       return NextResponse.json({ 
         status: 'error', 
         message: 'API configuration error' 
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Admin-API-Key': process.env.CAPYBARADB_ADMIN_API_KEY || '',
+        'X-Admin-API-Key': process.env.CAPYDB_ADMIN_API_KEY || '',
       },
       body: JSON.stringify({ message: body.message }),
     });

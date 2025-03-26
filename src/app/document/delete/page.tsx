@@ -36,7 +36,7 @@ const response = collection.delete(filter);`;
         <LanguageToggle />
         
         <p>
-          CapybaraDB provides a straightforward way to delete documents from a collection using operations similar to MongoDB's delete functionality. 
+          CapyDB provides a straightforward way to delete documents from a collection using operations similar to MongoDB's delete functionality. 
           You can delete one or multiple documents that match a specified filter.
         </p>
         
@@ -138,7 +138,7 @@ const response = collection.delete(filter);`;
         
         <Feedback />
         
-        <h3>Got question? <a href="mailto:hello@capybaradb.co" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
+        <h3>Got question? <a href="mailto:hello@capydb.com" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
       </div>
     </DocLayout>
   );

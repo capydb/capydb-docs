@@ -10,7 +10,7 @@ export default function UpdatePage() {
         <h1>Update Syntax</h1>
         
         <p>
-          <strong>CapybaraDB</strong> supports a robust and flexible update syntax fully compatible with MongoDB, 
+          <strong>CapyDB</strong> supports a robust and flexible update syntax fully compatible with MongoDB, 
           allowing you to modify, add, or remove fields and elements in your documents.
         </p>
         
@@ -237,7 +237,7 @@ export default function UpdatePage() {
         
         <Feedback />
         
-        <h3>Got question? <a href="mailto:hello@capybaradb.co" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
+        <h3>Got question? <a href="mailto:hello@capydb.com" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
       </div>
     </DocLayout>
   );

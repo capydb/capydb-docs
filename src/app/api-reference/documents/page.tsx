@@ -9,8 +9,8 @@ export default function DocumentsApiPage() {
         <h1>Documents API</h1>
         
         <p>
-          The Documents API allows you to create, find, query, update, and delete documents in your CapybaraDB collections.
-          Documents are JSON objects that can contain standard JSON types as well as CapybaraDB's special EmbJSON types for
+          The Documents API allows you to create, find, query, update, and delete documents in your CapyDB collections.
+          Documents are JSON objects that can contain standard JSON types as well as CapyDB's special EmbJSON types for
           embedding text and images.
         </p>
         
@@ -21,7 +21,7 @@ export default function DocumentsApiPage() {
         <h2>Document Structure</h2>
         
         <p>
-          Documents in CapybaraDB are JSON objects with the following characteristics:
+          Documents in CapyDB are JSON objects with the following characteristics:
         </p>
         
         <ul>
@@ -34,7 +34,7 @@ export default function DocumentsApiPage() {
         <h2>EmbJSON Types</h2>
         
         <p>
-          CapybaraDB extends standard JSON with special types for embedding and vector operations. For detailed information about EmbJSON types, please visit the <Link href="/api-reference/embjson" className="text-blue-600 dark:text-blue-400 hover:underline">EmbJSON Types</Link> documentation page.
+          CapyDB extends standard JSON with special types for embedding and vector operations. For detailed information about EmbJSON types, please visit the <Link href="/api-reference/embjson" className="text-blue-600 dark:text-blue-400 hover:underline">EmbJSON Types</Link> documentation page.
         </p>
         
         <table className="min-w-full border-collapse border border-gray-300 dark:border-gray-700">
@@ -62,7 +62,7 @@ export default function DocumentsApiPage() {
         <h3>Supported Models</h3>
         
         <p>
-          CapybaraDB supports various embedding models for text and vision models for image processing. 
+          CapyDB supports various embedding models for text and vision models for image processing. 
           For a comprehensive list and detailed information about all supported models, please visit the 
           <Link href="/api-reference/embjson/supported-llm-modes" className="text-blue-600 dark:text-blue-400 hover:underline ml-1">
             Supported LLM Modes
@@ -150,7 +150,7 @@ export default function DocumentsApiPage() {
         <h2>MongoDB-Style Query Operators</h2>
         
         <p>
-          CapybaraDB supports a subset of MongoDB query operators for filtering documents. For details and examples, see the <Link href="/api-reference/documents/find" className="text-blue-600 dark:text-blue-400 hover:underline">Find Documents</Link> page.
+          CapyDB supports a subset of MongoDB query operators for filtering documents. For details and examples, see the <Link href="/api-reference/documents/find" className="text-blue-600 dark:text-blue-400 hover:underline">Find Documents</Link> page.
         </p>
         
         <h2>Related Resources</h2>

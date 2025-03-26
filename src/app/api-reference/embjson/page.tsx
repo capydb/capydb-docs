@@ -12,7 +12,7 @@ export default function EmbJSONPage() {
         <h1>EmbJSON Types</h1>
         
         <p>
-          EmbJSON is CapybaraDB's extension to standard JSON that adds special types for embedding and vector operations.
+          EmbJSON is CapyDB's extension to standard JSON that adds special types for embedding and vector operations.
           These types enable powerful semantic search capabilities, allowing you to query your data using natural language
           and find documents based on meaning rather than exact keyword matches.
         </p>
@@ -72,7 +72,7 @@ export default function EmbJSONPage() {
         <h2>How EmbJSON Works</h2>
         
         <p>
-          EmbJSON types are special JSON objects that trigger automatic processing in CapybaraDB:
+          EmbJSON types are special JSON objects that trigger automatic processing in CapyDB:
         </p>
         
         <ol>
@@ -130,12 +130,12 @@ export default function EmbJSONPage() {
         <h2>Using EmbJSON with REST API</h2>
         
         <p>
-          You can use EmbJSON types directly with the CapybaraDB REST API:
+          You can use EmbJSON types directly with the CapyDB REST API:
         </p>
         
         <ApiCodeBlock
           curl={`curl -X POST \\
-  https://api.capybaradb.co/v0/db/project_id_database_name/collection/guides/document \\
+  https://api.capydb.com/v0/db/project_id_database_name/collection/guides/document \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -162,7 +162,7 @@ import json
 import base64
 
 # API endpoint
-url = "https://api.capybaradb.co/v0/db/project_id_database_name/collection/guides/document"
+url = "https://api.capydb.com/v0/db/project_id_database_name/collection/guides/document"
 
 # Headers
 headers = {
@@ -207,7 +207,7 @@ else:
     print(f"Error: {response.status_code}")
     print(response.text)`}
           javascript={`// API endpoint
-const url = 'https://api.capybaradb.co/v0/db/project_id_database_name/collection/guides/document';
+const url = 'https://api.capydb.com/v0/db/project_id_database_name/collection/guides/document';
 
 // Headers
 const headers = {
@@ -280,7 +280,7 @@ insertDocument();`}
         
         <ApiCodeBlock
           curl={`curl -X POST \\
-  https://api.capybaradb.co/v0/db/project_id_database_name/collection/guides/document/query \\
+  https://api.capydb.com/v0/db/project_id_database_name/collection/guides/document/query \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -292,7 +292,7 @@ insertDocument();`}
 import json
 
 # API endpoint
-url = "https://api.capybaradb.co/v0/db/project_id_database_name/collection/guides/document/query"
+url = "https://api.capydb.com/v0/db/project_id_database_name/collection/guides/document/query"
 
 # Headers
 headers = {
@@ -325,7 +325,7 @@ else:
     print(f"Error: {response.status_code}")
     print(response.text)`}
           javascript={`// API endpoint
-const url = 'https://api.capybaradb.co/v0/db/project_id_database_name/collection/guides/document/query';
+const url = 'https://api.capydb.com/v0/db/project_id_database_name/collection/guides/document/query';
 
 // Headers
 const headers = {

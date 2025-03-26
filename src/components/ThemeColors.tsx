@@ -1,7 +1,7 @@
 /**
- * Theme Colors for CapybaraDB Documentation
+ * Theme Colors for CapyDB Documentation
  * 
- * This file documents the official theme colors used throughout the CapybaraDB documentation.
+ * This file documents the official theme colors used throughout the CapyDB documentation.
  * When creating new components or updating existing ones, please refer to these color values
  * for consistency across the documentation.
  */

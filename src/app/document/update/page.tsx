@@ -66,7 +66,7 @@ const response = collection.update(filter, update, upsert);`;
         <LanguageToggle />
         
         <p>
-          CapybaraDB provides a flexible way to update documents in a collection using operations similar to MongoDB's update functionality. 
+          CapyDB provides a flexible way to update documents in a collection using operations similar to MongoDB's update functionality. 
           You can use various update operators to modify fields, and optionally create new documents if no matches are found (upsert).
         </p>
         
@@ -182,7 +182,7 @@ const response = collection.update(filter, update, upsert);`;
         
         <Feedback />
         
-        <h3>Got question? <a href="mailto:hello@capybaradb.co" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
+        <h3>Got question? <a href="mailto:hello@capydb.com" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
       </div>
     </DocLayout>
   );

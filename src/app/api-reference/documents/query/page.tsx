@@ -215,7 +215,7 @@ export default function QueryDocumentsPage() {
         
         <ApiCodeBlock
           curl={`curl -X POST \\
-  https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document/query \\
+  https://api.capydb.com/v0/db/project_id_database_name/collection/my_collection/document/query \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -228,7 +228,7 @@ export default function QueryDocumentsPage() {
 import json
 
 # API endpoint
-url = "https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document/query"
+url = "https://api.capydb.com/v0/db/project_id_database_name/collection/my_collection/document/query"
 
 # Headers
 headers = {
@@ -262,7 +262,7 @@ else:
     print(f"Error: {response.status_code}")
     print(response.text)`}
           javascript={`// API endpoint
-const url = 'https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document/query';
+const url = 'https://api.capydb.com/v0/db/project_id_database_name/collection/my_collection/document/query';
 
 // Headers
 const headers = {

@@ -120,7 +120,7 @@ export default function DeleteDocumentsPage() {
         
         <ApiCodeBlock
           curl={`curl -X DELETE \\
-  https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document \\
+  https://api.capydb.com/v0/db/project_id_database_name/collection/my_collection/document \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -132,7 +132,7 @@ export default function DeleteDocumentsPage() {
 import json
 
 # API endpoint
-url = "https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document"
+url = "https://api.capydb.com/v0/db/project_id_database_name/collection/my_collection/document"
 
 # Headers
 headers = {
@@ -158,7 +158,7 @@ else:
     print(f"Error: {response.status_code}")
     print(response.text)`}
           javascript={`// API endpoint
-const url = 'https://api.capybaradb.co/v0/db/project_id_database_name/collection/my_collection/document';
+const url = 'https://api.capydb.com/v0/db/project_id_database_name/collection/my_collection/document';
 
 // Headers
 const headers = {

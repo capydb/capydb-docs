@@ -77,7 +77,7 @@ const response = collection.query(query, projection, sort, limit, skip);`;
         <LanguageToggle />
         
         <p>
-          CapybaraDB provides a powerful query interface similar to MongoDB's query functionality. 
+          CapyDB provides a powerful query interface similar to MongoDB's query functionality. 
           You can use various query operators to find documents, project specific fields, sort results, and implement pagination.
         </p>
         
@@ -206,7 +206,7 @@ const response = collection.query(query, projection, sort, limit, skip);`;
         
         <Feedback />
         
-        <h3>Got question? <a href="mailto:hello@capybaradb.co" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
+        <h3>Got question? <a href="mailto:hello@capydb.com" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
       </div>
     </DocLayout>
   );

@@ -21,8 +21,8 @@ interface SidebarSection {
 
 // External links for the top navbar
 const externalLinks: NavItem[] = [
-  { title: 'Dashboard', href: 'https://capybaradb.co/dashboard', external: true },
-  { title: 'Contact', href: 'https://capybaradb.co/home/contact', external: true },
+  { title: 'Dashboard', href: 'https://capydb.com/dashboard', external: true },
+  { title: 'Contact', href: 'https://capydb.com/home/contact', external: true },
 ];
 
 // Documentation sidebar sections
@@ -309,18 +309,18 @@ export default function DocLayout({ children }: DocLayoutProps) {
       {/* Sidebar */}
       <aside className="fixed inset-y-0 left-0 z-10 w-72 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 overflow-y-auto shadow-md">
         <div className="flex items-center h-16 px-5 border-b border-gray-200 dark:border-gray-800 bg-gradient-to-r from-gray-50 to-white dark:from-gray-900 dark:to-gray-900">
-          <Link href="https://capybaradb.co" className="flex items-center group">
+          <Link href="https://capydb.com" className="flex items-center group">
             <div className="relative">
               <div className="absolute -inset-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg blur-lg opacity-0 group-hover:opacity-75 transition duration-200"></div>
               <Image
-                src="https://capybaradb.co/images/mainIcon.png"
-                alt="CapybaraDB logo"
+                src="https://capydb.com/images/mainIcon.png"
+                alt="CapyDB logo"
                 width={32}
                 height={32}
                 className="relative"
               />
             </div>
-            <span className="ml-3 font-bold text-xl bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400">CapybaraDB</span>
+            <span className="ml-3 font-bold text-xl bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400">CapyDB</span>
           </Link>
         </div>
         <nav className="p-6">

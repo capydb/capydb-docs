@@ -9,19 +9,19 @@ export default function OverviewPage() {
         
         <div className="w-full">
           <Image
-            src="https://capybaradb.co/images/capybara02.png"
+            src="https://capydb.com/images/capybara02.png"
             width={1000}
             height={1000}
-            alt="CapybaraDB Logo"
+            alt="CapyDB Logo"
             className="w-full h-auto"
           />
         </div>
         
         <p>
-          CapybaraDB is a <strong>high-level database</strong> built specifically for Large Language Model (LLM) applications. 
+          CapyDB is a <strong>high-level database</strong> built specifically for Large Language Model (LLM) applications. 
           It unifies multiple database architectures—NoSQL, vector, and object storage—within a single platform, 
           allowing seamless storage, indexing, and retrieval of structured, unstructured, and vector-based data. 
-          This makes CapybaraDB the ideal choice for AI-driven projects, particularly those focused on natural 
+          This makes CapyDB the ideal choice for AI-driven projects, particularly those focused on natural 
           language processing and data analysis.
         </p>
         
@@ -29,18 +29,18 @@ export default function OverviewPage() {
         
         <p>
           Much like how high-level programming languages like Python abstract away technical complexities to simplify development, 
-          CapybaraDB abstracts the complexities of different database architectures. By integrating NoSQL, vector, and object 
+          CapyDB abstracts the complexities of different database architectures. By integrating NoSQL, vector, and object 
           storage under one system, it provides developers with an accessible, powerful platform to manage the diverse data 
           needs of LLM applications—without requiring expertise in multiple types of databases.
         </p>
         
         <h3>Benefits of a High-Level Database</h3>
         
-        <p>CapybaraDB offers several key advantages for developers:</p>
+        <p>CapyDB offers several key advantages for developers:</p>
         
         <ul>
           <li>
-            <strong>Cost Efficiency</strong>: No need to maintain separate servers or databases—CapybaraDB handles these tasks, 
+            <strong>Cost Efficiency</strong>: No need to maintain separate servers or databases—CapyDB handles these tasks, 
             reducing infrastructure costs and making it more affordable.
           </li>
           <li>
@@ -53,18 +53,18 @@ export default function OverviewPage() {
           </li>
         </ul>
         
-        <h2>Components of CapybaraDB</h2>
+        <h2>Components of CapyDB</h2>
         
         <h3>1. NoSQL (Document) Database</h3>
         
         <p>
-          CapybaraDB includes a Mongo-compatible NoSQL database for flexible document-based storage and querying, 
+          CapyDB includes a Mongo-compatible NoSQL database for flexible document-based storage and querying, 
           making it easy for developers familiar with MongoDB tools.
         </p>
         
         <h3>2. Vector Database</h3>
         
-        <p>CapybaraDB integrates a high-performance vector database that supports:</p>
+        <p>CapyDB integrates a high-performance vector database that supports:</p>
         
         <ul>
           <li>
@@ -79,15 +79,15 @@ export default function OverviewPage() {
         <h3>3. Object Storage</h3>
         
         <p>
-          CapybaraDB's object storage manages unstructured data like files and images, complementing its structured and 
+          CapyDB's object storage manages unstructured data like files and images, complementing its structured and 
           vector data capabilities.
         </p>
         
         <h2>EmbJSON (Extended JSON Types)</h2>
         
         <p>
-          CapybaraDB extends the standard <strong>BSON (Binary JSON)</strong> format with <strong>EmbJSON (CapybaraDB Extended JSON)</strong>, 
-          which simplifies managing and querying complex data structures like text embeddings. EmbJSON is key to CapybaraDB's 
+          CapyDB extends the standard <strong>BSON (Binary JSON)</strong> format with <strong>EmbJSON (CapyDB Extended JSON)</strong>, 
+          which simplifies managing and querying complex data structures like text embeddings. EmbJSON is key to CapyDB's 
           database abstraction and is explained further in <a href="/emb_json" className="text-blue-600 dark:text-blue-400 hover:underline">EmbJSON Overview</a>.
         </p>
       </div>

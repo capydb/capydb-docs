@@ -13,7 +13,7 @@ export default function EmbImagePage() {
         <h2>Overview</h2>
         
         <p>
-          CapybaraDB now supports image embeddings as well. By wrapping your base64 encoded image data in <code>EmbImage</code>, 
+          CapyDB now supports image embeddings as well. By wrapping your base64 encoded image data in <code>EmbImage</code>, 
           you can leverage both text and vision models to extract meaningful features from your images. 
           This allows for semantic searches that go beyond traditional keyword matching.
         </p>
@@ -32,7 +32,7 @@ export default function EmbImagePage() {
         <p>Below is the simplest way to use <code>EmbImage</code>:</p>
         
         <div className="relative">
-          <CopyButton code={`from capybaradb import EmbImage
+          <CopyButton code={`from capydb import EmbImage
 
 # Storing a single image field to embed.
 {
@@ -46,7 +46,7 @@ export default function EmbImagePage() {
               padding: '2rem'
             }}
           >
-            {`from capybaradb import EmbImage
+            {`from capydb import EmbImage
 
 # Storing a single image field to embed.
 {
@@ -71,7 +71,7 @@ export default function EmbImagePage() {
         </p>
         
         <div className="relative">
-          <CopyButton code={`from capybaradb import EmbImage, EmbModels, VisionModels
+          <CopyButton code={`from capydb import EmbImage, EmbModels, VisionModels
 
 {
     "field_name": EmbImage(
@@ -97,7 +97,7 @@ export default function EmbImagePage() {
               padding: '2rem'
             }}
           >
-            {`from capybaradb import EmbImage, EmbModels, VisionModels
+            {`from capydb import EmbImage, EmbModels, VisionModels
 
 {
     "field_name": EmbImage(
@@ -121,7 +121,7 @@ export default function EmbImagePage() {
         <h2>After Saving</h2>
         
         <p>
-          CapybaraDB processes your image data asynchronously. Once processed, it automatically adds a <code>chunks</code> field 
+          CapyDB processes your image data asynchronously. Once processed, it automatically adds a <code>chunks</code> field 
           to each <code>EmbImage</code> for easy access to the internal representations.
         </p>
         
@@ -223,7 +223,7 @@ export default function EmbImagePage() {
         <h2>How It Works: Asynchronous Processing</h2>
         
         <p>
-          Whenever you insert a document containing <code>EmbImage</code> into CapybaraDB, the following steps occur <strong>asynchronously</strong>:
+          Whenever you insert a document containing <code>EmbImage</code> into CapyDB, the following steps occur <strong>asynchronously</strong>:
         </p>
         
         <ol>
@@ -260,7 +260,7 @@ export default function EmbImagePage() {
         
         <Feedback />
         
-        <h3>Got a question? <a href="mailto:hello@capybaradb.co" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
+        <h3>Got a question? <a href="mailto:hello@capydb.com" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
       </div>
     </DocLayout>
   );

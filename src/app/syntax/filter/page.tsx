@@ -10,7 +10,7 @@ export default function FilterPage() {
         <h1>Filter Syntax</h1>
         
         <p>
-          <strong>CapybaraDB</strong> utilizes a filter syntax fully compatible with MongoDB, 
+          <strong>CapyDB</strong> utilizes a filter syntax fully compatible with MongoDB, 
           enabling flexible and intuitive querying of data.
         </p>
         
@@ -274,7 +274,7 @@ export default function FilterPage() {
         
         <Feedback />
         
-        <h3>Got question? <a href="mailto:hello@capybaradb.co" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
+        <h3>Got question? <a href="mailto:hello@capydb.com" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
       </div>
     </DocLayout>
   );

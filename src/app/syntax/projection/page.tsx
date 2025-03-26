@@ -7,9 +7,9 @@ export default function ProjectionPage() {
   return (
     <DocLayout>
       <div className="prose dark:prose-invert max-w-none">
-        <h1>CapybaraDB Projection Syntax (Simplified Guide)</h1>
+        <h1>CapyDB Projection Syntax (Simplified Guide)</h1>
         
-        <p>Here's a simple and concise guide to CapybaraDB projection syntax for quick reference:</p>
+        <p>Here's a simple and concise guide to CapyDB projection syntax for quick reference:</p>
         
         <hr className="my-6" />
         
@@ -130,7 +130,7 @@ export default function ProjectionPage() {
         
         <Feedback />
         
-        <h3>Got question? <a href="mailto:hello@capybaradb.co" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
+        <h3>Got question? <a href="mailto:hello@capydb.com" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
       </div>
     </DocLayout>
   );

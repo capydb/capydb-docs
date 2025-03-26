@@ -9,17 +9,17 @@ export default function ApiReferencePage() {
   return (
     <DocLayout>
       <div className="prose dark:prose-invert max-w-none">
-        <h1>CapybaraDB API v0 Reference</h1>
+        <h1>CapyDB API v0 Reference</h1>
         
         <p>
-          Welcome to the CapybaraDB API v0 Reference. This documentation provides detailed information about 
-          the CapybaraDB REST API endpoints, request/response formats, and authentication methods.
+          Welcome to the CapyDB API v0 Reference. This documentation provides detailed information about 
+          the CapyDB REST API endpoints, request/response formats, and authentication methods.
         </p>
         
         <h2>Getting Started</h2>
         
         <p>
-          The CapybaraDB API is organized around REST principles. Our API has predictable resource-oriented URLs, 
+          The CapyDB API is organized around REST principles. Our API has predictable resource-oriented URLs, 
           accepts JSON-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP 
           response codes, authentication, and verbs.
         </p>
@@ -27,14 +27,14 @@ export default function ApiReferencePage() {
         <h2>Base URL</h2>
         
         <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg my-4 font-mono text-sm">
-          <code>https://api.capybaradb.co/v0</code>
+          <code>https://api.capydb.com/v0</code>
         </div>
         
         <h2>Authentication</h2>
         
         <p>
-          The CapybaraDB API uses API keys to authenticate requests. You can view and manage your API keys 
-          in the CapybaraDB Dashboard. API keys must be included in the Authorization header of all requests.
+          The CapyDB API uses API keys to authenticate requests. You can view and manage your API keys 
+          in the CapyDB Dashboard. API keys must be included in the Authorization header of all requests.
         </p>
         
         <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg my-4 font-mono text-sm">
@@ -48,14 +48,14 @@ export default function ApiReferencePage() {
         <h2>Database and Collection Structure</h2>
         
         <p>
-          CapybaraDB organizes data in a hierarchical structure:
+          CapyDB organizes data in a hierarchical structure:
         </p>
         
         <ul>
           <li><strong>Project</strong>: The top-level container for your data</li>
           <li><strong>Database</strong>: A logical grouping of collections within a project</li>
           <li><strong>Collection</strong>: A container for documents</li>
-          <li><strong>Document</strong>: Individual JSON records that can contain standard JSON types and CapybaraDB's EmbJSON types</li>
+          <li><strong>Document</strong>: Individual JSON records that can contain standard JSON types and CapyDB's EmbJSON types</li>
         </ul>
         
         <p>
@@ -79,7 +79,7 @@ export default function ApiReferencePage() {
         <h2>EmbJSON Types</h2>
         
         <p>
-          CapybaraDB extends standard JSON with special types for embedding and vector operations:
+          CapyDB extends standard JSON with special types for embedding and vector operations:
         </p>
         
         <ul>
@@ -137,9 +137,9 @@ export default function ApiReferencePage() {
         <h2>Error Handling</h2>
         
         <p>
-          CapybaraDB uses conventional HTTP response codes to indicate the success or failure of an API request. 
+          CapyDB uses conventional HTTP response codes to indicate the success or failure of an API request. 
           In general, codes in the 2xx range indicate success, codes in the 4xx range indicate an error that 
-          failed given the information provided, and codes in the 5xx range indicate an error with CapybaraDB's 
+          failed given the information provided, and codes in the 5xx range indicate an error with CapyDB's 
           servers.
         </p>
         
@@ -156,7 +156,7 @@ export default function ApiReferencePage() {
         <h2>Need Help?</h2>
         
         <p>
-          If you have any questions or need assistance with the CapybaraDB API, please don't hesitate to reach out to our support team at <a href="mailto:hello@capybaradb.co" className="text-blue-600 dark:text-blue-400 hover:underline">hello@capybaradb.co</a>.
+          If you have any questions or need assistance with the CapyDB API, please don't hesitate to reach out to our support team at <a href="mailto:hello@capydb.com" className="text-blue-600 dark:text-blue-400 hover:underline">hello@capydb.com</a>.
         </p>
         
         <Feedback />

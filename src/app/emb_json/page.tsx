@@ -5,10 +5,10 @@ export default function EmbJsonPage() {
   return (
     <DocLayout>
       <div className="prose dark:prose-invert max-w-none">
-        <h1>CapybaraDB Extended JSON (EmbJSON)</h1>
+        <h1>CapyDB Extended JSON (EmbJSON)</h1>
         
         <p>
-          <strong>CapybaraDB Extended JSON (EmbJSON)</strong> is a powerful data format designed to simplify database indexing pipelines, 
+          <strong>CapyDB Extended JSON (EmbJSON)</strong> is a powerful data format designed to simplify database indexing pipelines, 
           allowing developers to use a single database for most LLM applications. EmbJSON provides a versatile and efficient solution 
           for handling data, making it easier to implement advanced AI features without the overhead of managing multiple databases. 
           This streamlined approach enables developers to focus on building intelligent applications rather than dealing with complex data architecture.
@@ -33,7 +33,7 @@ export default function EmbJsonPage() {
           <li><strong>Other Data Types</strong>: Additional data types like <strong>EmbAudio</strong> and <strong>Emb3D</strong> are also planned for future releases, aimed at enabling semantic embeddings for audio files and 3D models.</li>
         </ul>
         
-        <h2>Why Choose CapybaraDB Extended JSON?</h2>
+        <h2>Why Choose CapyDB Extended JSON?</h2>
         
         <ul>
           <li><strong>Streamlined Embedding</strong>: Select and customize embedding models to suit your needs.</li>
@@ -48,7 +48,7 @@ export default function EmbJsonPage() {
         
         <Feedback />
         
-        <h3>Got question? <a href="mailto:hello@capybaradb.co" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
+        <h3>Got question? <a href="mailto:hello@capydb.com" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
       </div>
     </DocLayout>
   );

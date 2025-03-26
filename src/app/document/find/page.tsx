@@ -73,7 +73,7 @@ const response = collection.find(filter, projection, sort, limit, skip);`;
         <LanguageToggle />
         
         <p>
-          CapybaraDB allows you to query and retrieve documents from a collection using operations similar to MongoDB's <code>find()</code> functionality. 
+          CapyDB allows you to query and retrieve documents from a collection using operations similar to MongoDB's <code>find()</code> functionality. 
           You can use filters to match specific documents, and optionally, specify projection fields, sort order, and pagination options.
         </p>
         
@@ -202,7 +202,7 @@ const response = collection.find(filter, projection, sort, limit, skip);`;
         
         <Feedback />
         
-        <h3>Got question? <a href="mailto:hello@capybaradb.co" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
+        <h3>Got question? <a href="mailto:hello@capydb.com" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
       </div>
     </DocLayout>
   );

@@ -1,6 +1,6 @@
-# CapybaraDB Documentation
+# CapyDB Documentation
 
-This is a Next.js implementation of the CapybaraDB documentation site, migrated from Nextra.
+This is a Next.js implementation of the CapyDB documentation site, migrated from Nextra.
 
 ## Features
 

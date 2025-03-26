@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'CapybaraDB Docs',
+  title: 'CapyDB Docs',
   description: 'The chillest AI-native database out there.',
 };
 

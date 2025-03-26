@@ -14,7 +14,7 @@ export default function HomePage() {
         <LanguageToggle />
         
         <p>
-          Welcome to <strong>CapybaraDB</strong>! The chillest AI-native database out there! This guide will help you get started quickly with our powerful API service. 
+          Welcome to <strong>CapyDB</strong>! The chillest AI-native database out there! This guide will help you get started quickly with our powerful API service. 
           Whether you're inserting your first document or exploring advanced features, you'll find everything you need to Save Documents (No Need for Embedding!) in just a few simple steps.
         </p>
         
@@ -22,22 +22,22 @@ export default function HomePage() {
         
         <LanguageContent language="python">
           <SyntaxHighlighter language="bash" style={atomDark}>
-            {`pip install capybaradb`}
+            {`pip install capydb`}
           </SyntaxHighlighter>
         </LanguageContent>
         
         <LanguageContent language="typescript">
           <SyntaxHighlighter language="bash" style={atomDark}>
-            {`npm install capybaradb`}
+            {`npm install capydb`}
           </SyntaxHighlighter>
         </LanguageContent>
         
         <h2>Step 2: Sign Up</h2>
         
-        <p>Start by signing up for <strong>CapybaraDB</strong>:</p>
+        <p>Start by signing up for <strong>CapyDB</strong>:</p>
         
         <ol>
-          <li>Visit <a href="https://capybaradb.co" className="text-blue-600 dark:text-blue-400 hover:underline">CapybaraDB Sign Up</a>.</li>
+          <li>Visit <a href="https://capydb.com" className="text-blue-600 dark:text-blue-400 hover:underline">CapyDB Sign Up</a>.</li>
           <li>After signing up, you'll be navigated to the developer console.</li>
         </ol>
         
@@ -63,8 +63,8 @@ export default function HomePage() {
         <p>For this quick start guide (non-production environment), directly assign your API key and project ID to variables:</p>
         
         <SyntaxHighlighter language="bash" style={atomDark}>
-          {`CAPYBARA_API_KEY = "your_api_key"
-CAPYBARA_PROJECT_ID = "your_project_id"`}
+          {`CAPYDB_API_KEY = "your_api_key"
+CAPYDB_PROJECT_ID = "your_project_id"`}
         </SyntaxHighlighter>
         
         <div className="bg-yellow-50 dark:bg-yellow-900 border-l-4 border-yellow-500 p-4 my-4">
@@ -80,13 +80,13 @@ CAPYBARA_PROJECT_ID = "your_project_id"`}
         
         <LanguageContent language="python">
           <SyntaxHighlighter language="python" style={atomDark}>
-            {`from capybaradb import CapybaraDB, EmbText
+            {`from capydb import CapyDB, EmbText
 from dotenv import load_dotenv
 
 # Load environment variables from .env
 load_dotenv()
 
-client = CapybaraDB()
+client = CapyDB()
 db = client.db("your_db_name")
 collection = db.collection("your_collection_name")`}
           </SyntaxHighlighter>
@@ -94,12 +94,12 @@ collection = db.collection("your_collection_name")`}
         
         <LanguageContent language="typescript">
           <SyntaxHighlighter language="typescript" style={atomDark}>
-            {`import { CapybaraDB, EmbText } from "capybaradb";
+            {`import { CapyDB, EmbText } from "capydb";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-const client = new CapybaraDB();
+const client = new CapyDB();
 const db = client.db("your_db_name");
 const collection = db.collection("your_collection_name");`}
           </SyntaxHighlighter>
@@ -153,7 +153,7 @@ main();`}
         <div className="bg-blue-50 dark:bg-blue-900 border-l-4 border-blue-500 p-4 my-4">
           <h3 className="text-blue-700 dark:text-blue-300">EmbJSON - What Happens After Saving</h3>
           <p className="text-blue-700 dark:text-blue-300">
-            When saving an <code>EmbText</code> data type, CapybaraDB performs additional processing:
+            When saving an <code>EmbText</code> data type, CapyDB performs additional processing:
           </p>
           <ul className="text-blue-700 dark:text-blue-300">
             <li>The saved data will have an updated field called <code>EmbText.chunks</code> in addition to <code>EmbText.text</code> and <code>EmbText.emb_model</code>.</li>
@@ -217,7 +217,7 @@ main();`}
         
         <Feedback />
         
-        <h3>Got question? <a href="mailto:hello@capybaradb.co" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
+        <h3>Got question? <a href="mailto:hello@capydb.com" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
       </div>
     </DocLayout>
   );

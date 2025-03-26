@@ -12,7 +12,7 @@ export default function EmbTextPage() {
         <h1>EmbText</h1>
         
         <p>
-          <code>EmbText</code> is a special type in CapybaraDB that allows you to store text that will be automatically 
+          <code>EmbText</code> is a special type in CapyDB that allows you to store text that will be automatically 
           chunked, embedded, and indexed for semantic search. This enables powerful natural language queries 
           against your text data.
         </p>
@@ -96,7 +96,7 @@ export default function EmbTextPage() {
         <h2>Supported Embedding Models</h2>
         
         <p>
-          CapybaraDB supports various text embedding models including <code>text-embedding-3-small</code> (default), 
+          CapyDB supports various text embedding models including <code>text-embedding-3-small</code> (default), 
           <code>text-embedding-3-large</code>, and <code>text-embedding-ada-002</code>.
         </p>
         
@@ -113,7 +113,7 @@ export default function EmbTextPage() {
         <h2>Chunking</h2>
         
         <p>
-          When you store text using <code>EmbText</code>, CapybaraDB automatically chunks the text into smaller segments 
+          When you store text using <code>EmbText</code>, CapyDB automatically chunks the text into smaller segments 
           before embedding. This is important for two reasons:
         </p>
         
@@ -149,7 +149,7 @@ export default function EmbTextPage() {
         
         <ApiCodeBlock
           curl={`curl -X POST \\
-  https://api.capybaradb.co/v0/db/project_id_database_name/collection/articles/document \\
+  https://api.capydb.com/v0/db/project_id_database_name/collection/articles/document \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -168,7 +168,7 @@ export default function EmbTextPage() {
 import json
 
 # API endpoint
-url = "https://api.capybaradb.co/v0/db/project_id_database_name/collection/articles/document"
+url = "https://api.capydb.com/v0/db/project_id_database_name/collection/articles/document"
 
 # Headers
 headers = {

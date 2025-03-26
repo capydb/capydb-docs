@@ -9,7 +9,7 @@ import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import CopyButton from '@/components/CopyButton';
 
 export default function InsertPage() {
-  const pythonCode = `from capybaradb import EmbText
+  const pythonCode = `from capydb import EmbText
 
 docs = [{
     "name": "John Doe",
@@ -22,7 +22,7 @@ docs = [{
 # Sending the request
 response = collection.insert(docs)`;
 
-  const typescriptCode = `import { EmbText } from "capybaradb";
+  const typescriptCode = `import { EmbText } from "capydb";
 
 const docs = [
   {
@@ -52,8 +52,8 @@ response = collection.insert(docs);`;
         <LanguageToggle />
         
         <p>
-          CapybaraDB supports <strong>MongoDB Extended JSON</strong> and <strong>EmbJSON</strong> (CapybaraDB Extended JSON). 
-          This guide explains how to insert documents into CapybaraDB.
+          CapyDB supports <strong>MongoDB Extended JSON</strong> and <strong>EmbJSON</strong> (CapyDB Extended JSON). 
+          This guide explains how to insert documents into CapyDB.
         </p>
         
         <h3>Example Code for <code>insert</code> Operation</h3>
@@ -139,7 +139,7 @@ response = collection.insert(docs);`;
         
         <Feedback />
         
-        <h3>Got question? <a href="mailto:hello@capybaradb.co">Email us</a></h3>
+        <h3>Got question? <a href="mailto:hello@capydb.com">Email us</a></h3>
       </div>
     </DocLayout>
   );

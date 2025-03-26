@@ -13,7 +13,7 @@ export default function EmbTextPage() {
         <h2>Overview</h2>
         
         <p>
-          CapybaraDB uses vector embeddings to understand the meaning of text beyond simple keyword matching. 
+          CapyDB uses vector embeddings to understand the meaning of text beyond simple keyword matching. 
           By wrapping your text in <code>EmbText</code>, you unlock the ability to query documents based on 
           conceptual and contextual relevance, rather than just literal keyword occurrences.
         </p>
@@ -31,7 +31,7 @@ export default function EmbTextPage() {
         <p>Below is the simplest way to use <code>EmbText</code>:</p>
         
         <div className="relative">
-          <CopyButton code={`from capybaradb import EmbText
+          <CopyButton code={`from capydb import EmbText
 
 # Storing a single text field that you want to embed.
 {
@@ -45,7 +45,7 @@ export default function EmbTextPage() {
               padding: '2rem'
             }}
           >
-            {`from capybaradb import EmbText
+            {`from capydb import EmbText
 
 # Storing a single text field that you want to embed.
 {
@@ -69,7 +69,7 @@ export default function EmbTextPage() {
         </p>
         
         <div className="relative">
-          <CopyButton code={`from capybaradb import EmbText, EmbModels
+          <CopyButton code={`from capydb import EmbText, EmbModels
 
 {
     "field_name": EmbText(
@@ -93,7 +93,7 @@ export default function EmbTextPage() {
               padding: '2rem'
             }}
           >
-            {`from capybaradb import EmbText, EmbModels
+            {`from capydb import EmbText, EmbModels
 
 {
     "field_name": EmbText(
@@ -115,7 +115,7 @@ export default function EmbTextPage() {
         <h2>After Saving</h2>
         
         <p>
-          CapybaraDB saves data by splitting each EmbText into chunks, embedding them, and indexing while preserving 
+          CapyDB saves data by splitting each EmbText into chunks, embedding them, and indexing while preserving 
           their relationships with vector data. It also automatically adds a 'chunks' field to each EmbText for seamless access.
         </p>
         
@@ -211,7 +211,7 @@ export default function EmbTextPage() {
         <h2>How It Works: Asynchronous Processing</h2>
         
         <p>
-          Whenever you insert a document containing <code>EmbText</code> into CapybaraDB, three main steps happen <strong>asynchronously</strong>:
+          Whenever you insert a document containing <code>EmbText</code> into CapyDB, three main steps happen <strong>asynchronously</strong>:
         </p>
         
         <ol>
@@ -320,7 +320,7 @@ print(emb_text.chunks)
         
         <Feedback />
         
-        <h3>Got question? <a href="mailto:hello@capybaradb.co" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
+        <h3>Got question? <a href="mailto:hello@capydb.com" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
       </div>
     </DocLayout>
   );
