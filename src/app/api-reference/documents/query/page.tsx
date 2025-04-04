@@ -48,7 +48,7 @@ export default function QueryDocumentsPage() {
     "title": 1,
     "content": 1
   },
-  "embedding_model": "text-embedding-3-small",
+  "emb_model": "text-embedding-3-small",
   "top_k": 5,
   "include_values": true
 }`}
@@ -85,7 +85,7 @@ export default function QueryDocumentsPage() {
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">Fields to include (1) or exclude (0) in the returned documents</td>
             </tr>
             <tr>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">embedding_model</td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">emb_model</td>
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">string</td>
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">No</td>
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">The embedding model to use for the query (default: "text-embedding-3-small")</td>
@@ -221,7 +221,7 @@ export default function QueryDocumentsPage() {
   -d '{
     "query": "How to implement vector search?",
     "top_k": 5,
-    "embedding_model": "text-embedding-3-small",
+    "emb_model": "text-embedding-3-small",
     "include_values": true
   }'`}
           python={`import requests
@@ -239,7 +239,7 @@ headers = {
 # Request body
 data = {
     "query": "How to implement vector search?",
-    "embedding_model": "text-embedding-3-small",
+    "emb_model": "text-embedding-3-small",
     "top_k": 5,
     "include_values": True
 }
@@ -273,9 +273,9 @@ const headers = {
 // Request body
 const data = {
   query: 'How to implement vector search?',
-  embedding_model: 'text-embedding-3-small',
-  top_k: 5,
-  include_values: true
+  embModel: 'text-embedding-3-small',
+  topK: 5,
+  includeValues: true
 };
 
 // Make the request
