@@ -11,42 +11,12 @@ const externalLinks = [
 
 const Navbar = React.memo(() => {
   const pathname = usePathname();
-  const isApiReference = pathname?.startsWith('/api-reference') || false;
 
   return (
     <div className="sticky top-0 z-20 backdrop-blur-lg bg-white/80 dark:bg-gray-900/80 border-b border-gray-200 dark:border-gray-800 h-16 flex items-center px-6">
       <div className="flex items-center justify-between w-full">
-        <div className="flex items-center h-full space-x-8">
-          <Link 
-            href="/"
-            className={`text-sm font-medium px-4 py-1.5 rounded-full transition-all duration-200 relative ${
-              !isApiReference 
-                ? 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 shadow-sm' 
-                : 'text-gray-700 hover:text-amber-600 hover:bg-amber-50/50 dark:text-gray-300 dark:hover:text-amber-400 dark:hover:bg-amber-900/10'
-            }`}
-          >
-            <span className="flex items-center">
-              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-              </svg>
-              Documentation
-            </span>
-          </Link>
-          <Link 
-            href="/api-reference"
-            className={`text-sm font-medium px-4 py-1.5 rounded-full transition-all duration-200 relative ${
-              isApiReference 
-                ? 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 shadow-sm' 
-                : 'text-gray-700 hover:text-amber-600 hover:bg-amber-50/50 dark:text-gray-300 dark:hover:text-amber-400 dark:hover:bg-amber-900/10'
-            }`}
-          >
-            <span className="flex items-center">
-              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-              </svg>
-              API Reference
-            </span>
-          </Link>
+        <div className="flex items-center h-full">
+          {/* Documentation link removed */}
         </div>
         <div className="flex items-center space-x-4 h-full">
           {externalLinks.map((link, idx) => (
