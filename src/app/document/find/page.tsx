@@ -29,7 +29,11 @@ limit = 5
 skip = 0
 
 # Sending the request
-response = collection.find(filter_criteria, projection, sort, limit, skip)`;
+response = collection.find(filter_criteria, projection, sort, limit, skip)
+
+# Process the results - response is now a list of documents
+for doc in response:
+    print(f"Name: {doc['name']}, Age: {doc['age']}")`;
 
   const typescriptCode = `// Filter to match the document(s)
 const filter = {
@@ -50,20 +54,23 @@ const sort = {
 const limit = 5;
 const skip = 0;
 
-const response = collection.find(filter, projection, sort, limit, skip);`;
+const response = collection.find(filter, projection, sort, limit, skip);
 
-  const jsonResponse = `{
-  "docs": [
-    {
-      "name": "Alice Smith",
-      "age": 29
-    },
-    {
-      "name": "Bob Johnson",
-      "age": 40
-    }
-  ]
-}`;
+// Process the results - response is now an array of documents
+response.forEach(doc => {
+  console.log(\`Name: \${doc.name}, Age: \${doc.age}\`);
+});`;
+
+  const jsonResponse = `[
+  {
+    "name": "Alice Smith",
+    "age": 29
+  },
+  {
+    "name": "Bob Johnson",
+    "age": 40
+  }
+]`;
 
   return (
     <DocLayout>
@@ -129,7 +136,7 @@ const response = collection.find(filter, projection, sort, limit, skip);`;
         <h3>Find Response</h3>
         
         <p>
-          A successful find operation will return a JSON response containing the matching documents in the collection. 
+          A successful find operation will return a JSON array containing the matching documents in the collection. 
           Here's an example response:
         </p>
         

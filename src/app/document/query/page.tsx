@@ -12,12 +12,21 @@ export default function QueryPage() {
   const basicPythonCode = `# Simple query example
 query_text = "Software engineer with expertise in AI"
 
-response = collection.query(query_text)`;
+response = collection.query(query_text)
+
+# Process the results - response is now a list of matches
+for match in response:
+    print(f"Match: {match['chunk']} (Score: {match['score']})")`;
 
   const basicTypescriptCode = `// Simple query example
 const queryText = "Software engineer with expertise in AI";
 
-const response = collection.query(queryText);`;
+const response = collection.query(queryText);
+
+// Process the results - response is now an array of matches
+response.forEach(match => {
+  console.log(\`Match: \${match.chunk} (Score: \${match.score})\`);
+});`;
 
   const advancedPythonCode = `# Advanced query with optional parameters
 query_text = "Software engineer with expertise in AI"
@@ -36,7 +45,12 @@ response = collection.query(
     emb_model=emb_model, 
     top_k=top_k, 
     include_values=include_values
-)`;
+)
+
+# Process the results - response is now a list of matches
+for match in response:
+    print(f"Match: {match['chunk']} (Score: {match['score']})")
+    print(f"From document: {match['document']['_id']}")`;
 
   const advancedTypescriptCode = `// Advanced query with optional parameters
 const queryText = "Software engineer with expertise in AI";
@@ -54,65 +68,67 @@ const response = collection.query(queryText, {
   embModel,
   topK,
   includeValues,
+});
+
+// Process the results - response is now an array of matches
+response.forEach(match => {
+  console.log(\`Match: \${match.chunk} (Score: \${match.score})\`);
+  console.log(\`From document: \${match.document._id}\`);
 });`;
 
-  const jsonResponse = `{
-  "matches": [
-    {
-      "chunk": "John is a software engineer with expertise in AI.",
-      "path": "bio",
-      "chunk_n": 0,
-      "score": 0.95,
-      "document": {
-        "_id": ObjectId("64d2f8f01234abcd5678ef90")
-        // All document fields are returned here (name, bio, skills, etc.)
-      }
-    },
-    {
-      "chunk": "Alice is a data scientist with a background in machine learning.",
-      "path": "bio",
-      "chunk_n": 1,
-      "score": 0.89,
-      "document": {
-        "_id": ObjectId("64d2f8f01234abcd5678ef91")
-        // Complete document data is returned by default
-      }
+  const jsonResponse = `[
+  {
+    "chunk": "John is a software engineer with expertise in AI.",
+    "path": "bio",
+    "chunk_n": 0,
+    "score": 0.95,
+    "document": {
+      "_id": ObjectId("64d2f8f01234abcd5678ef90")
+      // All document fields are returned here (name, bio, skills, etc.)
     }
-  ]
-}`;
+  },
+  {
+    "chunk": "Alice is a data scientist with a background in machine learning.",
+    "path": "bio",
+    "chunk_n": 1,
+    "score": 0.89,
+    "document": {
+      "_id": ObjectId("64d2f8f01234abcd5678ef91")
+      // Complete document data is returned by default
+    }
+  }
+]`;
 
-  const jsonDetailedResponse = `{
-  "matches": [
-    {
-      "path": "bio",
-      "chunk": "John is a software engineer with expertise in AI.",
-      "chunk_n": 0,
-      "score": 0.95,
-      "values": [
-        0.123, 0.456, 0.789, ...
-      ],
-      "document": {
-        "_id": ObjectId("64d2f8f01234abcd5678ef90"),
-        "name": "John Doe",
-        "bio": EmbText("John is a software engineer with expertise in AI.")
-      }
-    },
-    {
-      "path": "bio",
-      "chunk": "Alice is a data scientist with a background in machine learning.",
-      "chunk_n": 1,
-      "score": 0.89,
-      "values": [
-        0.234, 0.567, 0.890, ...
-      ],
-      "document": {
-        "_id": ObjectId("64d2f8f01234abcd5678ef91"),
-        "name": "Alice Smith",
-        "bio": EmbText("Alice is a data scientist with a background in machine learning.")
-      }
+  const jsonDetailedResponse = `[
+  {
+    "path": "bio",
+    "chunk": "John is a software engineer with expertise in AI.",
+    "chunk_n": 0,
+    "score": 0.95,
+    "values": [
+      0.123, 0.456, 0.789, ...
+    ],
+    "document": {
+      "_id": ObjectId("64d2f8f01234abcd5678ef90"),
+      "name": "John Doe",
+      "bio": EmbText("John is a software engineer with expertise in AI.")
     }
-  ]
-}`;
+  },
+  {
+    "path": "bio",
+    "chunk": "Alice is a data scientist with a background in machine learning.",
+    "chunk_n": 1,
+    "score": 0.89,
+    "values": [
+      0.234, 0.567, 0.890, ...
+    ],
+    "document": {
+      "_id": ObjectId("64d2f8f01234abcd5678ef91"),
+      "name": "Alice Smith",
+      "bio": EmbText("Alice is a data scientist with a background in machine learning.")
+    }
+  }
+]`;
 
   return (
     <DocLayout>
@@ -182,7 +198,7 @@ const response = collection.query(queryText, {
         <h3>Default Response</h3>
         
         <p>
-          A successful query operation will return a JSON response containing the matching documents. 
+          A successful query operation will return a JSON array containing the matching documents. 
           By default, the response includes the matched text chunks, their location in the document, similarity scores, and basic document metadata:
         </p>
         
@@ -264,7 +280,7 @@ const response = collection.query(queryText, {
         
         <p>
           When you customize the query with additional parameters like <code>include_values</code> or <code>projection</code>, 
-          the response can include more detailed information:
+          the response array can include more detailed information:
         </p>
         
         <div className="relative">
