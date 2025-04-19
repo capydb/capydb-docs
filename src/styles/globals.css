@@ -2,8 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+
 html, body {
   overscroll-behavior: none;
+  font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
 }
 
 :root {
@@ -12,6 +15,7 @@ html, body {
   --background-end-rgb: 255, 255, 255;
   --primary-color: 59, 130, 246;
   --primary-color-dark: 96, 165, 250;
+  --font-sans: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {

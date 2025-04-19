@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { IBM_Plex_Sans } from 'next/font/google';
 import '@/styles/globals.css';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { ApiLanguageProvider } from '@/context/ApiLanguageContext';
@@ -8,7 +8,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from '@/components/Sidebar';
 import Navbar from '@/components/Navbar';
 
-const inter = Inter({ subsets: ['latin'] });
+const ibmPlexSans = IBM_Plex_Sans({ 
+  weight: ['300', '400', '500', '600', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'CapyDB Docs',
@@ -22,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={ibmPlexSans.className}>
         <LanguageProvider>
           <ApiLanguageProvider>
             <div className="flex min-h-screen bg-gray-50 dark:bg-gray-950">
