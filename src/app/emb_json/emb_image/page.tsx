@@ -189,7 +189,7 @@ export default function EmbImagePage() {
             </tr>
             <tr>
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><strong>vision_model</strong></td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">Which vision model to use for processing the image. Defaults to <code>None</code> if not provided. Supported vision models include <code>GPT_4O_MINI</code>, <code>GPT_4O</code>, <code>GPT_4O_TURBO</code>, and <code>GPT_O1</code>.</td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">Which vision model to use for processing the image. Defaults to <code>None</code> if not provided. Supported vision models include <code>GPT_4O_MINI</code>, <code>GPT_4O</code>, <code>GPT_4_TURBO</code>, and <code>O1</code>.</td>
             </tr>
             <tr>
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><strong>max_chunk_size</strong></td>

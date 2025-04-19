@@ -30,12 +30,12 @@ export default function RootLayout({
               <Sidebar />
               
               {/* Main content area */}
-              <div className="flex-1 ml-72">
+              <div className="flex-1 ml-56">
                 {/* Navbar - Also extracted and memoized */}
                 <Navbar />
                 
                 {/* Content */}
-                <div className="max-w-[1200px] mx-auto px-6 py-8">
+                <div className="max-w-[1400px] mx-auto px-6 pt-2 pb-8">
                   {children}
                 </div>
               </div>

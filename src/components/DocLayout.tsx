@@ -197,17 +197,17 @@ export default function DocLayout({ children }: DocLayoutProps) {
   const pathname = usePathname();
   
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-      {/* Main content - takes 3/4 of the space on large screens */}
-      <div className="lg:col-span-3">
-        <div className="nextra-content bg-white dark:bg-gray-900 p-8 rounded-xl shadow-md border border-gray-100 dark:border-gray-800">
+    <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+      {/* Main content - takes 4/5 of the space on large screens */}
+      <div className="lg:col-span-4">
+        <div className="nextra-content bg-white dark:bg-gray-900 px-6 py-5 pt-4 rounded-xl shadow-md border border-gray-100 dark:border-gray-800">
           <MDXProvider components={MDXComponents}>
             {children}
           </MDXProvider>
         </div>
       </div>
       
-      {/* TOC - takes 1/4 of the space on large screens */}
+      {/* TOC - takes 1/5 of the space on large screens */}
       <div className="lg:col-span-1">
         <TOC />
       </div>

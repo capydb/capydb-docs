@@ -154,17 +154,17 @@ const CustomTOC = () => {
       aria-label="Table of Contents"
       className="lg:sticky lg:top-20 w-full overflow-hidden"
     >
-      <div className="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-        <h4 className="text-sm font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wider mb-4 px-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+      <div className="bg-white dark:bg-gray-900 p-3 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <h4 className="text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wider mb-2 px-1.5 border-b border-gray-100 dark:border-gray-800 pb-1.5">
           On This Page
         </h4>
         {headings.length > 0 ? (
-          <ul className="space-y-1.5 max-h-[calc(100vh-12rem)] overflow-y-auto pr-1">
+          <ul className="space-y-0.5 max-h-[calc(100vh-12rem)] overflow-y-auto pr-1">
             {headings.map((heading) => (
               <li
                 key={heading.id}
                 style={{ 
-                  paddingLeft: `${Math.min((heading.level - 1) * 8, 24)}px`,
+                  paddingLeft: `${Math.min((heading.level - 1) * 6, 18)}px`,
                   transition: "all 0.2s ease"
                 }}
               >
@@ -172,7 +172,7 @@ const CustomTOC = () => {
                   href={`#${heading.id}`}
                   className={`
                     toc-link
-                    block py-1.5 px-2 text-sm
+                    block py-1 px-1.5 text-[11px]
                     rounded-md transition-all duration-200
                     ${
                       heading.id === activeId
@@ -188,7 +188,7 @@ const CustomTOC = () => {
             ))}
           </ul>
         ) : (
-          <p className="text-sm text-gray-700 dark:text-gray-300 px-2">
+          <p className="text-xs text-gray-700 dark:text-gray-300 px-1.5">
             No headings found on this page.
           </p>
         )}
