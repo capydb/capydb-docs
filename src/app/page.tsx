@@ -2,9 +2,7 @@ import DocLayout from '@/components/DocLayout';
 import LanguageToggle from '@/components/LanguageToggle';
 import LanguageContent from '@/components/LanguageContent';
 import Feedback from '@/components/Feedback';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-
+import CodeBlock from '@/components/CodeBlock';
 export default function HomePage() {
   return (
     <DocLayout>
@@ -21,15 +19,17 @@ export default function HomePage() {
         <h2>Step 1: Install SDK</h2>
         
         <LanguageContent language="python">
-          <SyntaxHighlighter language="bash" style={atomDark}>
-            {`pip install capydb`}
-          </SyntaxHighlighter>
+          <CodeBlock
+            code={`pip install capydb`}
+            language="bash"
+          />
         </LanguageContent>
         
         <LanguageContent language="typescript">
-          <SyntaxHighlighter language="bash" style={atomDark}>
-            {`npm install capydb`}
-          </SyntaxHighlighter>
+          <CodeBlock
+            code={`npm install capydb`}
+            language="bash"
+          />
         </LanguageContent>
         
         <h2>Step 2: Sign Up</h2>
@@ -62,10 +62,11 @@ export default function HomePage() {
         
         <p>For this quick start guide (non-production environment), directly assign your API key and project ID to variables:</p>
         
-        <SyntaxHighlighter language="bash" style={atomDark}>
-          {`CAPYDB_API_KEY = "your_api_key"
+        <CodeBlock
+          code={`CAPYDB_API_KEY = "your_api_key"
 CAPYDB_PROJECT_ID = "your_project_id"`}
-        </SyntaxHighlighter>
+          language="bash"
+        />
         
         <div className="bg-yellow-50 dark:bg-yellow-900 border-l-4 border-yellow-500 p-4 my-4">
           <p className="text-yellow-700 dark:text-yellow-300">
@@ -79,8 +80,8 @@ CAPYDB_PROJECT_ID = "your_project_id"`}
         <h2>Step 4: Initialize SDK client</h2>
         
         <LanguageContent language="python">
-          <SyntaxHighlighter language="python" style={atomDark}>
-            {`from capydb import CapyDB, EmbText
+          <CodeBlock
+            code={`from capydb import CapyDB, EmbText
 from dotenv import load_dotenv
 
 # Load environment variables from .env
@@ -89,12 +90,13 @@ load_dotenv()
 client = CapyDB()
 db = client.db("your_db_name")
 collection = db.collection("your_collection_name")`}
-          </SyntaxHighlighter>
+            language="python"
+          />
         </LanguageContent>
         
         <LanguageContent language="typescript">
-          <SyntaxHighlighter language="typescript" style={atomDark}>
-            {`import { CapyDB, EmbText } from "capydb";
+          <CodeBlock
+            code={`import { CapyDB, EmbText } from "capydb";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -102,7 +104,8 @@ dotenv.config();
 const client = new CapyDB();
 const db = client.db("your_db_name");
 const collection = db.collection("your_collection_name");`}
-          </SyntaxHighlighter>
+            language="typescript"
+          />
         </LanguageContent>
         
         <h2>Step 5: Save Documents (No Embedding Needed!)</h2>
@@ -110,8 +113,8 @@ const collection = db.collection("your_collection_name");`}
         <h3>Example: Insert a Document</h3>
         
         <LanguageContent language="python">
-          <SyntaxHighlighter language="python" style={atomDark}>
-            {`# Define the document to be inserted
+          <CodeBlock
+            code={`# Define the document to be inserted
 docs = [
     {
         "name": "Alice",
@@ -124,14 +127,15 @@ docs = [
 
 # Make the POST request to insert the document
 response = collection.insert(docs)`}
-          </SyntaxHighlighter>
+            language="python"
+          />
         </LanguageContent>
         
         <LanguageContent language="typescript">
           <p>Use TypeScript to insert a doc into the collection:</p>
           
-          <SyntaxHighlighter language="typescript" style={atomDark}>
-            {`async function main() {
+          <CodeBlock
+            code={`async function main() {
   // Define the document to be inserted
   const docs = [
     {
@@ -147,7 +151,8 @@ response = collection.insert(docs)`}
 }
 
 main();`}
-          </SyntaxHighlighter>
+            language="typescript"
+          />
         </LanguageContent>
         
         <div className="bg-blue-50 dark:bg-blue-900 border-l-4 border-blue-500 p-4 my-4">
@@ -168,20 +173,21 @@ main();`}
         <LanguageContent language="python">
           <p>Here's how to perform a query using Python:</p>
           
-          <SyntaxHighlighter language="python" style={atomDark}>
-            {`query = "Alice in a fantastical world"
+          <CodeBlock
+            code={`query = "Alice in a fantastical world"
 filter_dict = {"category": "fiction"} # Optional
 projection = {"mode": "include", "fields": ["title", "content"]} # Optional
 
 response = collection.query(query, filter_dict, projection)`}
-          </SyntaxHighlighter>
+            language="python"
+          />
         </LanguageContent>
         
         <LanguageContent language="typescript">
           <p>Here's how to perform a query using TypeScript:</p>
           
-          <SyntaxHighlighter language="typescript" style={atomDark}>
-            {`async function main() {
+          <CodeBlock
+            code={`async function main() {
   // Define the query
   const query = "Alice in a fantastical world";
   const filter = {category: "fiction"}; // Optional
@@ -192,15 +198,16 @@ response = collection.query(query, filter_dict, projection)`}
 }
 
 main();`}
-          </SyntaxHighlighter>
+            language="typescript"
+          />
         </LanguageContent>
         
         <h3>Example Response</h3>
         
         <p>Successful query response:</p>
         
-        <SyntaxHighlighter language="json" style={atomDark}>
-          {`{
+        <CodeBlock
+          code={`{
   "matches": [
     {
       "chunk": "Through the Looking-Glass follows Alice as she steps into a fantastical world...",
@@ -211,7 +218,8 @@ main();`}
     }
   ]
 }`}
-        </SyntaxHighlighter>
+          language="json"
+        />
         
         <h3>How can we improve this documentation?</h3>
         

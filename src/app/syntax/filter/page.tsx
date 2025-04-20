@@ -1,7 +1,6 @@
+import CodeBlock from '@/components/CodeBlock';
 import DocLayout from '@/components/DocLayout';
 import Feedback from '@/components/Feedback';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 export default function FilterPage() {
   return (
@@ -20,9 +19,10 @@ export default function FilterPage() {
         
         <p>Filter documents where a field equals a specific value.</p>
         
-        <SyntaxHighlighter language="json" style={atomDark}>
-          {`{ "field": "value" }`}
-        </SyntaxHighlighter>
+        <CodeBlock
+          code={`{ "field": "value" }`}
+          language="json"
+        />
         
         <hr className="my-6" />
         

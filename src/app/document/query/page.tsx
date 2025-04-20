@@ -3,10 +3,7 @@ import DocLayout from '@/components/DocLayout';
 import LanguageToggle from '@/components/LanguageToggle';
 import LanguageContent from '@/components/LanguageContent';
 import Feedback from '@/components/Feedback';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import Link from 'next/link';
-import CopyButton from '@/components/CopyButton';
+import CodeBlock from '@/components/CodeBlock';
 
 export default function QueryPage() {
   const basicPythonCode = `# Simple query example
@@ -158,41 +155,17 @@ response.forEach(match => {
         <h3>Basic Example</h3>
         
         <LanguageContent language="python">
-          <div className="relative">
-            <CopyButton code={basicPythonCode} />
-            <SyntaxHighlighter 
-              language="python" 
-              style={atomDark}
-              showLineNumbers={false}
-              customStyle={{
-                margin: 0,
-                borderRadius: '0.75rem',
-                background: '#1a1a1a',
-                padding: '2rem',
-              }}
-            >
-              {basicPythonCode}
-            </SyntaxHighlighter>
-          </div>
+          <CodeBlock
+            code={basicPythonCode}
+            language="python"
+          />
         </LanguageContent>
         
         <LanguageContent language="typescript">
-          <div className="relative">
-            <CopyButton code={basicTypescriptCode} />
-            <SyntaxHighlighter 
-              language="typescript" 
-              style={atomDark}
-              showLineNumbers={false}
-              customStyle={{
-                margin: 0,
-                borderRadius: '0.75rem',
-                background: '#1a1a1a',
-                padding: '2rem',
-              }}
-            >
-              {basicTypescriptCode}
-            </SyntaxHighlighter>
-          </div>
+          <CodeBlock
+            code={basicTypescriptCode}
+            language="typescript"
+            />
         </LanguageContent>
         
         <h3>Default Response</h3>
@@ -202,22 +175,10 @@ response.forEach(match => {
           By default, the response includes the matched text chunks, their location in the document, similarity scores, and basic document metadata:
         </p>
         
-        <div className="relative">
-          <CopyButton code={jsonResponse} />
-          <SyntaxHighlighter 
-            language="json" 
-            style={atomDark}
-            showLineNumbers={false}
-            customStyle={{
-              margin: 0,
-              borderRadius: '0.75rem',
-              background: '#1a1a1a',
-              padding: '2rem',
-            }}
-          >
-            {jsonResponse}
-          </SyntaxHighlighter>
-        </div>
+        <CodeBlock
+          code={jsonResponse}
+          language="json"
+        />
         
         <p>
           By default, the system will:
@@ -239,41 +200,17 @@ response.forEach(match => {
         <h3>Advanced Example with Optional Parameters</h3>
         
         <LanguageContent language="python">
-          <div className="relative">
-            <CopyButton code={advancedPythonCode} />
-            <SyntaxHighlighter 
-              language="python" 
-              style={atomDark}
-              showLineNumbers={false}
-              customStyle={{
-                margin: 0,
-                borderRadius: '0.75rem',
-                background: '#1a1a1a',
-                padding: '2rem',
-              }}
-            >
-              {advancedPythonCode}
-            </SyntaxHighlighter>
-          </div>
+          <CodeBlock
+            code={advancedPythonCode}
+            language="python"
+            />
         </LanguageContent>
         
         <LanguageContent language="typescript">
-          <div className="relative">
-            <CopyButton code={advancedTypescriptCode} />
-            <SyntaxHighlighter 
-              language="typescript" 
-              style={atomDark}
-              showLineNumbers={false}
-              customStyle={{
-                margin: 0,
-                borderRadius: '0.75rem',
-                background: '#1a1a1a',
-                padding: '2rem',
-              }}
-            >
-              {advancedTypescriptCode}
-            </SyntaxHighlighter>
-          </div>
+          <CodeBlock
+            code={advancedTypescriptCode}
+            language="typescript"
+            />
         </LanguageContent>
         
         <h3>Detailed Response with Additional Parameters</h3>
@@ -283,22 +220,10 @@ response.forEach(match => {
           the response array can include more detailed information:
         </p>
         
-        <div className="relative">
-          <CopyButton code={jsonDetailedResponse} />
-          <SyntaxHighlighter 
-            language="json" 
-            style={atomDark}
-            showLineNumbers={false}
-            customStyle={{
-              margin: 0,
-              borderRadius: '0.75rem',
-              background: '#1a1a1a',
-              padding: '2rem',
-            }}
-          >
-            {jsonDetailedResponse}
-          </SyntaxHighlighter>
-        </div>
+        <CodeBlock
+          code={jsonDetailedResponse}
+          language="json"
+        />
         
         <h2>Parameters for Query Operations</h2>
         
@@ -363,19 +288,10 @@ response.forEach(match => {
           When you need to quickly search for documents related to a concept:
         </p>
         <LanguageContent language="python">
-          <SyntaxHighlighter 
-            language="python" 
-            style={atomDark}
-            showLineNumbers={false}
-            customStyle={{
-              margin: 0,
-              borderRadius: '0.75rem',
-              background: '#1a1a1a',
-              padding: '1rem',
-            }}
-          >
-            {`results = collection.query("climate change impact")`}
-          </SyntaxHighlighter>
+          <CodeBlock
+            code={`results = collection.query("climate change impact")`}
+            language="python"
+            />
         </LanguageContent>
         
         <h3>2. Filtered Semantic Search</h3>
@@ -383,22 +299,13 @@ response.forEach(match => {
           When you need to search within a specific category or subset of documents:
         </p>
         <LanguageContent language="python">
-          <SyntaxHighlighter 
-            language="python" 
-            style={atomDark}
-            showLineNumbers={false}
-            customStyle={{
-              margin: 0,
-              borderRadius: '0.75rem',
-              background: '#1a1a1a',
-              padding: '1rem',
-            }}
-          >
-            {`results = collection.query(
+          <CodeBlock
+            code={`results = collection.query(
     "renewable energy solutions",
     filter={"category": "science", "published": True}
 )`}
-          </SyntaxHighlighter>
+            language="python"
+            />
         </LanguageContent>
         
         <h3>3. Limited Result Set</h3>
@@ -406,19 +313,10 @@ response.forEach(match => {
           When you only need the top few most relevant matches:
         </p>
         <LanguageContent language="python">
-          <SyntaxHighlighter 
-            language="python" 
-            style={atomDark}
-            showLineNumbers={false}
-            customStyle={{
-              margin: 0,
-              borderRadius: '0.75rem',
-              background: '#1a1a1a',
-              padding: '1rem',
-            }}
-          >
-            {`results = collection.query("machine learning techniques", top_k=3)`}
-          </SyntaxHighlighter>
+          <CodeBlock
+            code={`results = collection.query("machine learning techniques", top_k=3)`}
+            language="python"
+            />
         </LanguageContent>
         
         <h3>4. Specific Fields Retrieval</h3>
@@ -426,20 +324,11 @@ response.forEach(match => {
           When you need to include specific fields in the response:
         </p>
         <LanguageContent language="python">
-          <SyntaxHighlighter 
-            language="python" 
-            style={atomDark}
-            showLineNumbers={false}
-            customStyle={{
-              margin: 0,
-              borderRadius: '0.75rem',
-              background: '#1a1a1a',
-              padding: '1rem',
-            }}
-          >
-            {`projection = {"mode": "include", "fields": ["title", "abstract", "author"]}
+          <CodeBlock
+            code={`projection = {"mode": "include", "fields": ["title", "abstract", "author"]}
 results = collection.query("quantum computing", projection=projection)`}
-          </SyntaxHighlighter>
+            language="python"
+            />
         </LanguageContent>
         
         <Feedback />

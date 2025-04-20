@@ -3,10 +3,8 @@ import DocLayout from '@/components/DocLayout';
 import LanguageToggle from '@/components/LanguageToggle';
 import LanguageContent from '@/components/LanguageContent';
 import Feedback from '@/components/Feedback';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import Link from 'next/link';
-import CopyButton from '@/components/CopyButton';
+import CodeBlock from '@/components/CodeBlock';
 
 export default function UpdatePage() {
   const pythonCode = `# Filter to match the document(s) to update
@@ -82,41 +80,17 @@ const response = collection.update(filter, update, upsert);`;
         <p>Here's how you can update documents using Python, with various update operators and upsert option:</p>
         
         <LanguageContent language="python">
-          <div className="relative">
-            <CopyButton code={pythonCode} />
-            <SyntaxHighlighter 
-              language="python" 
-              style={atomDark}
-              showLineNumbers={false}
-              customStyle={{
-                margin: 0,
-                borderRadius: '0.75rem',
-                background: '#1a1a1a',
-                padding: '2rem',
-              }}
-            >
-              {pythonCode}
-            </SyntaxHighlighter>
-          </div>
+          <CodeBlock
+            code={pythonCode}
+            language="python"
+          />
         </LanguageContent>
         
         <LanguageContent language="typescript">
-          <div className="relative">
-            <CopyButton code={typescriptCode} />
-            <SyntaxHighlighter 
-              language="typescript" 
-              style={atomDark}
-              showLineNumbers={false}
-              customStyle={{
-                margin: 0,
-                borderRadius: '0.75rem',
-                background: '#1a1a1a',
-                padding: '2rem',
-              }}
-            >
-              {typescriptCode}
-            </SyntaxHighlighter>
-          </div>
+          <CodeBlock
+            code={typescriptCode}
+            language="typescript"
+          />
         </LanguageContent>
         
         <h3>Update Response</h3>
@@ -125,23 +99,11 @@ const response = collection.update(filter, update, upsert);`;
           A successful update operation will return a JSON response containing information about the operation's results. 
           Here's an example response:
         </p>
-        
-        <div className="relative">
-          <CopyButton code={jsonResponse} />
-          <SyntaxHighlighter 
-            language="json" 
-            style={atomDark}
-            showLineNumbers={false}
-            customStyle={{
-              margin: 0,
-              borderRadius: '0.75rem',
-              background: '#1a1a1a',
-              padding: '2rem',
-            }}
-          >
-            {jsonResponse}
-          </SyntaxHighlighter>
-        </div>
+
+        <CodeBlock
+          code={jsonResponse}
+          language="json"
+        />
         
         <h2>Parameters for Update Operations</h2>
         

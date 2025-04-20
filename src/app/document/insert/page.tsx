@@ -4,9 +4,7 @@ import DocLayout from '@/components/DocLayout';
 import LanguageToggle from '@/components/LanguageToggle';
 import LanguageContent from '@/components/LanguageContent';
 import Feedback from '@/components/Feedback';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import CopyButton from '@/components/CopyButton';
+import CodeBlock from '@/components/CodeBlock';
 
 export default function InsertPage() {
   const pythonCode = `from capydb import EmbText
@@ -64,22 +62,7 @@ response = collection.insert(docs);`;
             documents using the same endpoint. This example includes documents with Object IDs and <strong>EmbJSON</strong> fields:
           </p>
           
-          <div className="relative">
-            <CopyButton code={pythonCode} />
-            <SyntaxHighlighter 
-              language="python" 
-              style={atomDark}
-              showLineNumbers={false}
-              customStyle={{
-                margin: 0,
-                borderRadius: '0.75rem',
-                background: '#1a1a1a',
-                padding: '2rem',
-              }}
-            >
-              {pythonCode}
-            </SyntaxHighlighter>
-          </div>
+          <CodeBlock code={pythonCode} language="python" />
         </LanguageContent>
         
         <LanguageContent language="typescript">
@@ -89,44 +72,14 @@ response = collection.insert(docs);`;
             This example includes documents with Object IDs and <strong>EmbJSON</strong> fields:
           </p>
           
-          <div className="relative">
-            <CopyButton code={typescriptCode} />
-            <SyntaxHighlighter 
-              language="typescript" 
-              style={atomDark}
-              showLineNumbers={false}
-              customStyle={{
-                margin: 0,
-                borderRadius: '0.75rem',
-                background: '#1a1a1a',
-                padding: '2rem',
-              }}
-            >
-              {typescriptCode}
-            </SyntaxHighlighter>
-          </div>
+          <CodeBlock code={typescriptCode} language="typescript" />
         </LanguageContent>
         
         <h3>Insert Response</h3>
         
         <p>A successful insert operation will return the following JSON response:</p>
         
-        <div className="relative">
-          <CopyButton code={jsonResponse} />
-          <SyntaxHighlighter 
-            language="json" 
-            style={atomDark}
-            showLineNumbers={false}
-            customStyle={{
-              margin: 0,
-              borderRadius: '0.75rem',
-              background: '#1a1a1a',
-              padding: '2rem',
-            }}
-          >
-            {jsonResponse}
-          </SyntaxHighlighter>
-        </div>
+        <CodeBlock code={jsonResponse} language="json" />
         
         <p>
           The <code>inserted_ids</code> field contains the IDs of the successfully inserted documents. 

@@ -1,11 +1,97 @@
+'use client';
 import DocLayout from '@/components/DocLayout';
 import Feedback from '@/components/Feedback';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import { vs } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import CopyButton from '@/components/CopyButton';
+import LanguageToggle from '@/components/LanguageToggle';
+import LanguageContent from '@/components/LanguageContent';
+import CodeBlock from '@/components/CodeBlock';
 
 export default function EmbImagePage() {
+  const basicPythonCode = `from capydb import EmbImage
+
+# Storing a single image field to embed.
+{
+  "field_name": EmbImage("https://example.com/image.jpg", mime_type="image/jpeg")
+}`;
+
+  const basicTypescriptCode = `import { EmbImage } from "capydb";
+
+// Storing a single image field to embed.
+{
+  field_name: new EmbImage("https://example.com/image.jpg", { mimeType: "image/jpeg" })
+}`;
+
+  const customizedPythonCode = `from capydb import EmbImage, EmbModels, VisionModels
+
+{
+    "field_name": EmbImage(
+        url="https://example.com/image.jpg",  # URL to the image
+        mime_type="image/jpeg",                # Required: specify the image format
+        emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,  # Optionally specify an embedding model
+        vision_model=VisionModels.GPT_4O,             # Optionally specify a vision model
+        max_chunk_size=200,                           # Configure chunk sizes
+        chunk_overlap=20,                             # Overlap between chunks
+        is_separator_regex=False,                     # Are separators plain strings or regex?
+        separators=[
+            "\\n\\n",
+            "\\n",
+        ],
+        keep_separator=False                          # Keep or remove the separator in chunks
+    )
+}`;
+
+  const customizedTypescriptCode = `import { EmbImage, EmbModels, VisionModels } from "capydb";
+
+{
+    field_name: new EmbImage(
+        "https://example.com/image.jpg",  // URL to the image
+        {
+            mimeType: "image/jpeg",                // Required: specify the image format
+            embModel: EmbModels.TEXT_EMBEDDING_3_LARGE,  // Optionally specify an embedding model
+            visionModel: VisionModels.GPT_4O,             // Optionally specify a vision model
+            maxChunkSize: 200,                           // Configure chunk sizes
+            chunkOverlap: 20,                             // Overlap between chunks
+            isSeparatorRegex: false,                     // Are separators plain strings or regex?
+            separators: [
+                "\\n\\n",
+                "\\n",
+            ],
+            keepSeparator: false                          // Keep or remove the separator in chunks
+        }
+    )
+}`;
+
+  const afterSavingPythonCode = `{
+    "field_name": EmbImage(
+        url="https://example.com/image.jpg",
+        mime_type="image/jpeg",
+        chunks=["chunk1", "chunk2", "chunk3"],
+        emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,
+        vision_model=VisionModels.GPT_4O,
+        max_chunk_size=200,
+        chunk_overlap=20,
+        is_separator_regex=False,
+        separators=["\\n\\n", "\\n"],
+        keep_separator=False
+    )
+}`;
+
+  const afterSavingTypescriptCode = `{
+    field_name: new EmbImage(
+        "https://example.com/image.jpg",
+        {
+            mimeType: "image/jpeg",
+            chunks: ["chunk1", "chunk2", "chunk3"],
+            embModel: EmbModels.TEXT_EMBEDDING_3_LARGE,
+            visionModel: VisionModels.GPT_4O,
+            maxChunkSize: 200,
+            chunkOverlap: 20,
+            isSeparatorRegex: false,
+            separators: ["\\n\\n", "\\n"],
+            keepSeparator: false
+        }
+    )
+}`;
+
   return (
     <DocLayout>
       <div className="prose dark:prose-invert max-w-none">
@@ -30,31 +116,23 @@ export default function EmbImagePage() {
         
         <h2>Basic Usage</h2>
         
+        <LanguageToggle />
+        
         <p>Below is the simplest way to use <code>EmbImage</code>:</p>
         
-        <div className="relative">
-          <CopyButton code={`from capydb import EmbImage
-
-# Storing a single image field to embed.
-{
-  "field_name": EmbImage("https://example.com/image.jpg", mime_type="image/jpeg")
-}`} />
-          <SyntaxHighlighter 
-            language="python" 
-            style={atomDark}
-            customStyle={{
-              borderRadius: '0.75rem',
-              padding: '2rem'
-            }}
-          >
-            {`from capydb import EmbImage
-
-# Storing a single image field to embed.
-{
-  "field_name": EmbImage("https://example.com/image.jpg", mime_type="image/jpeg")
-}`}
-          </SyntaxHighlighter>
-        </div>
+        <LanguageContent language="python">
+          <CodeBlock
+            code={basicPythonCode}
+            language="python"
+          />
+        </LanguageContent>
+        
+        <LanguageContent language="typescript">
+          <CodeBlock
+            code={basicTypescriptCode}
+            language="typescript"
+          />
+        </LanguageContent>
         
         <p>
           This snippet creates an <code>EmbImage</code> object containing your image URL. 
@@ -71,53 +149,19 @@ export default function EmbImagePage() {
           customize <code>EmbImage</code> by specifying additional parameters:
         </p>
         
-        <div className="relative">
-          <CopyButton code={`from capydb import EmbImage, EmbModels, VisionModels
-
-{
-    "field_name": EmbImage(
-        url="https://example.com/image.jpg",  # URL to the image
-        mime_type="image/jpeg",                # Required: specify the image format
-        emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,  # Optionally specify an embedding model
-        vision_model=VisionModels.GPT_4O,             # Optionally specify a vision model
-        max_chunk_size=200,                           # Configure chunk sizes
-        chunk_overlap=20,                             # Overlap between chunks
-        is_separator_regex=False,                     # Are separators plain strings or regex?
-        separators=[
-            "\\n\\n",
-            "\\n",
-        ],
-        keep_separator=False                          # Keep or remove the separator in chunks
-    )
-}`} />
-          <SyntaxHighlighter 
-            language="python" 
-            style={atomDark}
-            customStyle={{
-              borderRadius: '0.75rem',
-              padding: '2rem'
-            }}
-          >
-            {`from capydb import EmbImage, EmbModels, VisionModels
-
-{
-    "field_name": EmbImage(
-        url="https://example.com/image.jpg",  # URL to the image
-        mime_type="image/jpeg",                # Required: specify the image format
-        emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,  # Optionally specify an embedding model
-        vision_model=VisionModels.GPT_4O,             # Optionally specify a vision model
-        max_chunk_size=200,                           # Configure chunk sizes
-        chunk_overlap=20,                             # Overlap between chunks
-        is_separator_regex=False,                     # Are separators plain strings or regex?
-        separators=[
-            "\\n\\n",
-            "\\n",
-        ],
-        keep_separator=False                          # Keep or remove the separator in chunks
-    )
-}`}
-          </SyntaxHighlighter>
-        </div>
+        <LanguageContent language="python">
+          <CodeBlock
+            code={customizedPythonCode}
+            language="python"
+          />
+        </LanguageContent>
+        
+        <LanguageContent language="typescript">
+          <CodeBlock
+            code={customizedTypescriptCode}
+            language="typescript"
+          />
+        </LanguageContent>
         
         <h2>After Saving</h2>
         
@@ -126,45 +170,19 @@ export default function EmbImagePage() {
           to each <code>EmbImage</code> for easy access to the internal representations.
         </p>
         
-        <div className="relative">
-          <CopyButton code={`{
-    "field_name": EmbImage(
-        url="https://example.com/image.jpg",
-        mime_type="image/jpeg",
-        chunks=["chunk1", "chunk2", "chunk3"],
-        emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,
-        vision_model=VisionModels.GPT_4O,
-        max_chunk_size=200,
-        chunk_overlap=20,
-        is_separator_regex=False,
-        separators=["\\n\\n", "\\n"],
-        keep_separator=False
-    )
-}`} />
-          <SyntaxHighlighter 
-            language="python" 
-            style={atomDark}
-            customStyle={{
-              borderRadius: '0.75rem',
-              padding: '2rem'
-            }}
-          >
-            {`{
-    "field_name": EmbImage(
-        url="https://example.com/image.jpg",
-        mime_type="image/jpeg",
-        chunks=["chunk1", "chunk2", "chunk3"],
-        emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,
-        vision_model=VisionModels.GPT_4O,
-        max_chunk_size=200,
-        chunk_overlap=20,
-        is_separator_regex=False,
-        separators=["\\n\\n", "\\n"],
-        keep_separator=False
-    )
-}`}
-          </SyntaxHighlighter>
-        </div>
+        <LanguageContent language="python">
+          <CodeBlock
+            code={afterSavingPythonCode}
+            language="python"
+          />
+        </LanguageContent>
+        
+        <LanguageContent language="typescript">
+          <CodeBlock
+            code={afterSavingTypescriptCode}
+            language="typescript"
+          />
+        </LanguageContent>
         
         <h3>Parameter Reference</h3>
         

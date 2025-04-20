@@ -1,12 +1,36 @@
+'use client';
 import DocLayout from '@/components/DocLayout';
 import Feedback from '@/components/Feedback';
 import Link from 'next/link';
+import CodeBlock from '@/components/CodeBlock';
+import LanguageToggle from '@/components/LanguageToggle';
+import LanguageContent from '@/components/LanguageContent';
 
 export default function EmbeddingModelsPage() {
+  const pythonExample = `from capydb import EmbText, EmbModels
+
+{
+    "description": EmbText(
+        "This is a sample text that will be embedded.",
+        emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE
+    )
+}`;
+
+  const typescriptExample = `import { EmbText, EmbModels } from "capydb";
+
+{
+    description: new EmbText(
+        "This is a sample text that will be embedded.",
+        { embModel: EmbModels.TEXT_EMBEDDING_3_LARGE }
+    )
+}`;
+
   return (
     <DocLayout>
       <div className="prose dark:prose-invert max-w-none">
         <h1>Embedding Models</h1>
+        
+        <LanguageToggle />
         
         <p>
           Embedding models transform text into vector representations, enabling semantic search capabilities 
@@ -58,20 +82,32 @@ export default function EmbeddingModelsPage() {
           To specify an embedding model when working with <code>EmbText</code>, use the <code>emb_model</code> parameter:
         </p>
         
-        <pre className="bg-gray-800 text-gray-100 rounded-lg p-4 overflow-x-auto">
-{`from capydb import EmbText, EmbModels
-
-{
-    "description": EmbText(
-        "This is a sample text that will be embedded.",
-        emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE
-    )
-}`}
-        </pre>
+        <LanguageContent language="python">
+          <CodeBlock
+            code={pythonExample}
+            language="python"
+          />
+        </LanguageContent>
         
-        <p>
-          In the example above, we're using the <code>TEXT_EMBEDDING_3_LARGE</code> model from OpenAI to embed the text.
-        </p>
+        <LanguageContent language="typescript">
+          <CodeBlock
+            code={typescriptExample}
+            language="typescript"
+          />
+        </LanguageContent>
+        
+        <LanguageContent language="python">
+          <p>
+            In the example above, we're using the <code>TEXT_EMBEDDING_3_LARGE</code> model from OpenAI to embed the text.
+          </p>
+        </LanguageContent>
+        
+        <LanguageContent language="typescript">
+          <p>
+            In the example above, we're using the <code>TEXT_EMBEDDING_3_LARGE</code> model from OpenAI to embed the text.
+            Note that in TypeScript, we use camelCase for parameter names.
+          </p>
+        </LanguageContent>
         
         <div className="bg-blue-50 dark:bg-blue-900 border-l-4 border-blue-500 p-4 my-4">
           <p className="text-blue-700 dark:text-blue-300">

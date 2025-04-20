@@ -1,12 +1,60 @@
+'use client';
 import DocLayout from '@/components/DocLayout';
 import Feedback from '@/components/Feedback';
 import Link from 'next/link';
+import CodeBlock from '@/components/CodeBlock';
+import LanguageToggle from '@/components/LanguageToggle';
+import LanguageContent from '@/components/LanguageContent';
 
 export default function VisionModelsPage() {
+  const pythonBasicExample = `from capydb import EmbImage, VisionModels
+
+{
+    "product_image": EmbImage(
+        url="https://example.com/product.jpg",
+        mime_type="image/jpeg",
+        vision_model=VisionModels.GPT_4O
+    )
+}`;
+
+  const typescriptBasicExample = `import { EmbImage, VisionModels } from "capydb";
+
+{
+    product_image: new EmbImage({
+        url: "https://example.com/product.jpg",
+        mimeType: "image/jpeg",
+        visionModel: VisionModels.GPT_4O
+    })
+}`;
+
+  const pythonCombinedExample = `from capydb import EmbImage, EmbModels, VisionModels
+
+{
+    "product_image": EmbImage(
+        url="https://example.com/product.jpg",
+        mime_type="image/jpeg",
+        vision_model=VisionModels.GPT_4O,
+        emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE
+    )
+}`;
+
+  const typescriptCombinedExample = `import { EmbImage, EmbModels, VisionModels } from "capydb";
+
+{
+    product_image: new EmbImage({
+        url: "https://example.com/product.jpg",
+        mimeType: "image/jpeg",
+        visionModel: VisionModels.GPT_4O,
+        embModel: EmbModels.TEXT_EMBEDDING_3_LARGE
+    })
+}`;
+
   return (
     <DocLayout>
       <div className="prose dark:prose-invert max-w-none">
         <h1>Vision Models</h1>
+        
+        <LanguageToggle />
         
         <p>
           Vision models enable CapyDB to process and understand image content, creating semantic 
@@ -59,21 +107,32 @@ export default function VisionModelsPage() {
           To specify a vision model when working with <code>EmbImage</code>, use the <code>vision_model</code> parameter:
         </p>
         
-        <pre className="bg-gray-800 text-gray-100 rounded-lg p-4 overflow-x-auto">
-{`from capydb import EmbImage, VisionModels
-
-{
-    "product_image": EmbImage(
-        url="https://example.com/product.jpg",
-        mime_type="image/jpeg",
-        vision_model=VisionModels.GPT_4O
-    )
-}`}
-        </pre>
+        <LanguageContent language="python">
+          <CodeBlock
+            code={pythonBasicExample}
+            language="python"
+          />
+        </LanguageContent>
         
-        <p>
-          In the example above, we're using the <code>GPT_4O</code> model from OpenAI to process and understand the image content.
-        </p>
+        <LanguageContent language="typescript">
+          <CodeBlock
+            code={typescriptBasicExample}
+            language="typescript"
+          />
+        </LanguageContent>
+        
+        <LanguageContent language="python">
+          <p>
+            In the example above, we're using the <code>GPT_4O</code> model from OpenAI to process and understand the image content.
+          </p>
+        </LanguageContent>
+        
+        <LanguageContent language="typescript">
+          <p>
+            In the example above, we're using the <code>GPT_4O</code> model from OpenAI to process and understand the image content.
+            Note that in TypeScript, we use camelCase for parameter names and pass parameters as an object.
+          </p>
+        </LanguageContent>
         
         <h2>Combined Usage with Embedding Models</h2>
         
@@ -81,18 +140,19 @@ export default function VisionModelsPage() {
           You can use both vision models and embedding models together with <code>EmbImage</code> to get the benefits of both:
         </p>
         
-        <pre className="bg-gray-800 text-gray-100 rounded-lg p-4 overflow-x-auto">
-{`from capydb import EmbImage, EmbModels, VisionModels
-
-{
-    "product_image": EmbImage(
-        url="https://example.com/product.jpg",
-        mime_type="image/jpeg",
-        vision_model=VisionModels.GPT_4O,
-        emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE
-    )
-}`}
-        </pre>
+        <LanguageContent language="python">
+          <CodeBlock
+            code={pythonCombinedExample}
+            language="python"
+          />
+        </LanguageContent>
+        
+        <LanguageContent language="typescript">
+          <CodeBlock
+            code={typescriptCombinedExample}
+            language="typescript"
+          />
+        </LanguageContent>
         
         <p>
           This combination allows CapyDB to extract both visual features (via the vision model) and encode textual descriptions 

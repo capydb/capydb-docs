@@ -1,7 +1,6 @@
+import CodeBlock from '@/components/CodeBlock';
 import DocLayout from '@/components/DocLayout';
 import Feedback from '@/components/Feedback';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 export default function UpdatePage() {
   return (
@@ -188,11 +187,12 @@ export default function UpdatePage() {
         
         <p><strong>Array Filter Example</strong>: Use with <code>$[&lt;identifier&gt;]</code> to target specific elements:</p>
         
-        <SyntaxHighlighter language="json" style={atomDark}>
-          {`{
+        <CodeBlock
+          code={`{
   "arrayFilters": [{ "passing": { "$gte": 50 } }]
 }`}
-        </SyntaxHighlighter>
+          language="json"
+        />
         
         <hr className="my-6" />
         
@@ -200,13 +200,14 @@ export default function UpdatePage() {
         
         <p>Replace an entire document with a new one, retaining the <code>_id</code> field.</p>
         
-        <SyntaxHighlighter language="json" style={atomDark}>
-          {`{
+        <CodeBlock
+          code={`{
   "name": "Alice",
   "age": 30,
   "status": "active"
 }`}
-        </SyntaxHighlighter>
+          language="json"
+        />
         
         <hr className="my-6" />
         
@@ -214,13 +215,14 @@ export default function UpdatePage() {
         
         <p>Use multiple update operators in a single operation for complex modifications.</p>
         
-        <SyntaxHighlighter language="json" style={atomDark}>
-          {`{
+        <CodeBlock
+          code={`{
   "$set": { "status": "active" },
   "$inc": { "score": 10 },
   "$unset": { "oldField": "" }
 }`}
-        </SyntaxHighlighter>
+          language="json"
+        />
         
         <hr className="my-6" />
         

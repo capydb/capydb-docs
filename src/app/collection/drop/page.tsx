@@ -3,9 +3,7 @@ import DocLayout from '@/components/DocLayout';
 import LanguageToggle from '@/components/LanguageToggle';
 import LanguageContent from '@/components/LanguageContent';
 import Feedback from '@/components/Feedback';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import CopyButton from '@/components/CopyButton';
+import CodeBlock from '@/components/CodeBlock';
 
 export default function DropPage() {
   const pythonCode = `from capydb import CapyDB
@@ -54,22 +52,7 @@ await collection.drop();`;
         <p>Here's how you can drop a collection using Python:</p>
         
         <LanguageContent language="python">
-          <div className="relative">
-            <CopyButton code={pythonCode} />
-            <SyntaxHighlighter 
-              language="python" 
-              style={atomDark}
-              showLineNumbers={false}
-              customStyle={{
-                margin: 0,
-                borderRadius: '0.75rem',
-                background: '#1a1a1a',
-                padding: '2rem',
-              }}
-            >
-              {pythonCode}
-            </SyntaxHighlighter>
-          </div>
+          <CodeBlock code={pythonCode} language="python" />
         </LanguageContent>
         
         <h3>Example TypeScript Code for <code>drop</code></h3>
@@ -77,22 +60,7 @@ await collection.drop();`;
         <p>Here's how you can drop a collection using TypeScript:</p>
         
         <LanguageContent language="typescript">
-          <div className="relative">
-            <CopyButton code={typescriptCode} />
-            <SyntaxHighlighter 
-              language="typescript" 
-              style={atomDark}
-              showLineNumbers={false}
-              customStyle={{
-                margin: 0,
-                borderRadius: '0.75rem',
-                background: '#1a1a1a',
-                padding: '2rem',
-              }}
-            >
-              {typescriptCode}
-            </SyntaxHighlighter>
-          </div>
+          <CodeBlock code={typescriptCode} language="typescript" />
         </LanguageContent>
         
         <h3>Response</h3>

@@ -1,14 +1,143 @@
+'use client';
 import DocLayout from '@/components/DocLayout';
 import Feedback from '@/components/Feedback';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import CopyButton from '@/components/CopyButton';
+import CodeBlock from '@/components/CodeBlock';
+import LanguageToggle from '@/components/LanguageToggle';
+import LanguageContent from '@/components/LanguageContent';
 
 export default function EmbTextPage() {
+  const basicPythonCode = `from capydb import EmbText
+
+# Storing a single text field that you want to embed.
+{
+  "field_name": EmbText("Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing.")
+}`;
+
+  const basicTypescriptCode = `import { EmbText } from "capydb";
+
+// Storing a single text field that you want to embed.
+{
+  field_name: new EmbText("Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing.")
+}`;
+
+  const customizedPythonCode = `from capydb import EmbText, EmbModels
+
+{
+    "field_name": EmbText(
+        text="Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing.",
+        emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,  # Change the default model
+        max_chunk_size=200,                          # Configure chunk sizes
+        chunk_overlap=20,                            # Overlap between chunks
+        is_separator_regex=False,                    # Are separators plain strings or regex?
+        separators=[
+            "\\n\\n",
+            "\\n",
+        ],
+        keep_separator=False,                        # Keep or remove the separator in chunks
+    )
+}`;
+
+  const customizedTypescriptCode = `import { EmbText, EmbModels } from "capydb";
+
+{
+    field_name: new EmbText({
+        text: "Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing.",
+        emb_model: EmbModels.TEXT_EMBEDDING_3_LARGE,  // Change the default model
+        max_chunk_size: 200,                          // Configure chunk sizes
+        chunk_overlap: 20,                            // Overlap between chunks
+        is_separator_regex: false,                    // Are separators plain strings or regex?
+        separators: [
+            "\\n\\n",
+            "\\n",
+        ],
+        keep_separator: false,                        // Keep or remove the separator in chunks
+    })
+}`;
+
+  const afterSavingCode = `{
+    "field_name": EmbText(
+        text="Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing.",
+        chunks=["Alice is a data scientist", "with expertise in AI", "and machine learning.", "She has led several projects", "in natural language processing."],
+        emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,  # Change the default model
+        max_chunk_size=200,                          # Configure chunk sizes
+        chunk_overlap=20,                            # Overlap between chunks
+        is_separator_regex=False,                    # Are separators plain strings or regex?
+        separators=[
+            "\\n\\n",
+            "\\n",
+        ],
+        keep_separator=False,                        # Keep or remove the separator in chunks
+    )
+}`;
+
+  const afterSavingTypescriptCode = `{
+    field_name: new EmbText({
+        text: "Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing.",
+        chunks: ["Alice is a data scientist", "with expertise in AI", "and machine learning.", "She has led several projects", "in natural language processing."],
+        emb_model: EmbModels.TEXT_EMBEDDING_3_LARGE,  // Change the default model
+        max_chunk_size: 200,                          // Configure chunk sizes
+        chunk_overlap: 20,                            // Overlap between chunks
+        is_separator_regex: false,                    // Are separators plain strings or regex?
+        separators: [
+            "\\n\\n",
+            "\\n",
+        ],
+        keep_separator: false,                        // Keep or remove the separator in chunks
+    })
+}`;
+
+  const accessingChunksPythonCode = `emb_text: EmbText  # Assume this EmbText has been inserted and processed
+
+print(emb_text.text)
+# "Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing."
+
+print(emb_text.chunks)
+# [
+#   "Alice is a data scientist",
+#   "with expertise in AI",
+#   "and machine learning.",
+#   "She has led several projects",
+#   "in natural language processing."
+# ]`;
+
+  const accessingChunksTypescriptCode = `const embText: EmbText;  // Assume this EmbText has been inserted and processed
+
+console.log(embText.text);
+// "Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing."
+
+console.log(embText.chunks);
+// [
+//   "Alice is a data scientist",
+//   "with expertise in AI",
+//   "and machine learning.",
+//   "She has led several projects",
+//   "in natural language processing."
+// ]`;
+
+  const nestedFieldsPythonCode = `{
+  "profile": {
+    "name": "Bob",
+    "bio": EmbText(
+      "Bob has over a decade of experience in AI, focusing on neural networks and deep learning."
+    )
+  }
+}`;
+
+  const nestedFieldsTypescriptCode = `{
+  profile: {
+    name: "Bob",
+    bio: new EmbText(
+      "Bob has over a decade of experience in AI, focusing on neural networks and deep learning."
+    )
+  }
+}`;
+
   return (
     <DocLayout>
       <div className="prose dark:prose-invert max-w-none">
         <h1>EmbText</h1>
+        
+        <LanguageToggle />
         
         <h2>Overview</h2>
         
@@ -30,32 +159,22 @@ export default function EmbTextPage() {
         
         <p>Below is the simplest way to use <code>EmbText</code>:</p>
         
-        <div className="relative">
-          <CopyButton code={`from capydb import EmbText
-
-# Storing a single text field that you want to embed.
-{
-  "field_name": EmbText("Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing.")
-}`} />
-          <SyntaxHighlighter 
-            language="python" 
-            style={atomDark} 
-            customStyle={{
-              borderRadius: '0.75rem',
-              padding: '2rem'
-            }}
-          >
-            {`from capydb import EmbText
-
-# Storing a single text field that you want to embed.
-{
-  "field_name": EmbText("Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing.")
-}`}
-          </SyntaxHighlighter>
-        </div>
+        <LanguageContent language="python">
+          <CodeBlock
+            code={basicPythonCode}
+            language="python"
+          />
+        </LanguageContent>
+        
+        <LanguageContent language="typescript">
+          <CodeBlock
+            code={basicTypescriptCode}
+            language="typescript"
+          />
+        </LanguageContent>
         
         <p>
-          This snippet creates an <code>EmbText</code> object containing <code>"text_to_embed"</code>. 
+          This snippet creates an <code>EmbText</code> object containing text to embed. 
           By default, it uses the <code>text-embedding-3-small</code> model and sensible defaults for chunking and overlap.
         </p>
         
@@ -68,49 +187,19 @@ export default function EmbTextPage() {
           customize <code>EmbText</code> by specifying additional parameters:
         </p>
         
-        <div className="relative">
-          <CopyButton code={`from capydb import EmbText, EmbModels
-
-{
-    "field_name": EmbText(
-        text="Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing.",
-        emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,  # Change the default model
-        max_chunk_size=200,                          # Configure chunk sizes
-        chunk_overlap=20,                            # Overlap between chunks
-        is_separator_regex=False,                    # Are separators plain strings or regex?
-        separators=[
-            "\\n\\n",
-            "\\n",
-        ],
-        keep_separator=False,                        # Keep or remove the separator in chunks
-    )
-}`} />
-          <SyntaxHighlighter 
-            language="python" 
-            style={atomDark}
-            customStyle={{
-              borderRadius: '0.75rem',
-              padding: '2rem'
-            }}
-          >
-            {`from capydb import EmbText, EmbModels
-
-{
-    "field_name": EmbText(
-        text="Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing.",
-        emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,  # Change the default model
-        max_chunk_size=200,                          # Configure chunk sizes
-        chunk_overlap=20,                            # Overlap between chunks
-        is_separator_regex=False,                    # Are separators plain strings or regex?
-        separators=[
-            "\\n\\n",
-            "\\n",
-        ],
-        keep_separator=False,                        # Keep or remove the separator in chunks
-    )
-}`}
-          </SyntaxHighlighter>
-        </div>
+        <LanguageContent language="python">
+          <CodeBlock
+            code={customizedPythonCode}
+            language="python"
+          />
+        </LanguageContent>
+        
+        <LanguageContent language="typescript">
+          <CodeBlock
+            code={customizedTypescriptCode}
+            language="typescript"
+          />
+        </LanguageContent>
         
         <h2>After Saving</h2>
         
@@ -119,47 +208,19 @@ export default function EmbTextPage() {
           their relationships with vector data. It also automatically adds a 'chunks' field to each EmbText for seamless access.
         </p>
         
-        <div className="relative">
-          <CopyButton code={`{
-    "field_name": EmbText(
-        text="Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing.",
-        chunks=["Alice is a data scientist", "with expertise in AI", "and machine learning.", "She has led several projects", "in natural language processing."],
-        emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,  # Change the default model
-        max_chunk_size=200,                          # Configure chunk sizes
-        chunk_overlap=20,                            # Overlap between chunks
-        is_separator_regex=False,                    # Are separators plain strings or regex?
-        separators=[
-            "\\n\\n",
-            "\\n",
-        ],
-        keep_separator=False,                        # Keep or remove the separator in chunks
-    )
-}`} />
-          <SyntaxHighlighter 
-            language="python" 
-            style={atomDark}
-            customStyle={{
-              borderRadius: '0.75rem',
-              padding: '2rem'
-            }}
-          >
-            {`{
-    "field_name": EmbText(
-        text="Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing.",
-        chunks=["Alice is a data scientist", "with expertise in AI", "and machine learning.", "She has led several projects", "in natural language processing."],
-        emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,  # Change the default model
-        max_chunk_size=200,                          # Configure chunk sizes
-        chunk_overlap=20,                            # Overlap between chunks
-        is_separator_regex=False,                    # Are separators plain strings or regex?
-        separators=[
-            "\\n\\n",
-            "\\n",
-        ],
-        keep_separator=False,                        # Keep or remove the separator in chunks
-    )
-}`}
-          </SyntaxHighlighter>
-        </div>
+        <LanguageContent language="python">
+          <CodeBlock
+            code={afterSavingCode}
+            language="python"
+          />
+        </LanguageContent>
+        
+        <LanguageContent language="typescript">
+          <CodeBlock
+            code={afterSavingTypescriptCode}
+            language="typescript"
+          />
+        </LanguageContent>
         
         <h3>Parameter Reference</h3>
         
@@ -246,75 +307,37 @@ export default function EmbTextPage() {
           The <code>chunks</code> attribute is <strong>auto-added</strong> by the database after the text finishes embedding and indexing. For instance:
         </p>
         
-        <div className="relative">
-          <CopyButton code={`emb_text: EmbText  # Assume this EmbText has been inserted and processed
-
-print(emb_text.text)
-# "Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing."
-
-print(emb_text.chunks)
-# [
-#   "Alice is a data scientist",
-#   "with expertise in AI",
-#   "and machine learning.",
-#   "She has led several projects",
-#   "in natural language processing."
-# ]`} />
-          <SyntaxHighlighter 
-            language="python" 
-            style={atomDark}
-            customStyle={{
-              borderRadius: '0.75rem',
-              padding: '2rem'
-            }}
-          >
-            {`emb_text: EmbText  # Assume this EmbText has been inserted and processed
-
-print(emb_text.text)
-# "Alice is a data scientist with expertise in AI and machine learning. She has led several projects in natural language processing."
-
-print(emb_text.chunks)
-# [
-#   "Alice is a data scientist",
-#   "with expertise in AI",
-#   "and machine learning.",
-#   "She has led several projects",
-#   "in natural language processing."
-# ]`}
-          </SyntaxHighlighter>
-        </div>
+        <LanguageContent language="python">
+          <CodeBlock
+            code={accessingChunksPythonCode}
+            language="python"
+          />
+        </LanguageContent>
+        
+        <LanguageContent language="typescript">
+          <CodeBlock
+            code={accessingChunksTypescriptCode}
+            language="typescript"
+          />
+        </LanguageContent>
         
         <h3>Usage in Nested Fields</h3>
         
         <p><code>EmbText</code> can be embedded anywhere in your document, including nested objects:</p>
         
-        <div className="relative">
-          <CopyButton code={`{
-  "profile": {
-    "name": "Bob",
-    "bio": EmbText(
-      "Bob has over a decade of experience in AI, focusing on neural networks and deep learning."
-    )
-  }
-}`} />
-          <SyntaxHighlighter 
-            language="python" 
-            style={atomDark}
-            customStyle={{
-              borderRadius: '0.75rem',
-              padding: '2rem'
-            }}
-          >
-            {`{
-  "profile": {
-    "name": "Bob",
-    "bio": EmbText(
-      "Bob has over a decade of experience in AI, focusing on neural networks and deep learning."
-    )
-  }
-}`}
-          </SyntaxHighlighter>
-        </div>
+        <LanguageContent language="python">
+          <CodeBlock
+            code={nestedFieldsPythonCode}
+            language="python"
+          />
+        </LanguageContent>
+        
+        <LanguageContent language="typescript">
+          <CodeBlock
+            code={nestedFieldsTypescriptCode}
+            language="typescript"
+          />
+        </LanguageContent>
         
         <h3>How can we improve this documentation?</h3>
         
