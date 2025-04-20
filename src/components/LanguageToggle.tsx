@@ -13,7 +13,7 @@ export default function LanguageToggle() {
     <div
       role="tablist"
       aria-orientation="horizontal"
-      className="inline-flex h-10 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800 p-1 text-gray-700 dark:text-gray-300 shadow-sm border border-gray-200 dark:border-gray-700"
+      className="inline-flex h-10 items-center justify-center rounded-lg bg-app-tertiary p-1 text-app-secondary shadow-sm border border-app-primary"
     >
       <button
         type="button"
@@ -23,8 +23,8 @@ export default function LanguageToggle() {
         className={`inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 py-1.5 text-sm font-medium transition-all duration-200
           ${
             language === "python"
-              ? "bg-white dark:bg-gray-900 shadow-sm"
-              : "hover:bg-gray-200 dark:hover:bg-gray-700"
+              ? "bg-app-primary shadow-sm"
+              : "hover:bg-app-secondary"
           } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2`}
       >
         <div className="w-4 h-4 mr-1.5 flex items-center justify-center overflow-visible">
@@ -46,8 +46,8 @@ export default function LanguageToggle() {
         className={`inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 py-1.5 text-sm font-medium transition-all duration-200
           ${
             language === "typescript"
-              ? "bg-white dark:bg-gray-900 shadow-sm"
-              : "hover:bg-gray-200 dark:hover:bg-gray-700"
+              ? "bg-app-primary shadow-sm"
+              : "hover:bg-app-secondary"
           } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2`}
       >
         <div className="w-4 h-4 mr-1.5 flex items-center justify-center overflow-visible">

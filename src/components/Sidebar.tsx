@@ -141,15 +141,6 @@ const docSidebarSections: SidebarSection[] = [
           </svg>
         )
       },
-      { 
-        title: 'Supported Models', 
-        href: '/models',
-        icon: (
-          <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
-          </svg>
-        )
-      },
     ],
   },
   {
@@ -226,8 +217,8 @@ const Sidebar = React.memo(({ className }: SidebarProps) => {
   const pathname = usePathname();
   
   return (
-    <aside className={`fixed inset-y-0 left-0 z-10 w-56 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 overflow-y-auto shadow-md ${className}`}>
-      <div className="flex items-center h-14 px-4 border-b border-gray-200 dark:border-gray-800 bg-gradient-to-r from-gray-50 to-white dark:from-gray-900 dark:to-gray-900">
+    <aside className={`fixed inset-y-0 left-0 z-10 w-56 sidebar-bg overflow-y-auto shadow-sm ${className}`}>
+      <div className="flex items-center h-14 px-4">
         <Link href="https://capydb.com" className="flex items-center group">
           <div className="relative">
             <div className="absolute -inset-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg blur-lg opacity-0 group-hover:opacity-75 transition duration-200"></div>
@@ -239,39 +230,46 @@ const Sidebar = React.memo(({ className }: SidebarProps) => {
               className="relative"
             />
           </div>
-          <span className="ml-2 font-bold text-lg bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400">CapyDB</span>
+          <span className="ml-2 font-bold text-lg bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-200 dark:to-gray-400">CapyDB</span>
         </Link>
       </div>
       <nav className="p-3">
         {docSidebarSections.map((section, idx) => (
           <div key={idx} className="mb-4">
-            <h3 className="text-[10px] font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider mb-1.5 ml-1.5 flex items-center">
+            <h3 className="text-[10px] font-bold text-app-tertiary uppercase tracking-wider mb-1.5 ml-1.5 flex items-center">
               <div className="w-1 h-1 bg-amber-500 rounded-full mr-1"></div>
-              <span className="text-gray-700 dark:text-gray-200">{section.title}</span>
+              <span className="text-app-secondary">{section.title}</span>
             </h3>
             <ul className="space-y-0.5">
-              {section.items.map((item, itemIdx) => (
-                <li key={itemIdx}>
-                  <Link
-                    href={item.href}
-                    className={`flex items-center px-2 py-1 rounded-md text-[11px] transition-all duration-200 ${
-                      pathname === item.href
-                        ? 'bg-amber-50 text-amber-700 dark:bg-amber-900/20 dark:text-amber-300 font-medium shadow-sm border-l-2 border-amber-500 pl-1.5'
-                        : 'text-gray-700 hover:bg-gray-50 hover:text-amber-600 hover:pl-3 dark:text-gray-300 dark:hover:bg-gray-800/50 dark:hover:text-amber-300'
-                    }`}
-                    target={item.external ? '_blank' : undefined}
-                    rel={item.external ? 'noopener noreferrer' : undefined}
-                  >
-                    {item.icon}
-                    {item.title}
-                    {item.external && (
-                      <svg className="ml-1 h-2 w-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                      </svg>
-                    )}
-                  </Link>
-                </li>
-              ))}
+              {section.items.map((item, idx) => {
+                const isActive = pathname === item.href || pathname?.endsWith(`${item.href}/`);
+                return (
+                  <li key={idx}>
+                    <Link 
+                      href={item.href}
+                      className={`
+                        block w-full rounded-md text-xs
+                        transition-all duration-200 px-2 py-1.5
+                        flex items-center
+                        ${isActive 
+                          ? 'bg-amber-100 text-amber-900 dark:bg-black dark:text-amber-300 shadow-sm' 
+                          : 'text-app-secondary hover:bg-gray-100 dark:hover:bg-black'
+                        }
+                      `}
+                    >
+                      {item.icon}
+                      <span className={isActive ? 'font-semibold' : 'font-medium'}>
+                        {item.title}
+                      </span>
+                      {isActive && (
+                        <div className="ml-auto">
+                          <div className="w-1 h-1 bg-amber-500 rounded-full mr-0.5"></div>
+                        </div>
+                      )}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         ))}

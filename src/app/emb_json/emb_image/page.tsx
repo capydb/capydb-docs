@@ -2,6 +2,7 @@ import DocLayout from '@/components/DocLayout';
 import Feedback from '@/components/Feedback';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { vs } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import CopyButton from '@/components/CopyButton';
 
 export default function EmbImagePage() {

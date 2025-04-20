@@ -33,6 +33,8 @@ const ApiCodeBlock: React.FC<ApiCodeBlockProps> = ({
       overflow: 'auto',
       fontSize: '0.9rem',
       lineHeight: '1.5',
+      boxShadow: 'none',
+      textShadow: 'none',
     },
     'code[class*="language-"]': {
       ...vscDarkPlus['code[class*="language-"]'],
@@ -43,7 +45,7 @@ const ApiCodeBlock: React.FC<ApiCodeBlockProps> = ({
   };
 
   return (
-    <div className="my-6 overflow-hidden border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm">
+    <div className="my-6 overflow-hidden rounded-lg">
       <ApiLanguageToggle />
       <div className="relative">
         <ApiLanguageContent language="curl">

@@ -3,6 +3,7 @@ import { IBM_Plex_Sans } from 'next/font/google';
 import '@/styles/globals.css';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { ApiLanguageProvider } from '@/context/ApiLanguageContext';
+import { ThemeProvider } from '@/context/ThemeContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from '@/components/Sidebar';
@@ -25,39 +26,41 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="light">
       <body className={ibmPlexSans.className}>
-        <LanguageProvider>
-          <ApiLanguageProvider>
-            <div className="flex min-h-screen bg-gray-50 dark:bg-gray-950">
-              {/* Sidebar - Now extracted to its own component with memoization */}
-              <Sidebar />
-              
-              {/* Main content area */}
-              <div className="flex-1 ml-56">
-                {/* Navbar - Also extracted and memoized */}
-                <Navbar />
+        <ThemeProvider>
+          <LanguageProvider>
+            <ApiLanguageProvider>
+              <div className="flex min-h-screen content-bg">
+                {/* Sidebar - Now extracted to its own component with memoization */}
+                <Sidebar />
                 
-                {/* Content */}
-                <div className="max-w-[1400px] mx-auto px-6 pt-2 pb-8">
-                  {children}
+                {/* Main content area */}
+                <div className="flex-1 ml-56">
+                  {/* Navbar - Also extracted and memoized */}
+                  <Navbar />
+                  
+                  {/* Content */}
+                  <div className="max-w-[1400px] mx-auto px-6 pt-2 pb-8">
+                    {children}
+                  </div>
                 </div>
               </div>
-            </div>
-            <ToastContainer 
-              position="bottom-right"
-              autoClose={4000}
-              hideProgressBar={false}
-              newestOnTop
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="light"
-            />
-          </ApiLanguageProvider>
-        </LanguageProvider>
+              <ToastContainer 
+                position="bottom-right"
+                autoClose={4000}
+                hideProgressBar={false}
+                newestOnTop
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+              />
+            </ApiLanguageProvider>
+          </LanguageProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

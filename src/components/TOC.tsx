@@ -62,7 +62,7 @@ const CustomTOC = () => {
 
   useEffect(() => {
     // Add IDs to headings that don't have them
-    const contentContainer = document.querySelector('.nextra-content');
+    const contentContainer = document.querySelector('.docs-content');
     if (!contentContainer) return;
     
     const headingElements = Array.from(
@@ -154,8 +154,8 @@ const CustomTOC = () => {
       aria-label="Table of Contents"
       className="lg:sticky lg:top-20 w-full overflow-hidden"
     >
-      <div className="bg-white dark:bg-gray-900 p-3 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-        <h4 className="text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wider mb-2 px-1.5 border-b border-gray-100 dark:border-gray-800 pb-1.5">
+      <div className="toc-bg p-3 rounded-lg shadow-sm">
+        <h4 className="text-xs font-bold text-app-secondary uppercase tracking-wider mb-2 px-1.5 pb-1.5">
           On This Page
         </h4>
         {headings.length > 0 ? (
@@ -176,8 +176,8 @@ const CustomTOC = () => {
                     rounded-md transition-all duration-200
                     ${
                       heading.id === activeId
-                        ? "text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/40 font-medium border-l-2 border-amber-500 dark:border-amber-400"
-                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-100"
+                        ? "text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-black border-l-2 border-amber-500 dark:border-amber-400"
+                        : "text-app-secondary hover:bg-gray-50 hover:text-gray-900 dark:hover:bg-black"
                     }
                   `}
                   onClick={handleTOCClick}
@@ -188,7 +188,7 @@ const CustomTOC = () => {
             ))}
           </ul>
         ) : (
-          <p className="text-xs text-gray-700 dark:text-gray-300 px-1.5">
+          <p className="text-xs text-app-secondary px-1.5">
             No headings found on this page.
           </p>
         )}

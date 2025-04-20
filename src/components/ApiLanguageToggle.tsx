@@ -6,14 +6,14 @@ export default function ApiLanguageToggle() {
   const { language, setLanguage } = useApiLanguage();
 
   return (
-    <div className="flex items-center bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-4 py-2">
+    <div className="flex items-center bg-app-secondary border-b border-app-primary px-4 py-2">
       <div className="flex space-x-1 text-sm font-medium">
         <button
           onClick={() => setLanguage('curl')}
           className={`px-3 py-1.5 rounded-md transition-all duration-200 flex items-center ${
             language === 'curl'
-              ? 'bg-white dark:bg-gray-800 text-teal-600 dark:text-teal-400 shadow-sm'
-              : 'text-gray-600 dark:text-gray-400 hover:text-teal-500 dark:hover:text-teal-400 hover:bg-white/50 dark:hover:bg-gray-800/50'
+              ? 'bg-app-primary text-teal-600 dark:text-teal-400 shadow-sm'
+              : 'text-app-secondary hover:text-teal-500 dark:hover:text-teal-400 hover:bg-app-primary/50'
           }`}
           aria-current={language === 'curl' ? 'page' : undefined}
         >
@@ -36,8 +36,8 @@ export default function ApiLanguageToggle() {
           onClick={() => setLanguage('python')}
           className={`px-3 py-1.5 rounded-md transition-all duration-200 flex items-center ${
             language === 'python'
-              ? 'bg-white dark:bg-gray-800 shadow-sm'
-              : 'text-gray-600 dark:text-gray-400 hover:text-teal-500 dark:hover:text-teal-400 hover:bg-white/50 dark:hover:bg-gray-800/50'
+              ? 'bg-app-primary shadow-sm'
+              : 'text-app-secondary hover:text-teal-500 dark:hover:text-teal-400 hover:bg-app-primary/50'
           }`}
           aria-current={language === 'python' ? 'page' : undefined}
         >
@@ -57,8 +57,8 @@ export default function ApiLanguageToggle() {
           onClick={() => setLanguage('javascript')}
           className={`px-3 py-1.5 rounded-md transition-all duration-200 flex items-center ${
             language === 'javascript'
-              ? 'bg-white dark:bg-gray-800 shadow-sm'
-              : 'text-gray-600 dark:text-gray-400 hover:text-teal-500 dark:hover:text-teal-400 hover:bg-white/50 dark:hover:bg-gray-800/50'
+              ? 'bg-app-primary shadow-sm'
+              : 'text-app-secondary hover:text-teal-500 dark:hover:text-teal-400 hover:bg-app-primary/50'
           }`}
           aria-current={language === 'javascript' ? 'page' : undefined}
         >

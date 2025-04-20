@@ -80,16 +80,16 @@ export default function Feedback() {
 
   return (
     <div className="feedback-container w-full my-6">
-      <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
-        <h4 className="text-lg font-semibold mb-3 text-gray-800 dark:text-gray-200">Share Your Thoughts</h4>
-        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+      <div className="bg-app-tertiary rounded-xl p-6 shadow-sm">
+        <h4 className="text-lg font-semibold mb-3 text-app-primary">Share Your Thoughts</h4>
+        <p className="text-sm text-app-secondary mb-4">
           Your feedback helps us improve our documentation. Let us know what you think!
         </p>
         <form
           onSubmit={handleSubmit}
           className="relative flex flex-col gap-y-4"
         >
-          <div className="overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 focus-within:ring-2 focus-within:ring-blue-500">
+          <div className="overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-app-primary focus-within:ring-2 focus-within:ring-blue-500">
             <label htmlFor="comment" className="sr-only">
               Add your feedback
             </label>
@@ -98,7 +98,7 @@ export default function Feedback() {
               name="comment"
               rows={4}
               placeholder="What did you think of this documentation? Any suggestions for improvement?"
-              className="block w-full resize-none border-0 bg-white dark:bg-gray-900 p-3 text-gray-900 dark:text-gray-100 focus:ring-0 sm:leading-6"
+              className="block w-full resize-none border-0 bg-app-primary p-3 text-app-primary focus:ring-0 sm:leading-6"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               disabled={isSubmitting}
@@ -111,7 +111,7 @@ export default function Feedback() {
               className={`inline-flex items-center rounded-lg px-4 py-2 text-sm font-medium shadow-sm transition-all duration-200 ${
                 comment.trim() && !isSubmitting
                   ? "bg-blue-600 text-white hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600" 
-                  : "bg-gray-200 text-gray-500 dark:bg-gray-700 dark:text-gray-400 cursor-not-allowed"
+                  : "bg-app-tertiary text-app-tertiary cursor-not-allowed"
               }`}
             >
               {isSubmitting ? (

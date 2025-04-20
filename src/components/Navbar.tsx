@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import ThemeToggle from './ThemeToggle';
 
 // External links for the top navbar
 const externalLinks = [
@@ -57,21 +58,20 @@ const Navbar = React.memo(() => {
   }, [controlNavbar]);
 
   return (
-    <div className={`sticky top-0 z-20 backdrop-blur-lg bg-white/90 dark:bg-gray-900/90 border-b border-gray-200 dark:border-gray-800 h-16 flex items-center px-6 transition-all duration-300 ease-in-out shadow-sm ${visible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
+    <div className={`sticky top-0 z-20 navbar-bg h-16 flex items-center px-6 transition-all duration-300 ease-in-out shadow-sm ${visible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center h-full">
           {/* Documentation link removed */}
         </div>
         <div className="flex items-center space-x-4 h-full">
+          {/* Theme Toggle */}
+          <ThemeToggle />
+          
           {externalLinks.map((link, idx) => (
             <Link
               key={idx}
               href={link.href}
-              className={`group flex items-center px-4 py-1.5 rounded-lg border transition-all duration-200
-                ${link.title === 'Dashboard' 
-                  ? 'text-black bg-amber-500 hover:bg-amber-600 text-white border-transparent shadow-sm hover:shadow-md' 
-                  : 'text-white border-gray-200 dark:border-gray-700 hover:border-amber-200 dark:hover:border-amber-700 hover:bg-amber-50 dark:hover:bg-amber-900/10'
-                }`}
+              className="group flex items-center px-4 py-1.5 rounded-lg border transition-all duration-200 text-app-secondary border-app-primary hover:border-amber-200 dark:hover:border-amber-700 hover:bg-amber-50 dark:hover:bg-amber-900/10"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -82,14 +82,13 @@ const Navbar = React.memo(() => {
                   </svg>
                 )}
                 {link.title === 'Contact' && (
-                  <svg className="w-4 h-4 mr-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 )}
                 {link.title}
                 <svg 
-                  className={`ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5
-                    ${link.title === 'Dashboard' ? 'text-white' : 'text-white'}`}
+                  className={`ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5`}
                   fill="none" 
                   viewBox="0 0 24 24" 
                   stroke="currentColor"

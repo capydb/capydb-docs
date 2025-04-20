@@ -32,15 +32,10 @@ export default function CopyButton({ code }: CopyButtonProps) {
         duration-200
         flex items-center gap-2
         ${isCopied 
-          ? 'bg-green-500/20 text-green-400 dark:bg-green-500/20 dark:text-green-400' 
-          : 'bg-gray-700/50 text-gray-300 hover:bg-gray-700 dark:bg-gray-700/50 dark:text-gray-300 dark:hover:bg-gray-600'
+          ? 'bg-green-500/20 text-green-400' 
+          : 'bg-app-tertiary text-app-primary hover:bg-app-secondary'
         }
-        backdrop-blur-sm
-        shadow-lg
-        border border-gray-700/50
-        hover:border-gray-600
-        dark:border-gray-600/50
-        dark:hover:border-gray-500
+        border border-app-primary
       `}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
