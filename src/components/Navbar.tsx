@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -9,11 +9,55 @@ const externalLinks = [
   { title: 'Contact', href: 'https://capydb.com/home/contact', external: true },
 ];
 
+// Simple throttle function to limit how often a function runs
+function throttle(callback: Function, delay: number) {
+  let lastCall = 0;
+  return function(...args: any[]) {
+    const now = new Date().getTime();
+    if (now - lastCall < delay) {
+      return;
+    }
+    lastCall = now;
+    return callback(...args);
+  };
+}
+
 const Navbar = React.memo(() => {
   const pathname = usePathname();
+  const [visible, setVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  // Create throttled scroll handler
+  const controlNavbar = useCallback(
+    throttle(() => {
+      const currentScrollY = window.scrollY;
+      
+      // Determine if scrolling up or down
+      if (currentScrollY > lastScrollY && currentScrollY > 60) {
+        // Scrolling down - hide
+        setVisible(false);
+      } else {
+        // Scrolling up - show
+        setVisible(true);
+      }
+      
+      setLastScrollY(currentScrollY);
+    }, 200),
+    [lastScrollY]
+  );
+
+  useEffect(() => {
+    // Add scroll event listener
+    window.addEventListener('scroll', controlNavbar);
+
+    // Clean up event listener
+    return () => {
+      window.removeEventListener('scroll', controlNavbar);
+    };
+  }, [controlNavbar]);
 
   return (
-    <div className="sticky top-0 z-20 backdrop-blur-lg bg-white/80 dark:bg-gray-900/80 border-b border-gray-200 dark:border-gray-800 h-16 flex items-center px-6">
+    <div className={`sticky top-0 z-20 backdrop-blur-lg bg-white/90 dark:bg-gray-900/90 border-b border-gray-200 dark:border-gray-800 h-16 flex items-center px-6 transition-all duration-300 ease-in-out shadow-sm ${visible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center h-full">
           {/* Documentation link removed */}
