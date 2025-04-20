@@ -5,6 +5,7 @@ import LanguageContent from '@/components/LanguageContent';
 import Feedback from '@/components/Feedback';
 import Link from 'next/link';
 import CodeBlock from '@/components/CodeBlock';
+import ContactUs from '@/components/ContactUs';
 
 export default function DeletePage() {
   const pythonCode = `# Filter to match the document(s) to delete
@@ -91,7 +92,7 @@ const response = collection.delete(filter);`;
         
         <Feedback />
         
-        <h3>Got question? <a href="mailto:hello@capydb.com" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
+        <ContactUs />
       </div>
     </DocLayout>
   );

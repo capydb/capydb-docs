@@ -4,7 +4,7 @@ import Feedback from '@/components/Feedback';
 import LanguageToggle from '@/components/LanguageToggle';
 import LanguageContent from '@/components/LanguageContent';
 import CodeBlock from '@/components/CodeBlock';
-
+import ContactUs from '@/components/ContactUs';
 export default function EmbImagePage() {
   const basicPythonCode = `from capydb import EmbImage
 
@@ -279,7 +279,7 @@ export default function EmbImagePage() {
         
         <Feedback />
         
-        <h3>Got a question? <a href="mailto:hello@capydb.com" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
+        <ContactUs />
       </div>
     </DocLayout>
   );

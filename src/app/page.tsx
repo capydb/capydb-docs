@@ -3,6 +3,8 @@ import LanguageToggle from '@/components/LanguageToggle';
 import LanguageContent from '@/components/LanguageContent';
 import Feedback from '@/components/Feedback';
 import CodeBlock from '@/components/CodeBlock';
+import ContactUs from '@/components/ContactUs';
+
 export default function HomePage() {
   return (
     <DocLayout>
@@ -225,7 +227,7 @@ main();`}
         
         <Feedback />
         
-        <h3>Got question? <a href="mailto:hello@capydb.com" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
+        <ContactUs />
       </div>
     </DocLayout>
   );

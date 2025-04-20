@@ -1,7 +1,7 @@
 import CodeBlock from '@/components/CodeBlock';
 import DocLayout from '@/components/DocLayout';
 import Feedback from '@/components/Feedback';
-
+import ContactUs from '@/components/ContactUs';
 export default function UpdatePage() {
   return (
     <DocLayout>
@@ -239,7 +239,7 @@ export default function UpdatePage() {
         
         <Feedback />
         
-        <h3>Got question? <a href="mailto:hello@capydb.com" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
+        <ContactUs />
       </div>
     </DocLayout>
   );

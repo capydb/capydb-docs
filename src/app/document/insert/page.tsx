@@ -5,6 +5,7 @@ import LanguageToggle from '@/components/LanguageToggle';
 import LanguageContent from '@/components/LanguageContent';
 import Feedback from '@/components/Feedback';
 import CodeBlock from '@/components/CodeBlock';
+import ContactUs from '@/components/ContactUs';
 
 export default function InsertPage() {
   const pythonCode = `from capydb import EmbText
@@ -92,7 +93,7 @@ response = collection.insert(docs);`;
         
         <Feedback />
         
-        <h3>Got question? <a href="mailto:hello@capydb.com">Email us</a></h3>
+        <ContactUs />
       </div>
     </DocLayout>
   );

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import CodeBlock from '@/components/CodeBlock';
 import LanguageToggle from '@/components/LanguageToggle';
 import LanguageContent from '@/components/LanguageContent';
-
+import ContactUs from '@/components/ContactUs';
 export default function VisionModelsPage() {
   const pythonBasicExample = `from capydb import EmbImage, VisionModels
 
@@ -181,7 +181,7 @@ export default function VisionModelsPage() {
         
         <Feedback />
         
-        <h3>Got a question? <a href="mailto:hello@capydb.com" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
+        <ContactUs />
       </div>
     </DocLayout>
   );

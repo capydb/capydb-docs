@@ -1,6 +1,7 @@
 import DocLayout from '@/components/DocLayout';
 import Feedback from '@/components/Feedback';
 import Link from 'next/link';
+import ContactUs from '@/components/ContactUs';
 
 export default function LLMModelsPage() {
   return (
@@ -39,7 +40,7 @@ export default function LLMModelsPage() {
         
         <Feedback />
         
-        <h3>Got a question? <a href="mailto:hello@capydb.com" className="text-blue-600 dark:text-blue-400 hover:underline">Email us</a></h3>
+        <ContactUs variant="with-a" />
       </div>
     </DocLayout>
   );
