@@ -38,21 +38,6 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
     }
   }, [theme]);
   
-  // Apply special markers to our terms
-  const prepareCode = (code: string) => {
-    // Add special markers that will be rendered as spans with classes after highlighting
-    return code
-      .replace(/EmbText/g, '___CAPYDB_EMBTEXT___')
-      .replace(/EmbImage/g, '___CAPYDB_EMBIMAGE___');
-  };
-  
-  // Process the HTML after syntax highlighting to add our custom class
-  const postProcess = (html: string) => {
-    return html
-      .replace(/___CAPYDB_EMBTEXT___/g, '<span class="capydb-highlight">EmbText</span>')
-      .replace(/___CAPYDB_EMBIMAGE___/g, '<span class="capydb-highlight">EmbImage</span>');
-  };
-
   return (
     <div className="relative">
       <CopyButton code={code} />
@@ -71,26 +56,16 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
           CodeTag={({ children, ...rest }) => {
             if (typeof children === 'string') {
               return (
-                <code
-                  {...rest}
-                  dangerouslySetInnerHTML={{
-                    __html: postProcess(children)
-                  }}
-                />
+                <code {...rest}>{children}</code>
               );
             }
             return <code {...rest}>{children}</code>;
           }}
         >
-          {prepareCode(code)}
+          {code}
         </SyntaxHighlighter>
       </div>
-      <style jsx global>{`
-        .custom-code-block .capydb-highlight {
-          color: ${isDarkMode ? '#ff79c6' : '#d73a49'} !important;
-          font-weight: bold;
-        }
-      `}</style>
+      <style jsx global>{``}</style>
     </div>
   );
 };
