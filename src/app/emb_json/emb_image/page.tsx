@@ -10,32 +10,41 @@ export default function EmbImagePage() {
 
 # Storing a single image field to embed.
 {
-  "field_name": EmbImage("https://example.com/image.jpg", mime_type="image/jpeg")
+  "field_name": EmbImage(
+    data="base64_encoded_image_data",
+    mime_type="image/jpeg"
+  )
 }`;
 
   const basicTypescriptCode = `import { EmbImage } from "capydb";
 
 // Storing a single image field to embed.
 {
-  field_name: new EmbImage("https://example.com/image.jpg", { mimeType: "image/jpeg" })
+  field_name: new EmbImage(
+    "base64_encoded_image_data",
+    [],
+    null,
+    null,
+    "image/jpeg"
+  )
 }`;
 
   const customizedPythonCode = `from capydb import EmbImage, EmbModels, VisionModels
 
 {
     "field_name": EmbImage(
-        url="https://example.com/image.jpg",  # URL to the image
-        mime_type="image/jpeg",                # Required: specify the image format
-        emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,  # Optionally specify an embedding model
-        vision_model=VisionModels.GPT_4O,             # Optionally specify a vision model
-        max_chunk_size=200,                           # Configure chunk sizes
-        chunk_overlap=20,                             # Overlap between chunks
-        is_separator_regex=False,                     # Are separators plain strings or regex?
+        data="base64_encoded_image_data",                   # Base64-encoded image
+        mime_type="image/jpeg",                             # Required: specify the image format
+        emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,         # Optionally specify an embedding model
+        vision_model=VisionModels.GPT_4O,                   # Optionally specify a vision model
+        max_chunk_size=200,                                 # Configure chunk sizes
+        chunk_overlap=20,                                   # Overlap between chunks
+        is_separator_regex=False,                           # Are separators plain strings or regex?
         separators=[
             "\\n\\n",
             "\\n",
         ],
-        keep_separator=False                          # Keep or remove the separator in chunks
+        keep_separator=False                                # Keep or remove the separator in chunks
     )
 }`;
 
@@ -43,26 +52,22 @@ export default function EmbImagePage() {
 
 {
     field_name: new EmbImage(
-        "https://example.com/image.jpg",  // URL to the image
-        {
-            mimeType: "image/jpeg",                // Required: specify the image format
-            embModel: EmbModels.TEXT_EMBEDDING_3_LARGE,  // Optionally specify an embedding model
-            visionModel: VisionModels.GPT_4O,             // Optionally specify a vision model
-            maxChunkSize: 200,                           // Configure chunk sizes
-            chunkOverlap: 20,                             // Overlap between chunks
-            isSeparatorRegex: false,                     // Are separators plain strings or regex?
-            separators: [
-                "\\n\\n",
-                "\\n",
-            ],
-            keepSeparator: false                          // Keep or remove the separator in chunks
-        }
+        "base64_encoded_image_data",                         // Base64-encoded image data
+        [],                                                  // chunks (empty at creation time)
+        EmbModels.TEXT_EMBEDDING_3_LARGE,                    // embModel
+        VisionModels.GPT_4O,                                 // visionModel
+        "image/jpeg",                                        // mimeType
+        200,                                                 // maxChunkSize
+        20,                                                  // chunkOverlap
+        false,                                               // isSeparatorRegex
+        ["\\n\\n", "\\n"],                                   // separators
+        false                                                // keepSeparator
     )
 }`;
 
   const afterSavingPythonCode = `{
     "field_name": EmbImage(
-        url="https://example.com/image.jpg",
+        data="base64_encoded_image_data",
         mime_type="image/jpeg",
         chunks=["chunk1", "chunk2", "chunk3"],
         emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,
@@ -77,18 +82,16 @@ export default function EmbImagePage() {
 
   const afterSavingTypescriptCode = `{
     field_name: new EmbImage(
-        "https://example.com/image.jpg",
-        {
-            mimeType: "image/jpeg",
-            chunks: ["chunk1", "chunk2", "chunk3"],
-            embModel: EmbModels.TEXT_EMBEDDING_3_LARGE,
-            visionModel: VisionModels.GPT_4O,
-            maxChunkSize: 200,
-            chunkOverlap: 20,
-            isSeparatorRegex: false,
-            separators: ["\\n\\n", "\\n"],
-            keepSeparator: false
-        }
+        "base64_encoded_image_data",
+        ["chunk1", "chunk2", "chunk3"],                    // chunks (populated after processing)
+        EmbModels.TEXT_EMBEDDING_3_LARGE,
+        VisionModels.GPT_4O,
+        "image/jpeg",
+        200,
+        20,
+        false,
+        ["\\n\\n", "\\n"],
+        false
     )
 }`;
 
@@ -135,7 +138,7 @@ export default function EmbImagePage() {
         </LanguageContent>
         
         <p>
-          This snippet creates an <code>EmbImage</code> object containing your image URL. 
+          This snippet creates an <code>EmbImage</code> object containing your base64 encoded image data. 
           The <code>mime_type</code> parameter is required to specify the image format.
           By default, no specific models are set and all other parameters remain optional.
         </p>
@@ -195,8 +198,8 @@ export default function EmbImagePage() {
           </thead>
           <tbody>
             <tr>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><strong>url</strong></td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">The URL to the image. This image is processed and embedded for semantic search.</td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><strong>data</strong></td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">The base64 encoded image data. This image is processed and embedded for semantic search.</td>
             </tr>
             <tr>
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><strong>mime_type</strong></td>
@@ -248,7 +251,7 @@ export default function EmbImagePage() {
         <ol>
           <li>
             <p><strong>Image Retrieval</strong></p>
-            <p>The image is retrieved from the provided URL.</p>
+            <p>The image is retrieved from the provided base64 encoded data.</p>
           </li>
           <li>
             <p><strong>Chunking (if applicable)</strong></p>

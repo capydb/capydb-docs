@@ -11,7 +11,7 @@ export default function VisionModelsPage() {
 
 {
     "product_image": EmbImage(
-        url="https://example.com/product.jpg",
+        data="base64_encoded_image_data",
         mime_type="image/jpeg",
         vision_model=VisionModels.GPT_4O
     )
@@ -20,18 +20,20 @@ export default function VisionModelsPage() {
   const typescriptBasicExample = `import { EmbImage, VisionModels } from "capydb";
 
 {
-    product_image: new EmbImage({
-        url: "https://example.com/product.jpg",
-        mimeType: "image/jpeg",
-        visionModel: VisionModels.GPT_4O
-    })
+    product_image: new EmbImage(
+        "base64_encoded_image_data",
+        [],
+        null,
+        VisionModels.GPT_4O,
+        "image/jpeg"
+    )
 }`;
 
   const pythonCombinedExample = `from capydb import EmbImage, EmbModels, VisionModels
 
 {
     "product_image": EmbImage(
-        url="https://example.com/product.jpg",
+        data="base64_encoded_image_data",
         mime_type="image/jpeg",
         vision_model=VisionModels.GPT_4O,
         emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE
@@ -41,12 +43,13 @@ export default function VisionModelsPage() {
   const typescriptCombinedExample = `import { EmbImage, EmbModels, VisionModels } from "capydb";
 
 {
-    product_image: new EmbImage({
-        url: "https://example.com/product.jpg",
-        mimeType: "image/jpeg",
-        visionModel: VisionModels.GPT_4O,
-        embModel: EmbModels.TEXT_EMBEDDING_3_LARGE
-    })
+    product_image: new EmbImage(
+        "base64_encoded_image_data",
+        [],
+        EmbModels.TEXT_EMBEDDING_3_LARGE,
+        VisionModels.GPT_4O,
+        "image/jpeg"
+    )
 }`;
 
   return (
