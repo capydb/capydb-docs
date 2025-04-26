@@ -67,7 +67,8 @@ export default function EmbImagePage() {
 
   const afterSavingPythonCode = `{
     "field_name": EmbImage(
-        data="base64_encoded_image_data",
+        # Original base64 data is removed and replaced with a URL
+        url="https://media.capydb.com/your-project/your-db/your-collection/doc-id/field_name.jpg",
         mime_type="image/jpeg",
         chunks=["chunk1", "chunk2", "chunk3"],
         emb_model=EmbModels.TEXT_EMBEDDING_3_LARGE,
@@ -82,8 +83,8 @@ export default function EmbImagePage() {
 
   const afterSavingTypescriptCode = `{
     field_name: new EmbImage(
-        "base64_encoded_image_data",
-        ["chunk1", "chunk2", "chunk3"],                    // chunks (populated after processing)
+        null,                                           // original base64 data is removed
+        ["chunk1", "chunk2", "chunk3"],                 // chunks (populated after processing)
         EmbModels.TEXT_EMBEDDING_3_LARGE,
         VisionModels.GPT_4O,
         "image/jpeg",
@@ -91,9 +92,46 @@ export default function EmbImagePage() {
         20,
         false,
         ["\\n\\n", "\\n"],
-        false
+        false,
+        "https://media.capydb.com/your-project/your-db/your-collection/doc-id/field_name.jpg" // URL to the stored image
     )
 }`;
+
+  const accessingImagePythonCode = `from capydb import CapyDBClient, EmbImage
+
+# Get document with an EmbImage
+client = CapyDBClient("your_api_key")
+collection = client.database("project_id", "db_name").collection("collection_name")
+document = collection.find_one({"_id": "document_id"})
+
+# Access EmbImage properties
+if "image" in document and isinstance(document["image"], EmbImage):
+    # Access the URL (added by server after processing)
+    image_url = document["image"].url
+    print(f"Image URL: {image_url}")
+    
+    # Access processed chunks (added by server after processing)
+    chunks = document["image"].chunks
+    print(f"First chunk: {chunks[0] if chunks else 'No chunks yet'}")`;
+
+  const accessingImageTypescriptCode = `import { CapyDBClient, EmbImage } from "capydb";
+
+// Get document with an EmbImage
+const client = new CapyDBClient("your_api_key");
+const collection = client.database("project_id", "db_name").collection("collection_name");
+
+// Access EmbImage properties
+collection.findOne({ _id: "document_id" }).then(document => {
+  if (document.image instanceof EmbImage) {
+    // Access the URL (added by server after processing)
+    const imageUrl = document.image.url;
+    console.log("Image URL:", imageUrl);
+    
+    // Access processed chunks (added by server after processing)
+    const chunks = document.image.chunks;
+    console.log("First chunk:", chunks.length > 0 ? chunks[0] : "No chunks yet");
+  }
+});`;
 
   return (
     <DocLayout>
@@ -111,7 +149,7 @@ export default function EmbImagePage() {
         <p><strong>Key Points</strong>:</p>
         
         <ul>
-          <li><strong>Image Data Handling</strong>: Provide your image data in base64 format.</li>
+          <li><strong>Image Data Handling</strong>: Provide your image data in base64 format. Note that <code>EmbImage</code> <strong>only</strong> accepts binary data (base64 encoded) and does <strong>not</strong> accept image file paths.</li>
           <li><strong>Dual-Model Support</strong>: Optionally use an embedding model and a vision model to generate rich, multi-modal representations.</li>
           <li><strong>Asynchronous Processing</strong>: Image embeddings and chunking occur in the background, ensuring a responsive write experience.</li>
           <li><strong>Automatic Chunking</strong>: Images are internally processed (and chunked, if applicable) for efficient embedding and indexing.</li>
@@ -169,8 +207,17 @@ export default function EmbImagePage() {
         <h2>After Saving</h2>
         
         <p>
-          CapyDB processes your image data asynchronously. Once processed, it automatically adds a <code>chunks</code> field 
-          to each <code>EmbImage</code> for easy access to the internal representations.
+          CapyDB processes your image data asynchronously. Once processed, several important changes happen:
+        </p>
+        
+        <ol>
+          <li><strong>The original base64 image data is removed</strong> to save space and bandwidth</li>
+          <li>A public <strong>URL</strong> is assigned to access the stored image</li>
+          <li>A <strong>chunks</strong> field is added containing the generated text descriptions/representations</li>
+        </ol>
+        
+        <p>
+          This significantly reduces document size while providing convenient access to both the image and its processed text representations.
         </p>
         
         <LanguageContent language="python">
@@ -187,6 +234,27 @@ export default function EmbImagePage() {
           />
         </LanguageContent>
         
+        <h2>Accessing EmbImage Properties</h2>
+        
+        <p>
+          After retrieving a document with an EmbImage field, you can access its properties like the URL and chunks.
+          The following examples demonstrate how to work with EmbImage objects in your application:
+        </p>
+        
+        <LanguageContent language="python">
+          <CodeBlock
+            code={accessingImagePythonCode}
+            language="python"
+          />
+        </LanguageContent>
+        
+        <LanguageContent language="typescript">
+          <CodeBlock
+            code={accessingImageTypescriptCode}
+            language="typescript"
+          />
+        </LanguageContent>
+        
         <h3>Parameter Reference</h3>
         
         <table className="w-full border-collapse my-4">
@@ -199,7 +267,11 @@ export default function EmbImagePage() {
           <tbody>
             <tr>
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><strong>data</strong></td>
-              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">The base64 encoded image data. This image is processed and embedded for semantic search.</td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">The base64 encoded image data. This image is processed and embedded for semantic search. <strong>Note:</strong> After processing, this data is removed from the document and replaced with a URL. <strong>Important:</strong> EmbImage only accepts base64 encoded binary data and does not support image file paths.</td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><strong>url</strong></td>
+              <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><strong>Auto-generated by the database</strong> after processing the image. This URL provides access to the stored image and replaces the original base64 data in the document.</td>
             </tr>
             <tr>
               <td className="border border-gray-300 dark:border-gray-700 px-4 py-2"><strong>mime_type</strong></td>
