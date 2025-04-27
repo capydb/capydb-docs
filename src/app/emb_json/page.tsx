@@ -1,48 +1,113 @@
 import DocLayout from '@/components/DocLayout';
 import Feedback from '@/components/Feedback';
 import ContactUs from '@/components/ContactUs';
+import CodeBlock from '@/components/CodeBlock';
+import LanguageToggle from '@/components/LanguageToggle';
+import LanguageContent from '@/components/LanguageContent';
+
 export default function EmbJsonPage() {
+  const basicPythonExample = `from capydb import EmbText, EmbImage
+
+# Create a document with embedded fields
+document = {
+    "title": "My First Document",
+    # EmbText automatically embeds the text for semantic search
+    "description": EmbText("This is a detailed description that will be embedded for semantic search"),
+    # EmbImage embeds the image data (base64 encoded)
+    "thumbnail": EmbImage(
+        data="base64_encoded_image_data",
+        mime_type="image/jpeg"
+    )
+}
+
+# Store in CapyDB - embedding and indexing happens automatically
+collection.insert_one(document)
+
+# Later, search semantically across all embedded fields
+results = collection.find({"$semanticSearch": "design principles"})`;
+
+  const basicTypescriptExample = `import { EmbText, EmbImage } from "capydb";
+
+// Create a document with embedded fields
+const document = {
+    title: "My First Document",
+    // EmbText automatically embeds the text for semantic search
+    description: new EmbText("This is a detailed description that will be embedded for semantic search"),
+    // EmbImage embeds the image data (base64 encoded)
+    thumbnail: new EmbImage(
+        "base64_encoded_image_data",
+        [],
+        null,
+        null,
+        "image/jpeg"
+    )
+};
+
+// Store in CapyDB - embedding and indexing happens automatically
+await collection.insertOne(document);
+
+// Later, search semantically across all embedded fields
+const results = await collection.find({"$semanticSearch": "design principles"});`;
+
   return (
     <DocLayout>
       <div className="prose dark:prose-invert max-w-none">
         <h1>CapyDB Extended JSON (EmbJSON)</h1>
         
         <p>
-          <strong>CapyDB Extended JSON (EmbJSON)</strong> is a powerful data format designed to simplify database indexing pipelines, 
-          allowing developers to use a single database for most LLM applications. EmbJSON provides a versatile and efficient solution 
-          for handling data, making it easier to implement advanced AI features without the overhead of managing multiple databases. 
-          This streamlined approach enables developers to focus on building intelligent applications rather than dealing with complex data architecture.
+          <strong>CapyDB Extended JSON (EmbJSON)</strong> is a set of special data types that make working with AI and embeddings 
+          simple. With EmbJSON, you can store text, images, and other media in your database and have them automatically 
+          embedded for semantic search—without setting up separate vector databases or pipelines.
         </p>
         
-        <h2>Key Features of EmbJSON</h2>
+        <h2>What EmbJSON Does For You</h2>
         
         <ul>
-          <li><strong>Custom Embedding Models</strong>: Specify an embedding model using the <code>emb_model</code> parameter to fine-tune how your data is represented in vector space.</li>
-          <li><strong>LLM Optimization</strong>: Built for efficient text embeddings and vector-based queries, EmbJSON is ideal for semantic search.</li>
-          <li><strong>Flexible Indexing</strong>: Customize data indexing to optimize embedding and retrieval based on your specific needs.</li>
-          <li><strong>Asynchronous Processing</strong>: All EmbJSON data types are processed asynchronously by default, allowing client applications to continue running smoothly while embedding and indexing take place in the background.</li>
+          <li><strong>Automatic Embedding</strong>: Just wrap your content in an EmbJSON type, and CapyDB handles the embedding process</li>
+          <li><strong>Simple Semantic Search</strong>: Query your data using natural language and similarity search</li>
+          <li><strong>No Pipeline Management</strong>: Skip complex data processing workflows—embedding happens behind the scenes</li>
+          <li><strong>Background Processing</strong>: Embeddings are generated asynchronously, keeping your app responsive</li>
         </ul>
         
-        <h2>Overview of EmbJSON Data Types</h2>
+        <h2>Quick Example</h2>
+        
+        <p>See how easy it is to use EmbJSON in your applications:</p>
+        
+        <LanguageToggle />
+        
+        <LanguageContent language="python">
+          <CodeBlock
+            code={basicPythonExample}
+            language="python"
+          />
+        </LanguageContent>
+        
+        <LanguageContent language="typescript">
+          <CodeBlock
+            code={basicTypescriptExample}
+            language="typescript"
+          />
+        </LanguageContent>
+        
+        <h2>Available EmbJSON Types</h2>
         
         <ul>
-          <li><strong>EmbText</strong>: Designed for storing and embedding text data. EmbText can handle everything from single words to lengthy documents, embedding and indexing content automatically for semantic search.</li>
-          <li><strong>EmbImage</strong>: Supports base64 encoded image data, enabling semantic text search capabilities for images.</li>
-          <li><strong>EmbVideo</strong> (Future Release): Will handle video data, enabling semantic embedding and search within video content.</li>
-          <li><strong>EmbFile</strong> (Future Release): A generic type for managing a variety of file formats, including PDFs, Word documents, and more, allowing for semantic embedding and search across different types of content.</li>
-          <li><strong>Other Data Types</strong>: Additional data types like <strong>EmbAudio</strong> and <strong>Emb3D</strong> are also planned for future releases, aimed at enabling semantic embeddings for audio files and 3D models.</li>
+          <li><a href="/emb_json/emb_text" className="text-blue-600 dark:text-blue-400 hover:underline"><strong>EmbText</strong></a>: For text data ranging from short phrases to long documents</li>
+          <li><a href="/emb_json/emb_image" className="text-blue-600 dark:text-blue-400 hover:underline"><strong>EmbImage</strong></a>: For images (accepts base64 encoded binary data only)</li>
+          <li><strong>Coming Soon</strong>: EmbVideo, EmbFile, EmbAudio, and Emb3D for additional media types</li>
         </ul>
         
-        <h2>Why Choose CapyDB Extended JSON?</h2>
+        <h2>Why Use EmbJSON?</h2>
         
-        <ul>
-          <li><strong>Streamlined Embedding</strong>: Select and customize embedding models to suit your needs.</li>
-          <li><strong>Optimized Data Retrieval</strong>: Efficient indexing makes semantic search fast and reliable.</li>
-          <li><strong>Simple Data Management</strong>: Seamlessly manage complex data types like embeddings.</li>
-          <li><strong>Unified Database Solution</strong>: EmbJSON abstracts the complexity of database architecture for LLM applications, meaning you only need one database for most of your AI needs.</li>
-        </ul>
+        <p>
+          Traditional approaches require separate systems for storing data and embeddings. EmbJSON unifies them, 
+          eliminating the need to maintain vector databases alongside document stores. Write your data once, query it semantically.
+        </p>
         
-        <p>To explore how EmbJSON can elevate your AI projects, check out the detailed documentation and guides available.</p>
+        <div className="bg-blue-50 dark:bg-blue-900 p-4 rounded-md my-4">
+          <p className="m-0"><strong>Pro Tip:</strong> EmbJSON types handle customization options like chunk sizes and embedding models. 
+          Start simple and refine as your needs evolve.</p>
+        </div>
         
         <h3>How can we improve this documentation?</h3>
         
